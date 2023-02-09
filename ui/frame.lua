@@ -1,0 +1,17 @@
+local ui = require("ui.base")
+local color = require("ui.color")
+
+return ui.make_new {
+    cctr = function(self)
+        self.color = self.color or color.new(1, 1, 1, 1)
+
+        self.border_size = self.border_size or 0
+        self.border_color = self.border_color or color.new(1, 1, 1, 1)
+    end,
+    draw = function(self)
+        local pos = self.abs_pos
+        local size = self.abs_size
+        love.graphics.setColor(self.color)
+        love.graphics.rectangle("fill", pos.x, pos.y, size.x, size.y)
+    end
+}
