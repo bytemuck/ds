@@ -25,13 +25,13 @@ root:add_children {
 
                 children = {
                     sprite {
-                        image = assets.images.SQUIRREL,
+                        image = assets["sprite/squirrel"],
                         position = dim2(0, 0, 0, 0),
                         size = dim2(0.5, 0, 1, 0),
                         anchor = vec2.new(0, 0)
                     },
                     sprite {
-                        image = assets.images.MONKEY,
+                        image = assets["sprite/monkey"],
                         position = dim2(1, 0, 0, 0),
                         size = dim2(0.5, 0, 1, 0),
                         anchor = vec2.new(1, 0)
