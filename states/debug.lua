@@ -8,7 +8,7 @@ local sprite = require("ui.sprite")
 local frame = require("ui.frame")
 local color = require("ui.color")
 
-local assets = require("asset_loader")
+local assets = require("assets")
 
 root:add_children {
     frame {
@@ -25,13 +25,13 @@ root:add_children {
 
                 children = {
                     sprite {
-                        image = assets["sprite/squirrel"],
+                        image = assets.sprites.squirrel,
                         position = dim2(0, 0, 0, 0),
                         size = dim2(0.5, 0, 1, 0),
                         anchor = vec2.new(0, 0)
                     },
                     sprite {
-                        image = assets["sprite/monkey"],
+                        image = assets.sprites.monkey,
                         position = dim2(1, 0, 0, 0),
                         size = dim2(0.5, 0, 1, 0),
                         anchor = vec2.new(1, 0)

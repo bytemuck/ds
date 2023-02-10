@@ -1,12 +1,9 @@
-local asset_loader = require("asset_loader")
+local assets = require("assets")
 local state = require("state")
-
-local width, height = 1024, 768
-state.resize(w, h)
 
 function love.load()
     state.resize(love.graphics.getDimensions())
-    asset_loader.load()
+    assets:load()
     state.set(require("states.debug"))
 end
 
