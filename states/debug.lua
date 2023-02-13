@@ -3,6 +3,7 @@ local debug = state.new()
 local root = debug.root
 
 local options = require("states.options")
+local transition = require("transition")
 
 local dim2 = require("ui.dim2")
 local vec2 = require("ui.vec2")
@@ -13,6 +14,8 @@ local frame = require("ui.frame")
 local color = require("ui.color")
 
 local assets = require("assets")
+
+local debounce = true
 
 root:add_children {
     frame {
@@ -34,16 +37,16 @@ root:add_children {
                         anchor = vec2.new(0, 0),
 
                         on_click = function()
-                            print("clicked")
-                            state.push(options)
+                            if debounce then
+                                transition(root, options, 1)
+                                debounce = false
+                            end
                         end,
 
                         children = {
                             sprite {
-                                image = assets.sprites.squirrel,
-                                position = dim2(0, 0, 0, 0),
-                                size = dim2(1, 0, 1, 0),
-                            },
+                                image = assets.sprites.squirrel
+                            }
                         }
                     },
                     sprite {

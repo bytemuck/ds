@@ -80,14 +80,14 @@ function base.draw(self)
 end
 
 -- Update
-function base.update(self)
+function base.update(self, dt)
     if self[0] and self[0].update then
-        self[0].update(self)
+        self[0].update(self, dt)
     end
 
     if self.children then
         for _,child in ipairs(self.children) do
-            child:update()
+            child:update(dt)
         end
     end
 end

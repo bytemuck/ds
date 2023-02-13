@@ -41,6 +41,7 @@ function state.pop()
     local top = stack[#stack]
     stack[#stack] = nil
     state._set(top)
+    return top
 end
 
 function state.push(new_state)

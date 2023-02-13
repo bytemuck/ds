@@ -13,9 +13,9 @@ function love.draw()
     end
 end
 
-function love.update()
+function love.update(dt)
     if state.current then
-        state.current.root:update()
+        state.current.root:update(dt)
     end
 end
 
