@@ -8,10 +8,12 @@ return ui.make_new {
         self.border_size = self.border_size or 0
         self.border_color = self.border_color or color.new(1, 1, 1, 1)
     end,
-    draw = function(self)
+    draw = function(self, go)
         local pos = self.abs_pos
         local size = self.abs_size
         love.graphics.setColor(self.color)
         love.graphics.rectangle("fill", pos.x, pos.y, size.x, size.y)
+
+        go()
     end
 }

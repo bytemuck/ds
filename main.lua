@@ -4,7 +4,7 @@ local state = require("state")
 function love.load()
     state.resize(love.graphics.getDimensions())
     assets:load()
-    state.set(require("states.debug"))
+    state.push(require("states.debug"))
 end
 
 function love.draw()

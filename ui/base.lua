@@ -63,14 +63,19 @@ end
 
 -- Draw
 function base.draw(self)
-    if self[0] and self[0].draw then
-        self[0].draw(self)
+    -- callback to draw children, such that they can choose whether to draw chilren before or after 
+    local go = function()
+        if self.children then
+            for _,child in ipairs(self.children) do
+                child:draw()
+            end
+        end
     end
 
-    if self.children then
-        for _,child in ipairs(self.children) do
-            child:draw()
-        end
+    if self[0] and self[0].draw then
+        self[0].draw(self, go)
+    else
+        go()
     end
 end
 
