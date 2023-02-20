@@ -1,7 +1,7 @@
-local ui = require("ui.base")
-local color = require("ui.color")
+local element = require("element")
+local color = require("color")
 
-return ui.make_new {
+return element.make_new {
     cctr = function(self)
         self.mouse_button = self.mouse_button or 1
 

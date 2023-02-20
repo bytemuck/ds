@@ -1,5 +1,5 @@
 local state = require("state")
-local options = state.new()
+local options = state.new("options")
 local root = options.root
 
 local transition = require("transition")
@@ -21,7 +21,7 @@ root:add_children {
         anchor = vec2.new(0.5, 0.5),
 
         on_click = function()
-            transition(root, state.pop(), 1)
+            transition(root, nil, 1)
         end,
 
         children = {

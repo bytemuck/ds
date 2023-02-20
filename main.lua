@@ -1,3 +1,5 @@
+require("registry") -- initialize custom require functionality
+
 local assets = require("assets")
 local state = require("state")
 

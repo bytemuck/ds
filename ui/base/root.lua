@@ -1,7 +1,7 @@
-local ui = require("ui.base")
-local dim2 = require("ui.dim2")
+local element = require("element")
+local dim2 = require("dim2")
 
-return ui.make_new {
+return element.make_new {
     cctr = function(self)
         self.old_state = nil
         self.size = dim2(0, 1024, 0, 768)

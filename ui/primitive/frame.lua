@@ -1,7 +1,7 @@
-local ui = require("ui.base")
-local color = require("ui.color")
+local element = require("element")
+local color = require("color")
 
-return ui.make_new {
+return element.make_new {
     cctr = function(self)
         self.color = self.color or color.new(1, 1, 1, 1)
 

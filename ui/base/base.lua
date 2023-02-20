@@ -4,8 +4,8 @@
     //
 ]]
 
-local vec2 = require("ui.vec2")
-local dim2 = require("ui.dim2")
+local vec2 = require("vec2")
+local dim2 = require("dim2")
 
 local base = {}
 

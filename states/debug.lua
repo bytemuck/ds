@@ -1,5 +1,5 @@
 local state = require("state")
-local debug = state.new()
+local debug = state.new("debug")
 local root = debug.root
 
 local options = require("states.options")
@@ -14,8 +14,6 @@ local frame = require("ui.frame")
 local color = require("ui.color")
 
 local assets = require("assets")
-
-local debounce = true
 
 root:add_children {
     frame {
@@ -37,10 +35,7 @@ root:add_children {
                         anchor = vec2.new(0, 0),
 
                         on_click = function()
-                            if debounce then
-                                transition(root, options, 1)
-                                debounce = false
-                            end
+                            transition(root, options, 1)
                         end,
 
                         children = {

@@ -1,8 +1,8 @@
-local uiroot = require("ui.root")
-local dim2 = require("ui.dim2")
+local uiroot = require("uiroot")
+local dim2 = require("dim2")
 
-local state = {}
 local stack = {}
+local state = { stack = stack }
 
 local width, height
 
@@ -14,19 +14,15 @@ function state.resize(w, h)
     end
 end
 
-function state.new()
-    local root = uiroot()
+function state.new(name)
+    local root = uiroot { name = name }
     root.size = dim2(0, width, 0, height)
     return {
         root = root,
         resize = function(w, h)
             root.size = dim2(0, w, 0, h)
-            print("set size")
         end
     }
-end
-
-function state.clear()
 end
 
 function state._set(new_state)
@@ -38,14 +34,16 @@ function state._set(new_state)
 end
 
 function state.pop()
-    local top = stack[#stack]
     stack[#stack] = nil
+    local top = stack[#stack]
     state._set(top)
     return top
 end
 
 function state.push(new_state)
-    stack[#stack+1] = new_state
+    if new_state ~= stack[#stack] then
+        stack[#stack+1] = new_state
+    end
     state._set(new_state)
 end
 
