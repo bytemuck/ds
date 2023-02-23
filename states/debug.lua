@@ -19,7 +19,7 @@ root:add_children {
     frame {
         color = color.new(1, 0, 0, 1),
         position = dim2(0.5, 0, 0.5, 0),
-        size = dim2(0.98, 0, 0.98, 0),
+        size = dim2(1, 0, 1, 0),
         anchor = vec2.new(0.5, 0.5),
 
         children = {
@@ -33,10 +33,11 @@ root:add_children {
                         position = dim2(0, 0, 0, 0),
                         size = dim2(0.5, 0, 1, 0),
                         anchor = vec2.new(0, 0),
-
-                        on_click = function()
-                            transition(root, options, 1)
-                        end,
+                        on_click = {
+                            [1] = function()
+                                transition(root, options, 1)
+                            end
+                        },
 
                         children = {
                             sprite {

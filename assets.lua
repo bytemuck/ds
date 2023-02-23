@@ -13,6 +13,10 @@ local fonts = {
 
 }
 
+local shaders = {
+
+}
+
 return {
     load = function(self)
         self.sprites = self.sprites or {}
@@ -32,6 +36,13 @@ return {
             -- TODO: Add support for other font types (currently only TrueType)
             local new = love.font.newTrueTypeRasterizer(v);
             self.fonts[k] = new
+        end
+
+        self.shaders = self.shaders or {}
+        for k, v in pairs(shaders) do
+            local content =  love.filesystem.read(v)
+            local new = love.graphics.newShader(content)
+            self.shaders[k] = new
         end
     end,
 }

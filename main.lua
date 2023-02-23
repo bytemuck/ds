@@ -3,6 +3,8 @@ require("registry") -- initialize custom require functionality
 local assets = require("assets")
 local state = require("state")
 
+local presses = require("mouse")
+
 function love.load()
     state.resize(love.graphics.getDimensions())
     assets:load()
@@ -23,4 +25,8 @@ end
 
 function love.resize(w, h)
     state.resize(w, h)
+end
+
+function love.mousepressed(x, y, button)
+    presses[button] = true
 end

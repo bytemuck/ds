@@ -14,19 +14,39 @@ local color = require("color")
 
 local assets = require("assets")
 
-root:add_children {
-    button {
-        position = dim2(0.5, 0, 0.5, 0),
-        size = dim2(0.98, 0, 0.98, 0),
-        anchor = vec2.new(0.5, 0.5),
+root.before_draw = function ()
+    local under = state.stack[#state.stack - 1];
+    if under then under.root:draw() end
+end
 
-        on_click = function()
-            transition(root, nil, 1)
-        end,
+root:add_children {
+    frame {
+        position = dim2(0, 0, 0, 0),
+        size = dim2(1, 0, 1, 0),
+        color = color.new(0.2, 0.2, 0.2, 0.8),
 
         children = {
-            frame {
-                color = color.new(1, 0, 0, 1),
+            button {
+                position = dim2(0.5, 0, 0.5, 0),
+                size = dim2(0.75, 0, 0.75, 0),
+                anchor = vec2.new(0.5, 0.5),
+        
+                on_click = {
+                    -- left button
+                    [1] = function()
+                        transition(root, nil, 1)
+                    end,
+                    -- right button
+                    [2] = function ()
+                        -- do nothing
+                    end
+                },
+        
+                children = {
+                    frame {
+                        color = color.new(1, 0, 0, 1),
+                    }
+                }
             }
         }
     }

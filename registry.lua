@@ -30,6 +30,7 @@ require("ui.struct.dim2", "dim2")
 require("ui.struct.vec2", "vec2")
 
 require("ui.base.base", "element")
+require("ui.base.mouse", "mouse")
 require("ui.base.root", "uiroot")
 
 require("ui.primitive.button", "button")
