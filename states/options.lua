@@ -4,13 +4,13 @@ local root = options.root
 
 local transition = require("transition")
 
-local dim2 = require("ui.dim2")
-local vec2 = require("ui.vec2")
-local group = require("ui.group")
-local sprite = require("ui.sprite")
-local button = require("ui.button")
-local frame = require("ui.frame")
-local color = require("ui.color")
+local dim2 = require("dim2")
+local vec2 = require("vec2")
+local group = require("group")
+local sprite = require("sprite")
+local button = require("button")
+local frame = require("frame")
+local color = require("color")
 
 local assets = require("assets")
 

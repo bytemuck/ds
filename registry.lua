@@ -27,7 +27,7 @@ end
 -- UI
 require("ui.struct.color", "color")
 require("ui.struct.dim2", "dim2")
-require("ui.struct.vec3", "vec3")
+require("ui.struct.vec2", "vec2")
 
 require("ui.base.base", "element")
 require("ui.base.root", "uiroot")

@@ -20,7 +20,6 @@ return function(old_root, new_state, length)
     end
 
     new_root.transition = function(dt)
-        print(dt, time, length)
         time = time + dt
         if time >= length then
             new_root.transition = nil
