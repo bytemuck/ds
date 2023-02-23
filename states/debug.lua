@@ -13,6 +13,8 @@ local button = require("button")
 local frame = require("frame")
 local color = require("color")
 
+local SCALING = require("ui.scaling")
+
 local assets = require("assets")
 
 root:add_children {
@@ -41,7 +43,8 @@ root:add_children {
 
                         children = {
                             sprite {
-                                image = assets.sprites.squirrel
+                                image = assets.sprites.squirrel,
+                                scaling = SCALING.CENTER
                             }
                         }
                     },
@@ -49,7 +52,8 @@ root:add_children {
                         image = assets.sprites.monkey,
                         position = dim2(1, 0, 0, 0),
                         size = dim2(0.5, 0, 1, 0),
-                        anchor = vec2.new(1, 0)
+                        anchor = vec2.new(1, 0),
+                        scaling = SCALING.CENTER
                     }
                 }
             }

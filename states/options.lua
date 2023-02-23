@@ -30,18 +30,18 @@ root:add_children {
                 position = dim2(0.5, 0, 0.5, 0),
                 size = dim2(0.75, 0, 0.75, 0),
                 anchor = vec2.new(0.5, 0.5),
-        
+
                 on_click = {
                     -- left button
                     [1] = function()
                         transition(root, nil, 1)
                     end,
                     -- right button
-                    [2] = function ()
+                    [2] = function()
                         -- do nothing
                     end
                 },
-        
+
                 children = {
                     frame {
                         color = color.new(1, 0, 0, 1),

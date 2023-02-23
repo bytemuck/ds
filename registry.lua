@@ -25,6 +25,9 @@ end
 -- REGISTRY --
 
 -- UI
+require("enum")
+require("ui.enum.scaling", "ui.scaling")
+
 require("ui.struct.color", "color")
 require("ui.struct.dim2", "dim2")
 require("ui.struct.vec2", "vec2")

@@ -1,7 +1,5 @@
 --[[
     The base code behind UI elements; size/position calculation, recursive rendering, etc.
-
-    //
 ]]
 
 local vec2 = require("vec2")
