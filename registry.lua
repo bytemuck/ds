@@ -23,6 +23,7 @@ _G.require = function(name, ...)
 end
 
 -- REGISTRY --
+require("math.random", "random")
 
 -- ENUMS
 require("enum")
@@ -43,5 +44,6 @@ require("ui.primitive.frame", "frame")
 require("ui.primitive.group", "group")
 require("ui.primitive.line", "line")
 require("ui.primitive.sprite", "sprite")
+
 
 
