@@ -1,8 +1,6 @@
 local element = require("element")
 local dim2 = require("dim2")
 
-local presses = require("mouse")
-
 return element.make_new {
     cctr = function(self)
         self.old_state = nil
@@ -19,7 +17,5 @@ return element.make_new {
         if self.transition then
             self.transition(dt)
         end
-
-        presses = {}
     end
 }

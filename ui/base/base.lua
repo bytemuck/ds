@@ -134,6 +134,12 @@ return {
                 anchor = vec2.new(0, 0)
             }
 
+            if meta.base then
+                for k,v in pairs(meta.base) do
+                    self[k] = v
+                end
+            end
+
             if props then            
                 for k,v in pairs(props) do
                     self[k] = v
@@ -156,6 +162,10 @@ return {
                     end
                 end
             })
+
+            if meta.postcctr then
+                meta.postcctr(mtself, ...)
+            end
 
             if self.children then
                 for _,v in pairs(self.children) do

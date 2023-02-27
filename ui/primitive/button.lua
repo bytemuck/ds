@@ -1,7 +1,7 @@
 local element = require("element")
 local color = require("color")
 
-local presses = require("mouse")
+local clicked = require("mouse").clicked
 
 return element.make_new {
     cctr = function(self)
@@ -33,8 +33,8 @@ return element.make_new {
         self.over = over
 
         if over then
-            for i in pairs(presses) do
-                if love.mouse.isDown(i) then
+            for i,v in pairs(clicked) do
+                if v then
                     self.color = self.click_color
                     if self.on_click and self.on_click[i] then
                         self.on_click[i](x, y)

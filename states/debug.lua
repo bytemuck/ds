@@ -9,6 +9,7 @@ local dim2 = require("dim2")
 local vec2 = require("vec2")
 local group = require("group")
 local sprite = require("sprite")
+local card = require("ui.card.card")
 local button = require("button")
 local frame = require("frame")
 local color = require("color")
@@ -48,8 +49,7 @@ root:add_children {
                             }
                         }
                     },
-                    sprite {
-                        image = assets.sprites.monkey,
+                    card {
                         position = dim2(1, 0, 0, 0),
                         size = dim2(0.5, 0, 1, 0),
                         anchor = vec2.new(1, 0),

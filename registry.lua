@@ -24,10 +24,12 @@ end
 
 -- REGISTRY --
 
--- UI
+-- ENUMS
 require("enum")
 require("ui.enum.scaling", "ui.scaling")
+require("definitions.enum.rarity", "rarity")
 
+-- UI
 require("ui.struct.color", "color")
 require("ui.struct.dim2", "dim2")
 require("ui.struct.vec2", "vec2")
