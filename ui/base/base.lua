@@ -118,6 +118,11 @@ function base.add_children(self, children)
     return self
 end
 
+-- Clear children
+function base.clear_children(self)
+    self.children = {}
+    self:recalc()
+end
 
 return {
     make_new = function(meta)

@@ -3,6 +3,7 @@ local sprites = {
     monkey = "assets/images/monkey.jpeg",
     random = "assets/images/random.jpg",
     squirrel = "assets/images/squirrel.jpg",
+    x_button = "assets/images/ui/x-button.png"
 }
 
 local sounds = {

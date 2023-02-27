@@ -39,6 +39,7 @@ require("ui.base.root", "uiroot")
 require("ui.primitive.button", "button")
 require("ui.primitive.frame", "frame")
 require("ui.primitive.group", "group")
+require("ui.primitive.line", "line")
 require("ui.primitive.sprite", "sprite")
 
 
