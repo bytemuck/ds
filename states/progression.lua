@@ -23,6 +23,9 @@ local random = require("random")
 local function gen()
     local LEVEL_COUNT = 5
 
+    local s = {}
+    local e = { [1] = 0.1,[2] = random(0.1, 0.9) }
+
     root:add_children {
         sprite {
             image = assets.sprites.progression,
@@ -54,16 +57,34 @@ local function gen()
                 },
             }
         },
-        group {},
-        group {},
-    }
+        group {
+        },
+        group {
+            children = {
+                button {
+                    position = dim2(e[1], 0, e[2], 0),
+                    size = dim2(0.0, 32, 0.0, 32),
+                    anchor = vec2.new(0.5, 0.5),
 
-    local s = {}
-    local e = { [1] = 0,[2] = random(0.1, 0.9) }
+                    on_click = {
+                        [1] = function()
+                            print("pressed level 0")
+                        end,
+                    },
+
+                    children = {
+                        frame {
+                            color = color.new(1, 0, 0, 1),
+                        }
+                    }
+                }
+            }
+        },
+    }
 
     for i = 1, LEVEL_COUNT do
         s = e
-        e = { [1] = i * (1 / LEVEL_COUNT),[2] = random(0.1, 0.9) }
+        e = { [1] = 0.1 + (i / LEVEL_COUNT) * 0.8,[2] = random(0.1, 0.9) }
 
         root.children[3]:add_children {
             line {
