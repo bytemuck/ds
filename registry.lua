@@ -27,6 +27,7 @@ require("math.random", "random")
 
 -- ENUMS
 require("enum")
+require("ui.enum.align", "ui.align")
 require("ui.enum.scaling", "ui.scaling")
 require("definitions.enum.rarity", "rarity")
 
@@ -44,6 +45,7 @@ require("ui.primitive.frame", "frame")
 require("ui.primitive.group", "group")
 require("ui.primitive.line", "line")
 require("ui.primitive.sprite", "sprite")
+require("ui.primitive.text", "text")
 
 
 

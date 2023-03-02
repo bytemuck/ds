@@ -12,7 +12,7 @@ local sounds = {
 }
 
 local fonts = {
-
+    roboto = { path = "assets/fonts/Roboto-Regular.ttf", size = 16 }
 }
 
 local shaders = {
@@ -35,8 +35,7 @@ return {
 
         self.fonts = self.fonts or {}
         for k, v in pairs(fonts) do
-            -- TODO: Add support for other font types (currently only TrueType)
-            local new = love.font.newTrueTypeRasterizer(v);
+            local new = love.graphics.newFont(v.path, v.size);
             self.fonts[k] = new
         end
 

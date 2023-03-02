@@ -15,10 +15,13 @@ local color = require("color")
 local line = require("line")
 
 local sprite = require("sprite")
+local text = require("text")
 
 local assets = require("assets")
 
 local random = require("random")
+
+local ALIGN = require("ui.align")
 
 local function gen()
     local LEVEL_COUNT = 5
@@ -79,6 +82,13 @@ local function gen()
                     }
                 }
             }
+        },
+        text {
+            color = color.new(0, 1, 0, 1),
+            text = "THE TITLE\nAND A SUBTITLE\nAND ANOTHER\n\n\n",
+            position = dim2(0.5, 0, 0.5, 0),
+            x_align = ALIGN.CENTER_X,
+            y_align = ALIGN.CENTER_Y,
         },
     }
 
