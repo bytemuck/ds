@@ -4,6 +4,7 @@ local sprites = {
     random = "assets/images/random.jpg",
     squirrel = "assets/images/squirrel.jpg",
     x_button = "assets/images/ui/x-button.png",
+    sword_button = "assets/images/ui/sword-button.png",
     progression = "assets/images/progression.png"
 }
 
@@ -12,7 +13,7 @@ local sounds = {
 }
 
 local fonts = {
-    roboto = { path = "assets/fonts/Roboto-Regular.ttf", size = 16 }
+    roboto = { path = "assets/fonts/Roboto-Regular.ttf", size = 36 }
 }
 
 local shaders = {

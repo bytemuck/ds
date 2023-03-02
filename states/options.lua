@@ -4,6 +4,8 @@ local root = options.root
 
 local transition = require("transition")
 
+local SCALING = require("ui.scaling")
+
 local dim2 = require("dim2")
 local vec2 = require("vec2")
 local group = require("group")
@@ -28,13 +30,13 @@ root:add_children {
         children = {
             button {
                 position = dim2(0.5, 0, 0.5, 0),
-                size = dim2(0.75, 0, 0.75, 0),
+                size = dim2(0.5, 0, 0.5, 0),
                 anchor = vec2.new(0.5, 0.5),
 
                 on_click = {
                     -- left button
                     [1] = function()
-                        transition(root, nil, 1)
+                        -- transition(root, require("states.progression"), 1)
                     end,
                     -- right button
                     [2] = function()
@@ -47,7 +49,30 @@ root:add_children {
                         color = color.new(1, 0, 0, 1),
                     }
                 }
-            }
+            },
+            button {
+                position = dim2(1, 0, 0, 0),
+                size = dim2(0.0, 48, 0.0, 48),
+                anchor = vec2.new(1, 0),
+                hover_color = color.new(0.5, 0, 0, 0.4),
+                click_color = color.new(0.7, 0, 0, 0.6),
+    
+                on_click = {
+                    [1] = function()
+                        transition(root, nil, 1)
+                        
+                    end,
+                },
+    
+                children = {
+                    sprite {
+                        image = assets.sprites.x_button,
+                        position = dim2(0, 0, 0, 0),
+                        size = dim2(1, 0, 1, 0),
+                        scaling = SCALING.CENTER,
+                    },
+                }
+            },
         }
     }
 }
