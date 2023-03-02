@@ -26,6 +26,7 @@ return element.make_new {
         local pos = self.abs_pos
 
         local i = math.floor(#self.text_objs / 2)
+        local j = 0
         love.graphics.setColor(self.color)
         for k,v in pairs(self.text_objs) do
             local font_height = self.font:getHeight()
@@ -40,10 +41,13 @@ return element.make_new {
 
             if self.y_align == ALIGN.CENTER_Y then
                 offset_y = (font_height * i) - (total_height) + (font_height / 2)
+            else
+                offset_y = font_height * j
             end
 
             love.graphics.draw(v.obj, pos.x + offset_x, pos.y + offset_y)
             i = i + 1
+            j = j + 1
         end
 
         go()
