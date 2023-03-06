@@ -5,6 +5,7 @@ local root = startmenu.root
 local transition = require("transition")
 
 local SCALING = require("ui.scaling")
+local FLIPMODE = require("ui.flipmode")
 local ALIGN = require("ui.align")
 
 local frame = require("frame")
@@ -60,6 +61,7 @@ root:add_children{
                 size = dim2(0.5, 0, 0.1, 0),
                 anchor = vec2.new(0.5, 0.5),
                 scaling = SCALING.CENTER,
+                flip = FLIPMODE.FLIP_XY,
             
 
                 children = {

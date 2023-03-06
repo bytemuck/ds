@@ -1,12 +1,14 @@
 local element = require("element")
 local color = require("color")
 local SCALING = require("ui.scaling")
+local FLIPMODE = require("ui.flipmode")
 
 return element.make_new {
     cctr = function(self)
         assert(self.image)
         self.color = self.color or color.new(1, 1, 1, 1)
         self.scaling = self.scaling or SCALING.STRETCH
+        self.flip = self.flip or nil
     end,
     draw = function(self, go)
         local pos = self.abs_pos
@@ -42,7 +44,11 @@ return element.make_new {
         end
 
         love.graphics.setColor(self.color)
-        love.graphics.draw(self.image, px, py, 0, sx, sy)
+        love.graphics.draw(self.image, 
+            (self.flip == FLIPMODE.FLIP_X or self.flip == FLIPMODE.FLIP_XY ) and px * 2 or px,
+            (self.flip == FLIPMODE.FLIP_Y or self.flip == FLIPMODE.FLIP_XY ) and py + eh or py, 0,
+            (self.flip == FLIPMODE.FLIP_X or self.flip == FLIPMODE.FLIP_XY ) and -sx or sx,
+            (self.flip == FLIPMODE.FLIP_Y or self.flip == FLIPMODE.FLIP_XY ) and -sy or sy)
 
         go()
     end
