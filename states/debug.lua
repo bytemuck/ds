@@ -52,8 +52,7 @@ root:add_children {
                     card {
                         position = dim2(1, 0, 0, 0),
                         size = dim2(0.5, 0, 1, 0),
-                        anchor = vec2.new(1, 0),
-                        scaling = SCALING.CENTER
+                        anchor = vec2.new(1, 0)
                     }
                 }
             }

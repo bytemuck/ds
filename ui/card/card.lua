@@ -50,7 +50,6 @@ return element.make_new {
 
     base = {
         turn = function(self)
-            print("turn")
             local old_side = self._contents[#self._contents]
             self._contents[#self._contents] = self.other_side
             self.other_side = old_side

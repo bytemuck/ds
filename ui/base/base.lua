@@ -40,6 +40,10 @@ function base.recalc(self)
         self.abs_pos = vec2.new(
             p_abs_pos.x + rel_pos.xo + (rel_pos.xs * p_abs_size.x) - (anchor.x * abs_size.x),
             p_abs_pos.y + rel_pos.yo + (rel_pos.ys * p_abs_size.y) - (anchor.y * abs_size.y))
+
+        if self[0].on_recalc then
+            self[0].on_recalc(self)
+        end
     end
 
     -- Recalculate the values for all of the children. As Dim2s are relative, a

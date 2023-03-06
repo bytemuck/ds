@@ -1,10 +1,13 @@
 local element = require("element")
 local color = require("color")
 
-local clicked = require("mouse").clicked
+local mouse = require("mouse")
+local clicked = mouse.clicked
+local pressed = mouse.pressed
 
 return element.make_new {
     cctr = function(self)
+        self.hold = {}
         self.mouse_button = self.mouse_button or 1
 
         self.default_color = self.default_color or color.new(0, 0, 0, 0)
@@ -32,9 +35,23 @@ return element.make_new {
         local over = (x > 0 and x < size.x) and (y > 0 and y < size.y)
         self.over = over
 
+        for i,v in pairs(self.hold) do
+            if not pressed[i] then
+                self.hold[i] = nil
+                if self.on_release and self.on_release[i] then
+                    self.on_release[i](x, y)
+                end
+            else
+                if self.while_hold and self.while_hold[i] then
+                    self.while_hold[i](x, y)
+                end
+            end
+        end
+
         if over then
             for i,v in pairs(clicked) do
                 if v then
+                    self.hold[i] = true
                     self.color = self.click_color
                     if self.on_click and self.on_click[i] then
                         self.on_click[i](x, y)
