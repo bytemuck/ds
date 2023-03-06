@@ -19,15 +19,18 @@ local text = require("text")
 local assets = require("assets")
 
 root:add_children{
-    frame {
+
+    sprite {
+        image = assets.sprites.fond_menu,
         position = dim2(0, 0, 0, 0),
         size = dim2(1, 0, 1, 0),
-        color = color.new(0.2, 0.2, 0.2, 0.8),
+        scaling = SCALING.STRETCH,
+
 
         children = {
             sprite {
                 image = assets.sprites.sword_button,
-                position = dim2(0.5, 0, 0.5, 0),
+                position = dim2(0.5, 0, 0.6, 0),
                 size = dim2(0.5, 0, 0.1, 0),
                 anchor = vec2.new(0.5, 0.5),
                 scaling = SCALING.CENTER,
@@ -50,18 +53,20 @@ root:add_children{
                     text {
                         position = dim2(0.5, 0, 0.5, -8),
                         text = "Play",
+                        font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
+                        color = color.new(0, 0, 0, 1),
                     }  
                 }
             },
             sprite {
                 image = assets.sprites.sword_button,
-                position = dim2(0.5, 0, 0.65, 0),
+                position = dim2(0.5, 0, 0.75, 0),
                 size = dim2(0.5, 0, 0.1, 0),
                 anchor = vec2.new(0.5, 0.5),
                 scaling = SCALING.CENTER,
-                flip = FLIPMODE.FLIP_XY,
+                flip = FLIPMODE.FLIP_X,
             
 
                 children = {
@@ -82,14 +87,16 @@ root:add_children{
                     text {
                         position = dim2(0.5, 0, 0.5, -8),
                         text = "Settings",
+                        font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
+                        color = color.new(1, 1, 1, 1),
                     }
                 }
             },
             sprite {
                 image = assets.sprites.sword_button,
-                position = dim2(0.5, 0, 0.8, 0),
+                position = dim2(0.5, 0, 0.9, 0),
                 size = dim2(0.5, 0, 0.1, 0),
                 anchor = vec2.new(0.5, 0.5),
                 scaling = SCALING.CENTER,
@@ -114,8 +121,10 @@ root:add_children{
                     text {
                         position = dim2(0.5, 0, 0.5, -8),
                         text = "Quit",
+                        font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
+                        color = color.new(1, 1, 1, 1),
                     }  
                 }
             },

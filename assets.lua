@@ -5,6 +5,7 @@ local sprites = {
     squirrel = "assets/images/squirrel.jpg",
     x_button = "assets/images/ui/x-button.png",
     sword_button = "assets/images/ui/sword-button.png",
+    fond_menu = "assets/images/fond-menu.png",
     progression = "assets/images/progression.png"
 }
 
