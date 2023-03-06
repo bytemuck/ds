@@ -8,7 +8,7 @@ return element.make_new {
     cctr = function(self)
         self.color = self.color or color.new(1, 1, 1, 1)
         self.text = self.text or ""
-        self.font = self.font or assets.fonts.roboto
+        self.font = self.font or assets.fonts.roboto[24]
         self.text_objs = (function()
             local o = {}
             

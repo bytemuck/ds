@@ -13,7 +13,7 @@ local sounds = {
 }
 
 local fonts = {
-    roboto = { path = "assets/fonts/Roboto-Regular.ttf", size = 36 }
+    roboto = "assets/fonts/Roboto-Regular.ttf"
 }
 
 local shaders = {
@@ -36,8 +36,17 @@ return {
 
         self.fonts = self.fonts or {}
         for k, v in pairs(fonts) do
-            local new = love.graphics.newFont(v.path, v.size);
-            self.fonts[k] = new
+            self.fonts[k] = setmetatable({}, {
+                __index = function(t, key)
+                    local value = rawget(t, key)
+                    if value then
+                        return value
+                    else
+                        t[key] = love.graphics.newFont(v, key)
+                        return rawget(t, key)
+                    end
+                end
+            })
         end
 
         self.shaders = self.shaders or {}

@@ -87,6 +87,7 @@ local function gen()
             color = color.new(0, 1, 0, 1),
             text = "THE TITLE\nAND A SUBTITLE\nAND ANOTHER\n\n\n",
             position = dim2(0.5, 0, 0.5, 0),
+            font = assets.fonts.roboto[42],
             x_align = ALIGN.CENTER_X,
             y_align = ALIGN.CENTER_Y,
         },
