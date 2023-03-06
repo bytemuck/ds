@@ -8,7 +8,6 @@ return element.make_new {
         assert(self.image)
         self.color = self.color or color.new(1, 1, 1, 1)
         self.scaling = self.scaling or SCALING.STRETCH
-        self.flip = self.flip or nil
     end,
     draw = function(self, go)
         local pos = self.abs_pos
@@ -43,12 +42,19 @@ return element.make_new {
             error("error: scaling "..self.scaling.." not yet implemented or does not exist")
         end
 
+        if self.flip == FLIPMODE.FLIP_X or self.flip == FLIPMODE.FLIP_XY then
+            px = px + iw
+            sx = -sx
+        end
+
+        if self.flip == FLIPMODE.FLIP_Y or self.flip == FLIPMODE.FLIP_XY then
+            py = py + eh
+            sy = -sy
+        end
+
+
         love.graphics.setColor(self.color)
-        love.graphics.draw(self.image, 
-            (self.flip == FLIPMODE.FLIP_X or self.flip == FLIPMODE.FLIP_XY ) and px * 2 or px,
-            (self.flip == FLIPMODE.FLIP_Y or self.flip == FLIPMODE.FLIP_XY ) and py + eh or py, 0,
-            (self.flip == FLIPMODE.FLIP_X or self.flip == FLIPMODE.FLIP_XY ) and -sx or sx,
-            (self.flip == FLIPMODE.FLIP_Y or self.flip == FLIPMODE.FLIP_XY ) and -sy or sy)
+        love.graphics.draw(self.image, px, py, 0, sx, sy)
 
         go()
     end

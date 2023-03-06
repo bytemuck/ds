@@ -30,10 +30,6 @@ return element.make_new {
             self:do_recalc()
         end,
 
-        swap = function(self, i1, i2)
-            --
-        end,
-
         do_recalc = function(self)
             print("recalc")
             local count = #self.cards
@@ -76,17 +72,22 @@ return element.make_new {
                     },
                     while_hold = {
                         [1] = function(x, y)
-                            v.position = dim2(
-                                self.start_xs,
-                                self.start_xo + x - self.start_x,
-                                self.start_ys,
-                                y - self.start_y
-                            )
+                            local new_x = self.start_xo + x - self.start_x
+                            v.position = dim2(self.start_xs, new_x, self.start_ys, y - self.start_y)
+
+                            if ord > 1 and new_x < self.centers[ord-1] then
+                                print("swap l")
+                                self.cord[ord-1], self.cord[ord] = self.cord[ord], self.cord[ord-1]
+                            elseif ord < #self.cord and new_x < self.centers[ord+1] then
+                                print("swap r")
+                                self.cord[ord+1], self.cord[ord] = self.cord[ord], self.cord[ord+1]
+                            end
                         end
                     },
                     on_release = {
                         [1] = function()
                             v.position = dim2(0, 0, 0, 0)
+                            self:recalc()
                         end
                     }
                 })
