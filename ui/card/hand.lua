@@ -74,16 +74,16 @@ return element.make_new {
                             local new_x = self.start_xo + x - self.start_x
                             v.position = dim2(self.start_xs, new_x, self.start_ys, y - self.start_y)
 
-                            print(#self.centers, v.ord, ord)
+                            print(v.ord, ord)
                             if v.ord > 1 and new_x < self.centers[v.ord-1] then
                                 print("swap l")
-                                v.ord = v.ord - 1
                                 self.cord[v.ord-1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord-1]
+                                v.ord = v.ord - 1
                             elseif v.ord < #self.cord
                                 and new_x > self.centers[v.ord+1] then
                                 print("swap r")
-                                v.ord = v.ord + 1
                                 self.cord[v.ord+1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord+1]
+                                v.ord = v.ord + 1
                             end
                         end
                     },

@@ -12,7 +12,7 @@ local flux = require("flux")
 function love.load()
     state.resize(love.graphics.getDimensions())
     assets:load()
-    state.push(require("states.progression"))
+    state.push(require("states.game"))
 end
 
 function love.draw()
