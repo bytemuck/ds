@@ -46,7 +46,7 @@ local new = function(xs, xo, ys, yo, e)
         -- Property Access
         __index = function(self, k)
             if k == "vals" then
-                return { self[1], self[2], self[3], self[4] }
+                return { xs = self[1], xo = self[2], ys = self[3], yo = self[4] }
             end
             return self[keys[k]]
         end,
