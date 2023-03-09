@@ -7,6 +7,8 @@ local mouse = require("mouse")
 local pressed = mouse.pressed
 local clicked = mouse.clicked
 
+local flux = require("flux")
+
 function love.load()
     state.resize(love.graphics.getDimensions())
     assets:load()
@@ -20,6 +22,8 @@ function love.draw()
 end
 
 function love.update(dt)
+    flux.update(dt)
+
     if state.current then
         state.current.root:update(dt)
     end
@@ -27,7 +31,6 @@ function love.update(dt)
     for k,_ in pairs(clicked) do
         clicked[k] = false
     end
-
 end
 
 function love.resize(w, h)

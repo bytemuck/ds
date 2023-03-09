@@ -24,6 +24,7 @@ end
 
 -- REGISTRY --
 require("math.random", "random")
+require("flux.flux", "flux")
 
 -- ENUMS
 require("enum")

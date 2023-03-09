@@ -23,6 +23,8 @@ local random = require("random")
 
 local ALIGN = require("ui.align")
 
+local flux = require("flux")
+
 local function gen()
     local LEVEL_COUNT = 5
 
@@ -91,6 +93,14 @@ local function gen()
             x_align = ALIGN.CENTER_X,
             y_align = ALIGN.CENTER_Y,
         },
+
+        sprite {
+            image = assets.sprites.spirit,
+            position = dim2(e[1], 0, e[2], 0),
+            size = dim2(0, 32, 0, 32),
+            anchor = vec2.new(0.5, 0.5),
+            scaling = SCALING.CENTER,
+        },
     }
 
     for i = 1, LEVEL_COUNT do
@@ -114,6 +124,9 @@ local function gen()
                 on_click = {
                     [1] = function()
                         print("pressed level " .. i)
+--                        flux.to(root.children[6].position.vals, 1, root.children[4].children[i].position)
+                        root.children[6].position(root.children[4].children[i].position.vals)
+
                     end,
                 },
 
