@@ -14,7 +14,7 @@ return element.make_new {
     cctr = function(self)
         self.cards = {} -- cards
         self.cpos = {} -- card positions
-        self.cord = {} -- card ordering: k=ord(0..), v=idx(1..)
+        self.cord = {} -- card ordering: k=ord, v=idx
     end,
 
     on_recalc = function(self)
@@ -40,8 +40,7 @@ return element.make_new {
 
             self.centers = {}
             for ord,idx in pairs(self.cord) do
-                local center = start + ord*cw + hw
-                print(center)
+                local center = start + (ord-1)*cw + hw
                 self.children[self.cord[ord]].size = dim2(0, cw, 1, 0)
                 self.children[self.cord[ord]].position = dim2(0, center, 1, 0)
                 self.centers[ord] = center
@@ -50,9 +49,9 @@ return element.make_new {
 
         add_cards = function(self, cards)
             for i,v in ipairs(cards) do
-                local ord = self.cord[0] and #self.cord+1 or 0
-                v.ord = i
-                self.cord[ord] = i
+                local ord = #self.cord+1
+                v.ord = ord
+                self.cord[ord] = #self.cards+1
 
                 self.cards[#self.cards+1] = v
 
@@ -75,12 +74,16 @@ return element.make_new {
                             local new_x = self.start_xo + x - self.start_x
                             v.position = dim2(self.start_xs, new_x, self.start_ys, y - self.start_y)
 
-                            if ord > 1 and new_x < self.centers[ord-1] then
+                            print(#self.centers, v.ord, ord)
+                            if v.ord > 1 and new_x < self.centers[v.ord-1] then
                                 print("swap l")
-                                self.cord[ord-1], self.cord[ord] = self.cord[ord], self.cord[ord-1]
-                            elseif ord < #self.cord and new_x < self.centers[ord+1] then
+                                v.ord = v.ord - 1
+                                self.cord[v.ord-1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord-1]
+                            elseif v.ord < #self.cord
+                                and new_x > self.centers[v.ord+1] then
                                 print("swap r")
-                                self.cord[ord+1], self.cord[ord] = self.cord[ord], self.cord[ord+1]
+                                v.ord = v.ord + 1
+                                self.cord[v.ord+1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord+1]
                             end
                         end
                     },

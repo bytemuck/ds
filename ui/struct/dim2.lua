@@ -35,8 +35,8 @@ local function update(self)
 end
 
 -- Constructor
-local new = function(xs, xo, ys, yo)
-    return setmetatable({ [0] = {}, xs, xo, ys, yo }, {
+local new = function(xs, xo, ys, yo, e)
+    return setmetatable({ [0] = { e }, xs, xo, ys, yo }, {
         -- Assignment
         __newindex = function(self, key, value)
             if not keys[key] then error("key") end
@@ -45,6 +45,9 @@ local new = function(xs, xo, ys, yo)
         end,
         -- Property Access
         __index = function(self, k)
+            if k == "vals" then
+                return { self[1], self[2], self[3], self[4] }
+            end
             return self[keys[k]]
         end,
         -- Call for easy multiple assignment

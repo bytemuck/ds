@@ -58,9 +58,12 @@ end
 
 -- Creates a function to recalculate
 function base.make_recalc(self)
-    return function()
-        return base.recalc(self)
+    if not self.recalcf then
+        self.recalcf = function()
+            return base.recalc(self)
+        end
     end
+    return self.recalcf
 end
 
 -- Draw
@@ -154,18 +157,29 @@ return {
                 meta.cctr(self, ...)
             end
 
-            local mtself; mtself = setmetatable({}, {
+            local mtself, recalcf; mtself = setmetatable({}, {
                 __index = setmetatable(self, { __index = base }),
 
                 __newindex = function(_, k, v)
                     self[k] = v
 
                     if recalc_props[k] then
-                        -- TODO: add make_recalc callback to Dim2 props
+                        if type(v[0]) == "table" then
+                            for _,f in pairs(v[0]) do
+                                if f == recalcf then
+                                    mtself:recalc()
+                                    return
+                                end
+                            end
+                            v[0][#v[0]+1] = recalcf
+                        end
                         mtself:recalc()
                     end
                 end
             })
+
+            mtself.position = self.position
+            mtself.size = self.size
 
             if meta.postcctr then
                 meta.postcctr(mtself, ...)
