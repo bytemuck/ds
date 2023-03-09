@@ -62,28 +62,9 @@ local function gen()
                 },
             }
         },
+        group {},
         group {
-        },
-        group {
-            children = {
-                button {
-                    position = dim2(e[1], 0, e[2], 0),
-                    size = dim2(0.0, 32, 0.0, 32),
-                    anchor = vec2.new(0.5, 0.5),
-
-                    on_click = {
-                        [1] = function()
-                            print("pressed level 0")
-                        end,
-                    },
-
-                    children = {
-                        frame {
-                            color = color.new(1, 0, 0, 1),
-                        }
-                    }
-                }
-            }
+            children = {}
         },
         text {
             color = color.new(0, 1, 0, 1),
@@ -103,6 +84,31 @@ local function gen()
         },
     }
 
+    local function add()
+        local n = #root.children[4]
+        local thing; thing = button {
+            position = dim2(e[1], 0, e[2], 0),
+            size = dim2(0.0, 32, 0.0, 32),
+            anchor = vec2.new(0.5, 0.5),
+
+            on_click = {
+                [1] = function()
+                    print("pressed level " .. n)
+                    flux.to(root.children[6].position, 1, thing.position.vals)
+                end,
+            },
+
+            children = {
+                frame {
+                    color = color.new(1, 0, 0, 1),
+                }
+            }
+        }
+
+        root.children[4]:add_child(thing)
+    end
+
+    add()
     for i = 1, LEVEL_COUNT do
         s = e
         e = { [1] = 0.1 + (i / LEVEL_COUNT) * 0.8,[2] = random(0.1, 0.9) }
@@ -115,28 +121,7 @@ local function gen()
             }
         }
 
-        root.children[4]:add_children {
-            button {
-                position = dim2(e[1], 0, e[2], 0),
-                size = dim2(0.0, 32, 0.0, 32),
-                anchor = vec2.new(0.5, 0.5),
-
-                on_click = {
-                    [1] = function()
-                        print("pressed level " .. i)
---                        flux.to(root.children[6].position.vals, 1, root.children[4].children[i].position)
-                        root.children[6].position(root.children[4].children[i].position.vals)
-
-                    end,
-                },
-
-                children = {
-                    frame {
-                        color = color.new(1, 0, 0, 1),
-                    }
-                }
-            }
-        }
+        add()
     end
 end
 

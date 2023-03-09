@@ -49,6 +49,7 @@ local new = function(xs, xo, ys, yo, e)
             if k == "vals" then
                 return { xs = self[1], xo = self[2], ys = self[3], yo = self[4] }
             end
+            if not keys[k] then error("key") end
             return self[keys[k]]
         end,
         -- Call for easy multiple assignment

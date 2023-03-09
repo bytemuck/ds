@@ -171,15 +171,21 @@ return {
                                     return
                                 end
                             end
-                            v[0][#v[0]+1] = recalcf
+                            v[0][#v[0]+1] = mtself:make_recalc()
                         end
+                        if not self.size or not self.position then return end
                         mtself:recalc()
                     end
                 end
             })
 
-            mtself.position = self.position
-            mtself.size = self.size
+            local pos = self.position
+            self.position = nil
+            mtself.position = pos
+
+            local size = self.size
+            self.size = nil
+            mtself.size = size
 
             if meta.postcctr then
                 meta.postcctr(mtself, ...)
@@ -191,6 +197,7 @@ return {
                 end
             end
 
+            a = true
             mtself:recalc()
 
             return mtself
