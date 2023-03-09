@@ -49,5 +49,7 @@ require("ui.primitive.line", "line")
 require("ui.primitive.sprite", "sprite")
 require("ui.primitive.text", "text")
 
+require("ui.anim.anim", "anim")
+
 
 

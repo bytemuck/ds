@@ -14,6 +14,7 @@ local frame = require("frame")
 local color = require("color")
 local line = require("line")
 
+local anim = require("anim")
 local sprite = require("sprite")
 local text = require("text")
 
@@ -82,6 +83,10 @@ local function gen()
             anchor = vec2.new(0.5, 0.5),
             scaling = SCALING.CENTER,
         },
+
+        anim {
+            animation = assets.animations.monkey_idle,
+        }
     }
 
     local function add()

@@ -10,6 +10,14 @@ local sprites = {
     spirit = "assets/images/spirit.png"
 }
 
+local animations = {
+    monkey_idle = {
+        path = sprites.monkey,
+        width = 128,
+        height = 128,
+    }
+}
+
 local sounds = {
 
 }
@@ -49,6 +57,22 @@ return {
                     end
                 end
             })
+        end
+
+        self.animations = self.animations or {}
+        for k, v in pairs(animations) do
+            local animation = {
+                spriteSheet = love.graphics.newImage(v.path),
+                sprites = {}
+            }
+
+            for y = 0, animation.spriteSheet:getHeight() - v.height, v.height do
+                for x = 0, animation.spriteSheet:getWidth() - v.width, v.width do
+                    table.insert(animation.sprites, love.graphics.newQuad(x, y, v.width, v.height, animation.spriteSheet))
+                end
+            end
+
+            self.animations[k] = animation
         end
 
         self.shaders = self.shaders or {}
