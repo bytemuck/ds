@@ -197,7 +197,6 @@ return {
                 end
             end
 
-            a = true
             mtself:recalc()
 
             return mtself

@@ -22,7 +22,12 @@ return element.make_new {
     end,
 
     base = {
-        positions = {},
+        reset = function(self)
+            self.cards = {}
+            self.cpos = {}
+            self.cord = {}
+            self:recalc()
+        end,
 
         remove_card = function(self, idx)
             -- TODO
@@ -71,24 +76,28 @@ return element.make_new {
                     },
                     while_hold = {
                         [1] = function(x, y)
-                            local new_x = self.start_xo + x - self.start_x
-                            v.position = dim2(self.start_xs, new_x, self.start_ys, y - self.start_y)
+                            v.position = dim2(self.start_xs, self.start_xo + x - self.start_x, self.start_ys, y - self.start_y)
 
-                            print(v.ord, ord)
-                            if v.ord > 1 and new_x < self.centers[v.ord-1] then
-                                print("swap l")
+                            x = self.start_xo + x
+                            if v.ord > 1 and x < self.centers[v.ord-1] then
+                                local other = self.cards[self.cord[v.ord-1]]
                                 self.cord[v.ord-1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord-1]
                                 v.ord = v.ord - 1
+                                other.ord = other.ord + 1
+                                -- TODO: lerp
                             elseif v.ord < #self.cord
-                                and new_x > self.centers[v.ord+1] then
-                                print("swap r")
+                                and x > self.centers[v.ord+1] then
+                                local other = self.cards[self.cord[v.ord+1]]
                                 self.cord[v.ord+1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord+1]
                                 v.ord = v.ord + 1
+                                other.ord = other.ord - 1
+                                -- TODO: lerp
                             end
                         end
                     },
                     on_release = {
                         [1] = function()
+                            -- TODO: lerp back (not snap)
                             v.position = dim2(0, 0, 0, 0)
                             self:recalc()
                         end

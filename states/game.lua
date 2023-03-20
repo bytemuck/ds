@@ -20,6 +20,9 @@ local SCALING = require("ui.scaling")
 
 local assets = require("assets")
 
+-- game state
+local enemies = {}
+
 local player_hand = hand {
     position = dim2(0.15, 0, 1, 0),
     size = dim2(0.6, 0, 0.15, 0),
@@ -27,6 +30,11 @@ local player_hand = hand {
 }
 
 player_hand:add_cards { card {}, card {}, card {}, card {} }
+
+local function reset()
+    player_hand:reset()
+end
+
 
 root:add_children {
     player_hand
