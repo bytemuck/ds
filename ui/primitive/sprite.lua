@@ -55,7 +55,6 @@ return element.make_new {
 
         love.graphics.setColor(self.color)
         if self.quad then
-            print(self.quad)
             love.graphics.draw(self.image, self.quad, px, py, 0, sx, sy)
         else
             love.graphics.draw(self.image, px, py, 0, sx, sy)

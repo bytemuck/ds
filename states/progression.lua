@@ -85,7 +85,7 @@ local function gen()
         },
 
         anim {
-            animation = assets.animations.monkey_idle,
+            animation = assets.animations.numbers_idle,
         }
     }
 

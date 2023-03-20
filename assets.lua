@@ -7,7 +7,8 @@ local sprites = {
     sword_button = "assets/images/ui/sword-button.png",
     fond_menu = "assets/images/fond-menu.png",
     progression = "assets/images/progression.png",
-    spirit = "assets/images/spirit.png"
+    spirit = "assets/images/spirit.png",
+    numbers = "assets/images/numbers.png"
 }
 
 local animations = {
@@ -15,6 +16,11 @@ local animations = {
         path = sprites.monkey,
         width = 128,
         height = 128,
+    },
+    numbers_idle = {
+        path = sprites.numbers,
+        width = 24,
+        height = 24,
     }
 }
 
