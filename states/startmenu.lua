@@ -90,7 +90,7 @@ root:add_children{
                         font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
-                        color = color.new(1, 1, 1, 1),
+                        color = color.new(0, 0, 0, 1),
                     }
                 }
             },
@@ -124,7 +124,7 @@ root:add_children{
                         font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
-                        color = color.new(1, 1, 1, 1),
+                        color = color.new(0, 0, 0, 1),
                     }  
                 }
             },

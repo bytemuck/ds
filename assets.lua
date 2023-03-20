@@ -6,6 +6,7 @@ local sprites = {
     x_button = "assets/images/ui/x-button.png",
     sword_button = "assets/images/ui/sword-button.png",
     fond_menu = "assets/images/fond-menu.png",
+    fond_mauve = "assets/images/fond-mauve.jpg",
     progression = "assets/images/progression.png",
     spirit = "assets/images/spirit.png",
     numbers = "assets/images/numbers.png"
