@@ -68,36 +68,37 @@ return element.make_new {
                             self.start_y = y
                             self.start_xs = v.position.xs
                             self.start_ys = v.position.ys
-                            self.start_xo = v.position.xo
                         end
                     },
                     while_hold = {
                         [1] = function(x, y)
-                            v.position = dim2(self.start_xs, self.start_xo + x - self.start_x, self.start_ys, y - self.start_y)
+                            v.position = dim2(self.start_xs, x - self.start_x, self.start_ys, y - self.start_y)
 
-                            x = self.start_xo + x
+                            x = x + v.parent.position.xo
                             if v.ord > 1 and x < self.centers[v.ord-1] then
                                 local other = self.cards[self.cord[v.ord-1]]
                                 self.cord[v.ord-1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord-1]
                                 v.ord = v.ord - 1
                                 other.ord = other.ord + 1
-                                -- TODO: lerp
-                            elseif v.ord < #self.cord
-                                and x > self.centers[v.ord+1] then
+
+                                flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord+1], 1, 0).vals):ease("circout")
+                            elseif v.ord < #self.cord and x > self.centers[v.ord+1] then
                                 local other = self.cards[self.cord[v.ord+1]]
                                 self.cord[v.ord+1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord+1]
                                 v.ord = v.ord + 1
                                 other.ord = other.ord - 1
-                                -- TODO: lerp
+
+                                flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord-1], 1, 0).vals):ease("circout")
                             end
                         end
                     },
                     on_release = {
                         [1] = function()
                             -- TODO: lerp back (not snap)
-                            v.position.xo = v.position.xo - self.children[self.cord[self.start_ord]].position.xo + self.children[self.cord[v.ord]].position.xo
-                            flux.to(v.position, 1, dim2(0, 0, 0, 0).vals)
+                            local old = v.parent.abs_pos
                             self:recalc()
+                            v.position.xo = v.position.xo - v.parent.abs_pos.x + old.x
+                            flux.to(v.position, 0.5, dim2(0, 0, 0, 0).vals):ease("circout")
                         end
                     }
                 })

@@ -24,17 +24,20 @@ local assets = require("assets")
 local enemies = {}
 
 local player_hand = hand {
-    position = dim2(0.15, 0, 1, 0),
+    position = dim2(0.3, 0, 1, 0),
     size = dim2(0.6, 0, 0.15, 0),
     anchor = vec2.new(0, 1)
 }
 
-player_hand:add_cards { card {}, card {}, card {}, card {} }
+player_hand:add_cards { card {}, card {}, card {}, card {}, card {}, card {}, card {}, card {} }
 
 local function reset()
     player_hand:reset()
 end
 
+local function on_card_flip()
+    -- check if all leaves are effect side
+end
 
 root:add_children {
     player_hand
