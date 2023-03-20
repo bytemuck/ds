@@ -10,6 +10,8 @@ local button = require("button")
 
 local CARD_WIDTH = 1/7
 
+local flux = require("flux")
+
 return element.make_new {
     cctr = function(self)
         self.cards = {} -- cards
@@ -27,12 +29,6 @@ return element.make_new {
             self.cpos = {}
             self.cord = {}
             self:recalc()
-        end,
-
-        remove_card = function(self, idx)
-            -- TODO
-            print(idx)
-            self:do_recalc()
         end,
 
         do_recalc = function(self)
@@ -67,6 +63,7 @@ return element.make_new {
 
                     on_click = {
                         [1] = function(x, y)
+                            self.start_ord = v.ord
                             self.start_x = x
                             self.start_y = y
                             self.start_xs = v.position.xs
@@ -98,7 +95,8 @@ return element.make_new {
                     on_release = {
                         [1] = function()
                             -- TODO: lerp back (not snap)
-                            v.position = dim2(0, 0, 0, 0)
+                            v.position.xo = v.position.xo - self.children[self.cord[self.start_ord]].position.xo + self.children[self.cord[v.ord]].position.xo
+                            flux.to(v.position, 1, dim2(0, 0, 0, 0).vals)
                             self:recalc()
                         end
                     }

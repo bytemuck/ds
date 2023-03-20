@@ -29,7 +29,6 @@ local keys = { xs = 1, xo = 2, ys = 3, yo = 4 }
 -- Update function, calls all recalculation functions.
 -- Called whenever one of the 4 properties of the Dim2 changes. 
 local function update(self)
-    print(#self[0])
     for _,f in pairs(self[0]) do
         f()
     end
