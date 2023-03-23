@@ -30,7 +30,7 @@ local function gen()
     local LEVEL_COUNT = 5
 
     local s = {}
-    local e = { [1] = 0.1,[2] = random(0.1, 0.9) }
+    local e = { [1] = 0.1,[2] = 0.1 + 0.8*love.math.random() }
 
     root:add_children {
         sprite {
@@ -82,10 +82,6 @@ local function gen()
             size = dim2(0, 32, 0, 32),
             anchor = vec2.new(0.5, 0.5),
             scaling = SCALING.CENTER,
-        },
-
-        anim {
-            animation = assets.animations.numbers_idle,
         }
     }
 
@@ -116,7 +112,7 @@ local function gen()
     add()
     for i = 1, LEVEL_COUNT do
         s = e
-        e = { [1] = 0.1 + (i / LEVEL_COUNT) * 0.8,[2] = random(0.1, 0.9) }
+        e = { [1] = 0.1 + (i / LEVEL_COUNT) * 0.8, [2] = 0.1 + 0.8*love.math.random() }
 
         root.children[3]:add_children {
             line {

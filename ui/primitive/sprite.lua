@@ -38,6 +38,11 @@ return element.make_new {
                 iw = iw * sx
                 px = px + (ew - iw) / 2
             end
+        elseif self.scaling == SCALING.OVERFLOW_X then
+            sy = eh/ih
+            sx = sy
+            iw = iw * sx
+            px = px + (ew - iw) / 2
         elseif self.scaling == SCALING.OVERFLOW_Y then
             sx = ew/iw
             sy = sx
