@@ -2,14 +2,12 @@ local state = require("state")
 local debug = state.new("debug")
 local root = debug.root
 
-local options = require("states.options")
-local transition = require("transition")
-
 local dim2 = require("dim2")
 local vec2 = require("vec2")
 local group = require("group")
 local sprite = require("sprite")
-local card = require("ui.card.card")
+local hostile = require("ui.hostile.hostile")
+local profile = require("ui.profile.profile")
 local button = require("button")
 local frame = require("frame")
 local color = require("color")
@@ -19,44 +17,24 @@ local SCALING = require("ui.scaling")
 local assets = require("assets")
 
 root:add_children {
-    frame {
-        color = color.new(1, 0, 0, 1),
-        position = dim2(0.5, 0, 0.5, 0),
-        size = dim2(1, 0, 1, 0),
+    profile {},
+    hostile {
+        image = assets.sprites.harry_potter,
+        position = dim2(0.2, 0, 0.2, 0),
         anchor = vec2.new(0.5, 0.5),
-
-        children = {
-            group {
-                position = dim2(0.5, 0, 0.5, 0),
-                size = dim2(1, -4, 1, -4),
-                anchor = vec2.new(0.5, 0.5),
-
-                children = {
-                    button {
-                        position = dim2(0, 0, 0, 0),
-                        size = dim2(0.5, 0, 1, 0),
-                        anchor = vec2.new(0, 0),
-                        on_click = {
-                            [1] = function()
-                                transition(root, options, 1)
-                            end
-                        },
-
-                        children = {
-                            sprite {
-                                image = assets.sprites.squirrel,
-                                scaling = SCALING.CENTER
-                            }
-                        }
-                    },
-                    card {
-                        position = dim2(1, 0, 0, 0),
-                        size = dim2(0.5, 0, 1, 0),
-                        anchor = vec2.new(1, 0)
-                    }
-                }
-            }
-        }
+        size = dim2(0.2, 0, 0.2, 0),
+    },
+    hostile {
+        image = assets.sprites.harry_potter,
+        position = dim2(0.5, 0, 0.2, 0),
+        anchor = vec2.new(0.5, 0.5),
+        size = dim2(0.2, 0, 0.2, 0),
+    },
+    hostile {
+        image = assets.sprites.harry_potter,
+        position = dim2(0.8, 0, 0.2, 0),
+        anchor = vec2.new(0.5, 0.5),
+        size = dim2(0.2, 0, 0.2, 0),
     }
 }
 

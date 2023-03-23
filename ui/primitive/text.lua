@@ -41,7 +41,9 @@ return element.make_new {
 
             if self.y_align == ALIGN.CENTER_Y then
                 offset_y = (font_height * i) - (total_height) + (font_height / 2)
-            else
+            elseif self.y_align == ALIGN.BOTTOM then
+                offset_y = (font_height * j) - (total_height) + (font_height)
+            else -- ALIGN.TOP
                 offset_y = font_height * j
             end
 

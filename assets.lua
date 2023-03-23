@@ -1,5 +1,6 @@
 local sprites = {
     load = "assets/images/load.jpg",
+    harry_potter = "assets/images/hostiles/harry-potter.png",
     monkey = "assets/images/monkey.jpeg",
     random = "assets/images/random.jpg",
     squirrel = "assets/images/squirrel.jpg",
@@ -9,7 +10,15 @@ local sprites = {
     fond_mauve = "assets/images/fond-mauve.jpg",
     progression = "assets/images/progression.png",
     spirit = "assets/images/spirit.png",
+    profile_spirit = "assets/images/profiles/profile-spirit.png",
     numbers = "assets/images/numbers.png"
+}
+
+local cards = {
+    ["name"] = {
+        sprite = sprites.load,
+
+    }
 }
 
 local animations = {
@@ -47,7 +56,7 @@ return {
             local new = love.graphics.newImage(v);
             self.sprites[k] = new
         end
-        
+
         self.audios = self.audios or {}
         for k, v in pairs(shaders) do
             local new = love.audio.newSource(v.filepath, v.filetype)
