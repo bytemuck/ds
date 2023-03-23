@@ -26,7 +26,10 @@ local animations = {
 }
 
 local sounds = {
-
+    mymusic = {
+        path = "assets/audios/mymusic.mp3",
+        filetype = "stream" -- stream for music, static for sound effects
+    }
 }
 
 local fonts = {
@@ -44,11 +47,11 @@ return {
             local new = love.graphics.newImage(v);
             self.sprites[k] = new
         end
-
+        
         self.audios = self.audios or {}
-        for k, v in pairs(sounds) do
-            local new = love.audio.newSource(v);
-            self.audios[k] = new
+        for k, v in pairs(shaders) do
+            local new = love.audio.newSource(v.filepath, v.filetype)
+            self.audois[k] = new
         end
 
         self.fonts = self.fonts or {}
