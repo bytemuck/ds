@@ -38,6 +38,11 @@ return element.make_new {
                 iw = iw * sx
                 px = px + (ew - iw) / 2
             end
+        elseif self.scaling == SCALING.OVERFLOW_Y then
+            sx = ew/iw
+            sy = sx
+            ih = ih * sy
+            py = py + (eh - ih) / 2
         else
             error("error: scaling "..self.scaling.." not yet implemented or does not exist")
         end

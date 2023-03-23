@@ -8,7 +8,11 @@ local sprite = require("sprite")
 local group = require("group")
 local button = require("button")
 
-local CARD_WIDTH = 1/7
+local CARD_COUNT = 7
+local CARD_ASPECT_RATIO = 2/1
+
+local HAND_MOVE_TIME = 0.25
+local HAND_EASING = "circout"
 
 local flux = require("flux")
 
@@ -35,7 +39,7 @@ return element.make_new {
             print("recalc")
             local count = #self.cards
             local width = self.abs_size.x
-            local cw = width / math.min(count, 7)
+            local cw = width / math.max(count, CARD_COUNT)
             local hw = cw/2
             local start = width/2 - hw*count
 
@@ -81,24 +85,23 @@ return element.make_new {
                                 v.ord = v.ord - 1
                                 other.ord = other.ord + 1
 
-                                flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord+1], 1, 0).vals):ease("circout")
+                                flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord+1], 1, 0).vals):ease(HAND_EASING)
                             elseif v.ord < #self.cord and x > self.centers[v.ord+1] then
                                 local other = self.cards[self.cord[v.ord+1]]
                                 self.cord[v.ord+1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord+1]
                                 v.ord = v.ord + 1
                                 other.ord = other.ord - 1
 
-                                flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord-1], 1, 0).vals):ease("circout")
+                                flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord-1], 1, 0).vals):ease(HAND_EASING)
                             end
                         end
                     },
                     on_release = {
                         [1] = function()
-                            -- TODO: lerp back (not snap)
-                            local old = v.parent.abs_pos
+                            local old_abs_pos = v.parent.abs_pos
                             self:recalc()
-                            v.position.xo = v.position.xo - v.parent.abs_pos.x + old.x
-                            flux.to(v.position, 0.5, dim2(0, 0, 0, 0).vals):ease("circout")
+                            v.position.xo = v.position.xo + (old_abs_pos.x - v.parent.abs_pos.x)
+                            flux.to(v.position, 0.5, dim2(0, 0, 0, 0).vals):ease(HAND_EASING)
                         end
                     }
                 })
