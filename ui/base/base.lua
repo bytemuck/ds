@@ -11,7 +11,7 @@ local recalc_props = { parent = true, size = true, position = true, anchor = tru
 
 -- Calculation of the absolute (screen-space) pixel position/size of objects,
 -- based on their relative (parent-space) properties.
-function base.recalc(self)
+function base.recalc(self, p)
     if not self.parent then
         -- If there is no parent, then the "scale" properties of the Dim2
         -- objects can be ignored, as they are multipliers on those properties
@@ -41,6 +41,13 @@ function base.recalc(self)
             p_abs_pos.x + rel_pos.xo + (rel_pos.xs * p_abs_size.x) - (anchor.x * abs_size.x),
             p_abs_pos.y + rel_pos.yo + (rel_pos.ys * p_abs_size.y) - (anchor.y * abs_size.y))
 
+        if p then
+            print(self)
+            print("parent", "pos", p_abs_pos, "size", p_abs_size)
+            print("rel", "pos", rel_pos, "size", rel_size, "anchor", anchor)
+            print("abs", "pos", self.abs_pos, "size", abs_size)
+        end
+
         if self[0].on_recalc then
             self[0].on_recalc(self)
         end
@@ -51,7 +58,7 @@ function base.recalc(self)
     -- depth level.
     if self.children then
         for _,child in ipairs(self.children) do
-            child:recalc()
+            child:recalc(p)
         end
     end
 end
@@ -147,7 +154,7 @@ return {
                 end
             end
 
-            if props then            
+            if props then
                 for k,v in pairs(props) do
                     self[k] = v
                 end

@@ -56,4 +56,6 @@ return element.make_new {
             }
         }
     end,
+
+    -- todo: take_damage, die, generate_turn, play_turn
 }

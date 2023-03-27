@@ -1,34 +1,38 @@
 local sprites = {
-    load = "assets/images/load.jpg",
-    harry_potter = "assets/images/hostiles/harry-potter.png",
-    monkey = "assets/images/monkey.jpeg",
-    random = "assets/images/random.jpg",
-    squirrel = "assets/images/squirrel.jpg",
-    x_button = "assets/images/ui/x-button.png",
-    sword_button = "assets/images/ui/sword-button.png",
-    fond_menu = "assets/images/fond-menu.png",
-    fond_mauve = "assets/images/fond-mauve.jpg",
-    progression = "assets/images/progression.png",
-    spirit = "assets/images/spirit.png",
-    profile_spirit = "assets/images/profiles/profile-spirit.png",
-    numbers = "assets/images/numbers.png"
-}
+    load = "load.jpg",
+    harry_potter = "hostiles/harry-potter.png",
+    monkey = "monkey.jpeg",
+    random = "random.jpg",
+    squirrel = "squirrel.jpg",
+    x_button = "ui/x-button.png",
+    sword_button = "ui/sword-button.png",
+    fond_menu = "fond-menu.png",
+    fond_mauve = "fond-mauve.jpg",
+    progression = "progression.png",
+    spirit = "spirit.png",
+    profile_spirit = "profiles/profile-spirit.png",
+    numbers = "numbers.png",
 
-local cards = {
-    ["name"] = {
-        sprite = sprites.load,
-
+    card_background = {
+        common_effect = "common_effect.png",
+        common_pivot = "common_pivot.png",
+    },
+    card_accountrement = {
+        common = "none.png",
+        rare = "rare.png",
+        epic = "epic.png",
+        legendary = "legendary.png",
     }
 }
 
 local animations = {
     monkey_idle = {
-        path = sprites.monkey,
+        name = "monkey",
         width = 128,
         height = 128,
     },
     numbers_idle = {
-        path = sprites.numbers,
+        name = "numbers",
         width = 24,
         height = 24,
     }
@@ -49,13 +53,22 @@ local shaders = {
 
 }
 
+local function load_sprites(folder, src, tgt)
+    for k, v in pairs(src) do
+        if type(v) == "table" then
+            local new = {}
+            tgt[k] = new
+            load_sprites(folder .. k .. "/", v, new)
+        else
+            tgt[k] = love.graphics.newImage(folder..v)
+        end
+    end
+end
+
 return {
     load = function(self)
         self.sprites = self.sprites or {}
-        for k, v in pairs(sprites) do
-            local new = love.graphics.newImage(v);
-            self.sprites[k] = new
-        end
+        load_sprites("assets/images/", sprites, self.sprites)
 
         self.audios = self.audios or {}
         for k, v in pairs(shaders) do
@@ -81,7 +94,7 @@ return {
         self.animations = self.animations or {}
         for k, v in pairs(animations) do
             local animation = {
-                spriteSheet = love.graphics.newImage(v.path),
+                spriteSheet = self.sprites[v.name],
                 sprites = {}
             }
 

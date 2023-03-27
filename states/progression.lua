@@ -24,6 +24,9 @@ local random = require("random")
 
 local ALIGN = require("ui.align")
 
+
+local card = require("ui.card.card")
+
 local flux = require("flux")
 
 local function gen()
@@ -82,7 +85,7 @@ local function gen()
             size = dim2(0, 32, 0, 32),
             anchor = vec2.new(0.5, 0.5),
             scaling = SCALING.CENTER,
-        }
+        },
     }
 
     local function add()

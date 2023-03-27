@@ -8,8 +8,8 @@ local sprite = require("sprite")
 local group = require("group")
 local button = require("button")
 
-local CARD_COUNT = 7
-local CARD_ASPECT_RATIO = 2/1
+local CARD_COUNT = 6
+local CARD_ASPECT_RATIO = 1.4
 
 local HAND_MOVE_TIME = 0.25
 local HAND_EASING = "circout"
@@ -46,7 +46,7 @@ return element.make_new {
             self.centers = {}
             for ord,idx in pairs(self.cord) do
                 local center = start + (ord-1)*cw + hw
-                self.children[self.cord[ord]].size = dim2(0, cw, 1, 0)
+                self.children[self.cord[ord]].size = dim2(0, cw, 0, cw * CARD_ASPECT_RATIO)
                 self.children[self.cord[ord]].position = dim2(0, center, 1, 0)
                 self.centers[ord] = center
             end

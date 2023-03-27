@@ -20,7 +20,7 @@ local SCALING = require("ui.scaling")
 
 local assets = require("assets")
 
--- game state
+-- stuff in the game
 local enemies = {}
 
 local player_hand = hand {
@@ -29,9 +29,10 @@ local player_hand = hand {
     anchor = vec2.new(0, 1)
 }
 
-player_hand:add_cards { card {}, card {}, card {}, card {}, card {}, card {}, card {}, card {} }
+player_hand:add_cards { card {}, card {}, card {}, card {} }
 
 local function reset()
+    enemies = {}
     player_hand:reset()
 end
 
@@ -40,6 +41,7 @@ local function on_card_flip()
 end
 
 root:add_children {
+    frame {},
     player_hand
 }
 
