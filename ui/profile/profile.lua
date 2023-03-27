@@ -15,7 +15,7 @@ local assets = require("assets")
 
 return element.make_new {
     cctr = function(self)
-        self.life = self.life or 3
+        self.health = self.health or 3
         self.defense = self.defense or 0
 
         self.position = dim2(0, -20, 1, 0)
@@ -24,6 +24,24 @@ return element.make_new {
     end,
 
     postcctr = function(self)
+        self._intern.health_text = text {
+            text = tostring(self.health),
+            position = dim2(0.5, 0, 0.5, 0), -- center
+            font = assets.fonts.roboto[36],
+            x_align = ALIGN.CENTER_X,
+            y_align = ALIGN.CENTER_Y,
+        }
+
+        self._intern.defense_text = text {
+            text = tostring(self.defense),
+            position = dim2(0.5, 0, 0.5, 0), -- center
+
+            font = assets.fonts.roboto[36],
+
+            x_align = ALIGN.CENTER_X,
+            y_align = ALIGN.CENTER_Y,
+        }
+    
         self:add_children {
             sprite {
                 image = assets.sprites.profile_spirit,
@@ -36,15 +54,7 @@ return element.make_new {
                 anchor = vec2.new(0, 1), -- bottom left
                 scaling = SCALING.CENTER,
                 children = {
-                    text {
-                        text = tostring(self.life),
-                        position = dim2(0.5, 0, 0.5, 0), -- center
-
-                        font = assets.fonts.roboto[36],
-
-                        x_align = ALIGN.CENTER_X,
-                        y_align = ALIGN.CENTER_Y,
-                    }
+                    self._intern.health_text
                 },
             },
             sprite {
@@ -54,17 +64,24 @@ return element.make_new {
                 anchor = vec2.new(1, 1), -- bottom right
                 scaling = SCALING.CENTER,
                 children = {
-                    text {
-                        text = tostring(self.defense),
-                        position = dim2(0.5, 0, 0.5, 0), -- center
-
-                        font = assets.fonts.roboto[36],
-
-                        x_align = ALIGN.CENTER_X,
-                        y_align = ALIGN.CENTER_Y,
-                    }
+                    self._intern.defense_text
                 },
             },
         }
     end,
+
+    base = {
+        take_damage = function(self, damage)
+            self.defense =  math.max(0, self.defense - damage)
+            self._intern.defense_text = tostring(self.defense)
+
+            local rest = math.max(0, damage - self.defense)
+            self.health = self.health - rest
+            if self.health < 0 then
+                -- die
+            end
+            
+            self._intern.health_text = tostring(self.health)
+        end,
+    }
 }

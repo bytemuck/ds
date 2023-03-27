@@ -32,6 +32,7 @@ require("ui.enum.align", "ui.align")
 require("ui.enum.flipmode", "ui.flipmode")
 require("ui.enum.scaling", "ui.scaling")
 require("definitions.enum.rarity", "rarity")
+require("definitions.enum.intention", "intention")
 
 -- UI
 require("ui.struct.color", "color")
