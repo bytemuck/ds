@@ -29,6 +29,8 @@ local card = require("ui.card.card")
 
 local flux = require("flux")
 
+local save = require("save")
+
 local function gen()
     local LEVEL_COUNT = 5
 
@@ -54,6 +56,7 @@ local function gen()
                 [1] = function()
                     root:clear_children()
                     gen()
+                    save.save()
                 end,
             },
 

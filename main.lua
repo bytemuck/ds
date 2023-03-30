@@ -1,5 +1,7 @@
 require("registry") -- initialize custom require functionality
 
+local save = require("save")
+
 local assets = require("assets")
 local state = require("state")
 
@@ -10,9 +12,10 @@ local clicked = mouse.clicked
 local flux = require("flux")
 
 function love.load()
+    save.load()
     state.resize(love.graphics.getDimensions())
     assets:load()
-    state.push(require("states.game"))
+    state.push(require("states.progression"))
 end
 
 function love.draw()

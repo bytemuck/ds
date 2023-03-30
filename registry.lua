@@ -25,6 +25,8 @@ end
 -- REGISTRY --
 require("math.random", "random")
 require("flux.flux", "flux")
+require("persistent.persistent", "persistent")
+require("persistent.save", "save")
 
 -- ENUMS
 require("enum")
