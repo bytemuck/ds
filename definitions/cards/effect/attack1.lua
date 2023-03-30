@@ -3,7 +3,7 @@ return {
     name = "Attack I",
     description = "Deal 3 damage.",
     rarity = "COMMON",
-    image = "common_effect_1",
+    image = "effect_1",
 
     play = function()
         return { 3, 0 }

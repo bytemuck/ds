@@ -14,10 +14,10 @@ local sprites = {
     numbers = "numbers.png",
 
     card_background = {
-        common_pivot_1 = "common_pivot_1.png",
+        pivot_1 = "pivot_1.png",
 
-        common_effect_1 = "common_effect_1.png",
-        common_effect_2 = "common_effect_2.png",
+        effect_1 = "effect_1.png",
+        effect_2 = "effect_2.png",
     },
     card_accountrement = {
         common = "none.png",
