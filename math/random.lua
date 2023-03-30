@@ -36,15 +36,15 @@ end
 -- if skewed: use inverse transform sampling to get value in a sampling distribution
 function random:next()
     local value = self:nextUniform()
-    if not self.skew then
-        return value
-    end
 
-    value = 4/math.pi * math.atan(value ^ self.skew)
+    if self.skew then
+        value = 4/math.pi * math.atan(value ^ self.skew)
+    end
 
     if self.invert then
         value = 1 - value
     end
+
     return self.max * value
 end
 
