@@ -11,12 +11,11 @@ local incr = 12345
 
 random.halfskew = 0.7864397013 -- skew for (0.5, 0.5)
 
-function random.new(seed, skew, invert, max)
+function random.new(seed, skew, invert)
     return setmetatable({
         state = seed,
         modulus = modulus,
         min = 0,
-        max = max or 1,
         skew = skew,
         invert = not not invert,
     }, { __index = random })
@@ -45,7 +44,17 @@ function random:next()
         value = 1 - value
     end
 
-    return self.max * value
+    return value
+end
+
+-- generate a double value in an arbitrary range
+function random:nextRange(min, max)
+    return min + (max-min) * self:nextUniform()
+end
+
+-- generate an integer value in an arbitrary range
+function random:nextRangeInt(min, max)
+    return math.floor(self:nextRange(min, max))
 end
 
 return random
