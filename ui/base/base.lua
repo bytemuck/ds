@@ -19,6 +19,9 @@ function base.recalc(self, p)
         -- offsets from the Dim2 objects.
         self.abs_size = vec2.new(self.size.xo, self.size.yo)
         self.abs_pos = vec2.new(self.position.xo, self.position.yo)
+        if p then
+            print("no parent", "pos", self.abs_pos, "size", self.abs_size)
+        end
     else
         local parent = self.parent
         if not (parent.abs_pos and parent.abs_size) then parent:recalc() return end

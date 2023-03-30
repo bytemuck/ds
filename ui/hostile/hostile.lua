@@ -21,16 +21,15 @@ return element.make_new {
         self.health = self.health or 3
         self.intention = self.intention or INTENTION.ATTACK -- do damage to player
         self.intention_value = self.intention_value or 3 -- 3 damage
-        self._intern = {}
     end,
 
     postcctr = function(self)
-        self._intern.health_text = text {
+        self.health_text = text {
             text = tostring(self.health),
             position = dim2(0.5, 0, 0.5, 0), -- center
-        
+
             font = assets.fonts.roboto[36],
-        
+
             x_align = ALIGN.CENTER_X,
             y_align = ALIGN.CENTER_Y,
         }
@@ -46,7 +45,7 @@ return element.make_new {
                 size = dim2(0, 32, 0, 32), -- 32px 32px
                 anchor = vec2.new(0, 1), -- bottom left
                 children = {
-                    self._intern.health_text
+                    self.health_text
                 },
             },
             sprite {
@@ -59,7 +58,7 @@ return element.make_new {
                 on_click = {
                     [1] = function()
                         -- select hostile
-                    end,               
+                    end,
                 },
             }
         }
@@ -71,15 +70,15 @@ return element.make_new {
             if self.health < 0 then
                 -- die
             end
-            
-            self._intern.health_text = tostring(self.health)
+
+            self.health_text = tostring(self.health)
         end,
         die = function(self)
             -- die
         end,
         generate_turn = function(self)
             self.intention = INTENTION.ATTACK -- we should generate and intention
-            self.intention_value = 3 -- should be a generated object used by intention        
+            self.intention_value = 3 -- should be a generated object used by intention
         end,
         play_turn = function(self, player)
             if self.intention == INTENTION.ATTACK then

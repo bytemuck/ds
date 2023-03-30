@@ -5,6 +5,5 @@ return require("enum") {
     "OVERFLOW_X",
     "OVERFLOW_Y",
 
-    "CUTOFF_X",
-    "CUTOFF_Y"
+    "OVERFLOW_RIGHT",
 }
