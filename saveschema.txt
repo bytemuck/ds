@@ -1,0 +1,5 @@
+level: number
+deck: Array of number (card id)
+bonuses:
+    life: number
+    mana: number

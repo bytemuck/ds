@@ -14,8 +14,10 @@ local sprites = {
     numbers = "numbers.png",
 
     card_background = {
-        common_effect = "common_effect.png",
-        common_pivot = "common_pivot.png",
+        common_pivot_1 = "common_pivot_1.png",
+
+        common_effect_1 = "common_effect_1.png",
+        common_effect_2 = "common_effect_2.png",
     },
     card_accountrement = {
         common = "none.png",
@@ -112,6 +114,21 @@ return {
             local content =  love.filesystem.read(v)
             local new = love.graphics.newShader(content)
             self.shaders[k] = new
+        end
+
+        local card_base = "definitions/cards/"
+        self.cards = { effect = {}, pivot = {} }
+
+        for k,v in ipairs(love.filesystem.getDirectoryItems(card_base.."effect/")) do
+            local data = love.filesystem.load(card_base.."effect/"..v)()
+            self.cards.effect[k] = data
+            self.cards.effect[data.id] = data
+        end
+
+        for k,v in ipairs(love.filesystem.getDirectoryItems(card_base.."pivot/")) do
+            local data = love.filesystem.load(card_base.."pivot/"..v)()
+            self.cards.pivot[k] = data
+            self.cards.pivot[data.id] = data
         end
     end,
 }

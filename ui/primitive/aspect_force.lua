@@ -10,7 +10,7 @@ return element.make_new {
         if self.scaling == SCALING.OVERFLOW_RIGHT then
             self.abs_size.x = self.abs_size.y * self.ratio
         else
-            error()
+            error("nyi")
         end
     end
 }

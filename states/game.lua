@@ -27,8 +27,8 @@ local assets = require("assets")
 local enemies = {}
 
 local player_hand = hand {
-    position = dim2(0.3, 0, 1, 0),
-    size = dim2(0.6, 0, 0.15, 0),
+    position = dim2(0.25, 0, 1, 0),
+    size = dim2(0.75, 0, 0.15, 0),
     anchor = vec2.new(0, 1)
 }
 
@@ -40,6 +40,7 @@ end
 
 local function create_card(id)
     return card {
+        id = id,
         on_flip = on_card_flip
     }
 end
@@ -59,7 +60,7 @@ local function reset()
     end
 end
 
-player_hand:add_cards { card {}, card {}, card {}, card {} }
+player_hand:add_cards { create_card(1), create_card(1), create_card(1), create_card(2) }
 
 root:add_children {
     frame {},
