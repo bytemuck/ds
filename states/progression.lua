@@ -6,131 +6,110 @@ local dim2 = require("dim2")
 local vec2 = require("vec2")
 
 local SCALING = require("ui.scaling")
+local ALIGN = require("ui.align")
 
 local group = require("group")
-
 local button = require("button")
 local frame = require("frame")
 local color = require("color")
 local line = require("line")
-
-local anim = require("anim")
 local sprite = require("sprite")
 local text = require("text")
 
 local assets = require("assets")
-
-local random = require("random")
-
-local ALIGN = require("ui.align")
-
-
-local card = require("ui.card.card")
+local random = require("random").new(69)
 
 local flux = require("flux")
 
-local save = require("save")
+local target_point
 
-local function gen()
+local function generate_tree(from)
     local LEVEL_COUNT = 5
 
-    local s = {}
-    local e = { [1] = 0.1,[2] = 0.1 + 0.8*love.math.random() }
+    local last
+    for i=1,from or 0 do
+        last = random:nextRange(0.2, 0.8)
+    end
 
-    root:add_children {
-        sprite {
-            image = assets.sprites.progression,
-            position = dim2(0, 0, 0, 0),
-            size = dim2(1, 0, 1, 0),
-            scaling = SCALING.STRETCH,
+    local battle =  button {
+        position = dim2(1, 0, 1, 0),
+        size = dim2(0, 128, 0, 48),
+        anchor = vec2.new(1, 1),
+
+        on_click = {
+            [1] = function()
+                print("go to battle")
+            end,
         },
 
-        button {
-            position = dim2(1, 0, 0, 0),
-            size = dim2(0.0, 48, 0.0, 48),
-            anchor = vec2.new(1, 0),
-            hover_color = color.new(0.5, 0, 0, 0.4),
-            click_color = color.new(0.7, 0, 0, 0.6),
-
-            on_click = {
-                [1] = function()
-                    root:clear_children()
-                    gen()
-                    save.save()
-                end,
-            },
-
-            children = {
-                sprite {
-                    image = assets.sprites.x_button,
-                    position = dim2(0, 0, 0, 0),
-                    size = dim2(1, 0, 1, 0),
-                    scaling = SCALING.CENTER,
-                },
+        children = {
+            text {
+                position = dim2(0.5, 0, 0.5, -8),
+                text = "Battle !",
+                font = assets.fonts.roboto[42],
+                x_align = ALIGN.CENTER_X,
+                y_align = ALIGN.CENTER_Y,
+                color = color.new(0, 0, 0, 1),
             }
-        },
-        group {},
-        group {
-            children = {}
-        },
-        text {
-            color = color.new(0, 1, 0, 1),
-            text = "THE TITLE\nAND A SUBTITLE\nAND ANOTHER\n\n\n",
-            position = dim2(0.5, 0, 0.5, 0),
-            font = assets.fonts.roboto[42],
-            x_align = ALIGN.CENTER_X,
-            y_align = ALIGN.CENTER_Y,
-        },
-
-        sprite {
-            image = assets.sprites.spirit,
-            position = dim2(e[1], 0, e[2], 0),
-            size = dim2(0, 32, 0, 32),
-            anchor = vec2.new(0.5, 0.5),
-            scaling = SCALING.CENTER,
-        },
+        }
     }
 
-    local function add()
-        local n = #root.children[4]
-        local thing; thing = button {
-            position = dim2(e[1], 0, e[2], 0),
+    local points = group {}
+    local lines = group {}
+
+    for i=last and 0 or 1, LEVEL_COUNT do
+        local y = i == 0 and last or random:nextRange(0.2, 0.8)
+        local x = (i / LEVEL_COUNT)
+
+        local point = frame {
+            position = dim2(x, 0, y, 0),
             size = dim2(0.0, 32, 0.0, 32),
             anchor = vec2.new(0.5, 0.5),
+            color = (not last and i == 1) and color.new(0, 1, 0, 1) or color.new(1, 0, 0, 1)
+        }
 
-            on_click = {
-                [1] = function()
-                    print("pressed level " .. n)
-                    flux.to(root.children[6].position, 1, thing.position.vals)
-                end,
-            },
+        points:add_child(point)
 
-            children = {
-                frame {
-                    color = color.new(1, 0, 0, 1),
+        if i == 2 then
+            target_point = point
+        end
+    end
+
+    for i=1,#points.children-1 do
+        local a = points.children[i].position
+        local b = points.children[i + 1].position
+
+        if b then
+            points:add_children {
+                line {
+                    position = dim2(a.xs, a.xo, a.ys, b.yo),
+                    size = dim2(b.xs, b.xo, b.ys, b.yo),
+                    color = color.new(1, 1, 1, 1)
                 }
             }
-        }
-
-        root.children[4]:add_child(thing)
+        end
     end
 
-    add()
-    for i = 1, LEVEL_COUNT do
-        s = e
-        e = { [1] = 0.1 + (i / LEVEL_COUNT) * 0.8, [2] = 0.1 + 0.8*love.math.random() }
+    local spirit = sprite {
+        image = assets.sprites.spirit,
+        position = dim2(points.children[last and 2 or 1].position.xs, 0, points.children[last and 2 or 1].position.ys, 0),
+        size = dim2(0, 32, 0, 32),
+        anchor = vec2.new(0.5, 0.5),
+        scaling = SCALING.CENTER,
+    }
 
-        root.children[3]:add_children {
-            line {
-                position = dim2(s[1], 0, s[2], 0),
-                size = dim2(e[1], 0, e[2], 0),
-                color = color.new(love.math.random(), love.math.random(), love.math.random(), 1),
-            }
-        }
-
-        add()
-    end
+    root:add_children {
+        lines,
+        points,
+        battle,
+        spirit
+    }
 end
 
-gen()
+local function advance()
+    flux.to(root.children[4].position, 1, target_point.position.vals)
+end
+
+generate_tree(0)
+advance()
 return progression

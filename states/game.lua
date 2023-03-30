@@ -60,7 +60,7 @@ local function reset()
     end
 end
 
-player_hand:add_cards { create_card(1), create_card(1), create_card(1), create_card(2) }
+player_hand:add_cards { create_card(1), create_card(1), create_card(1) }
 
 root:add_children {
     frame {},
