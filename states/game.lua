@@ -26,25 +26,13 @@ local assets = require("assets")
 
 -- stuff in the game
 local enemies = {
-    hostile {
-        image = assets.sprites.harry_potter,
-    },
-    hostile {
-        image = assets.sprites.harry_potter,
-    },
-    hostile {
-        image = assets.sprites.harry_potter,
-    }
 }
 
 local function layout_enemies(self)
     local total = 0
     for _,v in ipairs(enemies) do
         v:recalc()
-        total = total + v.abs_size.x
-    end
-    for _,v in ipairs(enemies) do
-        v:recalc()
+        v.position.xo = total
         total = total + v.abs_size.x
     end
 
@@ -70,10 +58,24 @@ local function create_card(id)
     }
 end
 
-local function create_hostile(type)
-    return hostile {
-        profile = player_profile
+local function create_hostile(type, add)
+    local h = hostile {
+        profile = player_profile,
+        image = assets.sprites.harry_potter,
+        on_recalc = function()
+            --
+        end
     }
+
+    if add then
+        enemies[#enemies+1] = constrain {
+            ratio = 1,
+            scaling = SCALING.OVERFLOW_RIGHT,
+            children = { h }
+        }
+    end
+
+    return h
 end
 
 local function reset()
@@ -87,8 +89,24 @@ end
 
 player_hand:add_cards { create_card(1), create_card(1), create_card(1), create_card(1) }
 
+local hostile_constraint = constrain {
+    scaling = SCALING.CENTER,
+    position = dim2(0, 0, 0, 0),
+    size = dim2(1, 0, 0.3, 0),
+    anchor = vec2.new(0, 0),
+
+    children = {
+        group {
+            on_recalc = layout_enemies,
+            children = enemies
+        }
+    }
+}
+
 root:add_children {
     frame {}, -- temp: background
+
+    t,
 
     profile {
         position = dim2(0, 0, 1, 0),
@@ -97,32 +115,19 @@ root:add_children {
     },
 
     player_hand,
+    hostile_constraint,
 
-    -- constrain {
-    --     scaling = SCALING.CENTER,
-    --     position = dim2(0, 0, 0, 0),
-    --     size = dim2(1, 0, 0.5, 0),
-    --     anchor = vec2.new(0, 0),
+    --[[constrain {
+        ratio = 1,
+        scaling = SCALING.CENTER,
+        position = dim2(0.5, 0, 0.5, 0),
+        size = dim2(0.5, 0, 0.5, 0),
+        anchor = vec2.new(0.5, 0.5),
 
-    --     children = {
-    --         group {
-    --             on_recalc = layout_enemies,
-    --             children = enemies
-    --         }
-    --     }
-    -- },
-
-    -- constrain {
-    --     ratio = 1,
-    --     scaling = SCALING.CENTER,
-    --     position = dim2(0.5, 0, 0.5, 0),
-    --     size = dim2(0.5, 0, 0.5, 0),
-    --     anchor = vec2.new(0.5, 0.5),
-
-    --     children = {
-    --         --
-    --     }
-    -- }
+        children = {
+            -- TREE
+        }
+    }]]
 }
 
 player_hand:do_recalc()
