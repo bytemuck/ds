@@ -33,6 +33,8 @@ return element.make_new {
         y = y - pos.y
 
         local over = (x > 0 and x < size.x) and (y > 0 and y < size.y)
+        self.just_entered = (not self.over) and over
+        self.just_left = self.over and (not over)
         self.over = over
 
         for i,v in pairs(self.hold) do
@@ -49,6 +51,10 @@ return element.make_new {
         end
 
         if over then
+            if self.on_enter then
+                if self.just_entered then self.on_enter() end
+            end
+
             for i,v in pairs(clicked) do
                 if v then
                     self.hold[i] = true
@@ -61,6 +67,9 @@ return element.make_new {
                 end
             end
         else
+            if self.on_leave then 
+                if self.just_left then self.on_leave() end
+            end
             self.color = self.default_color
         end
     end

@@ -98,31 +98,31 @@ root:add_children {
 
     player_hand,
 
-    constrain {
-        scaling = SCALING.CENTER,
-        position = dim2(0, 0, 0, 0),
-        size = dim2(1, 0, 0.5, 0),
-        anchor = vec2.new(0, 0),
+    -- constrain {
+    --     scaling = SCALING.CENTER,
+    --     position = dim2(0, 0, 0, 0),
+    --     size = dim2(1, 0, 0.5, 0),
+    --     anchor = vec2.new(0, 0),
 
-        children = {
-            group {
-                on_recalc = layout_enemies,
-                children = enemies
-            }
-        }
-    },
+    --     children = {
+    --         group {
+    --             on_recalc = layout_enemies,
+    --             children = enemies
+    --         }
+    --     }
+    -- },
 
-    constrain {
-        ratio = 1,
-        scaling = SCALING.CENTER,
-        position = dim2(0.5, 0, 0.5, 0),
-        size = dim2(0.5, 0, 0.5, 0),
-        anchor = vec2.new(0.5, 0.5),
+    -- constrain {
+    --     ratio = 1,
+    --     scaling = SCALING.CENTER,
+    --     position = dim2(0.5, 0, 0.5, 0),
+    --     size = dim2(0.5, 0, 0.5, 0),
+    --     anchor = vec2.new(0.5, 0.5),
 
-        children = {
-            --
-        }
-    }
+    --     children = {
+    --         --
+    --     }
+    -- }
 }
 
 player_hand:do_recalc()

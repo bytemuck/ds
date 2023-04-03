@@ -24,7 +24,7 @@ local body_scale = 1020/1500
 
 return element.make_new {
     cctr = function(self)
-        self.is_pivot_side = false
+        self.is_pivot_side = not not self.is_pivot_side
 
         assert(self.id)
         self.effect = assets.cards.effect[self.id]

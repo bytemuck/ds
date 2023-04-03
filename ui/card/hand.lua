@@ -8,6 +8,8 @@ local sprite = require("sprite")
 local group = require("group")
 local button = require("button")
 
+local card_expanded = require("ui.card.card_expanded")
+
 local CARD_COUNT = 6
 local CARD_ASPECT_RATIO = 1.4
 
@@ -19,8 +21,13 @@ local flux = require("flux")
 return element.make_new {
     cctr = function(self)
         self.cards = {} -- cards
-        self.cpos = {} -- card positions
-        self.cord = {} -- card ordering: k=ord, v=idx
+        self.cpos = {}  -- card positions
+        self.cord = {}  -- card ordering: k=ord, v=idx
+    end,
+
+    postcctr = function(self)
+        self.placeholder = group{}
+        self:add_child(self.placeholder)
     end,
 
     on_recalc = function(self)
@@ -34,36 +41,57 @@ return element.make_new {
             self.cord = {}
             self:recalc()
         end,
-
         do_recalc = function(self)
             print("recalc")
             local count = #self.cards
             local width = self.abs_size.x
             local cw = width / math.max(count, CARD_COUNT)
-            local hw = cw/2
-            local start = width/2 - hw*count
+            local hw = cw / 2
+            local start = width / 2 - hw * count
 
             self.centers = {}
-            for ord,idx in pairs(self.cord) do
-                local center = start + (ord-1)*cw + hw
-                self.children[self.cord[ord]].size = dim2(0, cw, 0, cw * CARD_ASPECT_RATIO)
-                self.children[self.cord[ord]].position = dim2(0, center, 1, 0)
+            for ord, idx in pairs(self.cord) do
+                local center = start + (ord - 1) * cw + hw
+                self.children[self.cord[ord]+1].size = dim2(0, cw, 0, cw * CARD_ASPECT_RATIO)
+                self.children[self.cord[ord]+1].position = dim2(0, center, 1, 0)
                 self.centers[ord] = center
             end
         end,
-
         add_cards = function(self, cards)
-            for i,v in ipairs(cards) do
-                local ord = #self.cord+1
+            for i, v in ipairs(cards) do
+                local ord = #self.cord + 1
                 v.ord = ord
-                self.cord[ord] = #self.cards+1
+                self.cord[ord] = #self.cards + 1
 
-                self.cards[#self.cards+1] = v
+                self.cards[#self.cards + 1] = v
 
                 self:add_child(button {
                     anchor = vec2.new(0.5, 1),
 
                     children = { v },
+
+                    on_enter = function()
+                        print(v.id, v.is_pivot_side)
+                        local desc = card_expanded {
+                            position = dim2(0, 0, 0, 0),
+                            size = dim2(1, 0, 1, 0),
+                            anchor = vec2.new(0, 1),
+                            
+                            id = v.id,
+                            is_pivot_side = v.is_pivot_side,
+                            orig = v
+                        }
+
+                        self.children[1] = desc
+                        desc.parent = self
+                        desc:recalc()
+                    end,
+
+                    on_leave = function()
+                        if self.children[1].orig == v then
+                            self.children[1] = self.placeholder
+                        end
+                    end,
 
                     on_click = {
                         [1] = function(x, y)
@@ -79,20 +107,22 @@ return element.make_new {
                             v.position = dim2(self.start_xs, x - self.start_x, self.start_ys, y - self.start_y)
 
                             x = x + v.parent.position.xo
-                            if v.ord > 1 and x < self.centers[v.ord-1] then
-                                local other = self.cards[self.cord[v.ord-1]]
-                                self.cord[v.ord-1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord-1]
+                            if v.ord > 1 and x < self.centers[v.ord - 1] then
+                                local other = self.cards[self.cord[v.ord - 1]]
+                                self.cord[v.ord - 1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord - 1]
                                 v.ord = v.ord - 1
                                 other.ord = other.ord + 1
 
-                                flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord+1], 1, 0).vals):ease(HAND_EASING)
-                            elseif v.ord < #self.cord and x > self.centers[v.ord+1] then
-                                local other = self.cards[self.cord[v.ord+1]]
-                                self.cord[v.ord+1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord+1]
+                                flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord + 1], 1, 0).vals):ease(
+                                HAND_EASING)
+                            elseif v.ord < #self.cord and x > self.centers[v.ord + 1] then
+                                local other = self.cards[self.cord[v.ord + 1]]
+                                self.cord[v.ord + 1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord + 1]
                                 v.ord = v.ord + 1
                                 other.ord = other.ord - 1
 
-                                flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord-1], 1, 0).vals):ease(HAND_EASING)
+                                flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord - 1], 1, 0).vals):ease(
+                                HAND_EASING)
                             end
                         end
                     },
