@@ -54,6 +54,9 @@ function base.recalc(self, p)
         if self[0].on_recalc then
             self[0].on_recalc(self)
         end
+        if self.on_recalc then
+            self.on_recalc(self)
+        end
     end
 
     -- Recalculate the values for all of the children. As Dim2s are relative, a

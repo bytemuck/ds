@@ -2,7 +2,7 @@ local element = require("element")
 local sprite = require("sprite")
 
 local text = require("text")
-local aspect_force = require("aspect_force")
+local constrain = require("constrain")
 
 local SCALING = require("ui.scaling")
 local ALIGN = require("ui.align")
@@ -39,7 +39,7 @@ return element.make_new {
         }
 
         self:add_children {
-            aspect_force {
+            constrain {
                 ratio = 1,
                 scaling = SCALING.OVERFLOW_RIGHT,
 

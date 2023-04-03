@@ -25,7 +25,6 @@ return element.make_new {
             local elem_ratio = ew/eh
 
             if img_ratio > elem_ratio then
-                -- element has bigger y for same x
                 -- so add padding on the y axis
                 sx = ew/iw
                 sy = sx

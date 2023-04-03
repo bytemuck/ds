@@ -15,6 +15,7 @@ local color = require("color")
 
 local assets = require("assets")
 
+local flux = require("flux")
 
 return element.make_new {
     cctr = function(self)
@@ -68,13 +69,15 @@ return element.make_new {
         take_damage = function(self, damage)
             self.health = self.health - damage
             if self.health < 0 then
-                -- die
+                self:die()
             end
 
             self.health_text = tostring(self.health)
         end,
         die = function(self)
-            -- die
+            local s = self.size.vals
+            s.xs = 0
+            flux.to(self.size, 0.5, s):ease("circout")
         end,
         generate_turn = function(self)
             self.intention = INTENTION.ATTACK -- we should generate and intention

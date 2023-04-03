@@ -12,6 +12,7 @@ local sprite = require("sprite")
 local button = require("button")
 local frame = require("frame")
 local color = require("color")
+local constrain = require("constrain")
 
 local card = require("ui.card.card")
 local hand = require("ui.card.hand")
@@ -24,7 +25,31 @@ local SCALING = require("ui.scaling")
 local assets = require("assets")
 
 -- stuff in the game
-local enemies = {}
+local enemies = {
+    hostile {
+        image = assets.sprites.harry_potter,
+    },
+    hostile {
+        image = assets.sprites.harry_potter,
+    },
+    hostile {
+        image = assets.sprites.harry_potter,
+    }
+}
+
+local function layout_enemies(self)
+    local total = 0
+    for _,v in ipairs(enemies) do
+        v:recalc()
+        total = total + v.abs_size.x
+    end
+    for _,v in ipairs(enemies) do
+        v:recalc()
+        total = total + v.abs_size.x
+    end
+
+    self.abs_size.x = total
+end
 
 local player_hand = hand {
     position = dim2(0.25, 0, 1, 0),
@@ -60,17 +85,44 @@ local function reset()
     end
 end
 
-player_hand:add_cards { create_card(1), create_card(1), create_card(1) }
+player_hand:add_cards { create_card(1), create_card(1), create_card(1), create_card(1) }
 
 root:add_children {
-    frame {},
+    frame {}, -- temp: background
+
     profile {
         position = dim2(0, 0, 1, 0),
         size = dim2(0.25, 0, 0.25, 0),
         anchor = vec2.new(0, 1),
     },
+
     player_hand,
-    group { children = enemies }
+
+    constrain {
+        scaling = SCALING.CENTER,
+        position = dim2(0, 0, 0, 0),
+        size = dim2(1, 0, 0.5, 0),
+        anchor = vec2.new(0, 0),
+
+        children = {
+            group {
+                on_recalc = layout_enemies,
+                children = enemies
+            }
+        }
+    },
+
+    constrain {
+        ratio = 1,
+        scaling = SCALING.CENTER,
+        position = dim2(0.5, 0, 0.5, 0),
+        size = dim2(0.5, 0, 0.5, 0),
+        anchor = vec2.new(0.5, 0.5),
+
+        children = {
+            --
+        }
+    }
 }
 
 player_hand:do_recalc()
