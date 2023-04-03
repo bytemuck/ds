@@ -16,12 +16,19 @@ local line = require("line")
 local sprite = require("sprite")
 local text = require("text")
 
+local persistent = require("persistent")
+
 local assets = require("assets")
 local random = require("random").new(69)
 
 local flux = require("flux")
 
 local target_point
+
+local function advance()
+    flux.to(root.children[4].position, 1, target_point.position.vals):oncomplete(function() state.push(require("states.game")) end)
+end
+
 
 local function generate_tree(from)
     local LEVEL_COUNT = 5
@@ -31,21 +38,22 @@ local function generate_tree(from)
         last = random:nextRange(0.2, 0.8)
     end
 
-    local battle =  button {
-        position = dim2(1, 0, 1, 0),
-        size = dim2(0, 128, 0, 48),
+    local battle = frame {
+        position = dim2(1, -32, 1, -32),
+        size = dim2(0, 256, 0, 96),
         anchor = vec2.new(1, 1),
-
-        on_click = {
-            [1] = function()
-                print("go to battle")
-            end,
-        },
-
         children = {
+            button {
+                on_click = {
+                    [1] = function ()
+                        -- ATTTAAACCCKKKK!!!!!
+                        advance()
+                    end
+                }
+            },
             text {
-                position = dim2(0.5, 0, 0.5, -8),
-                text = "Battle !",
+                position = dim2(0.5, 0, 0.5, 0),
+                text = "BATTLE",
                 font = assets.fonts.roboto[42],
                 x_align = ALIGN.CENTER_X,
                 y_align = ALIGN.CENTER_Y,
@@ -53,7 +61,6 @@ local function generate_tree(from)
             }
         }
     }
-
     local points = group {}
     local lines = group {}
 
@@ -102,14 +109,9 @@ local function generate_tree(from)
         lines,
         points,
         battle,
-        spirit
+        spirit,
     }
 end
 
-local function advance()
-    flux.to(root.children[4].position, 1, target_point.position.vals)
-end
-
-generate_tree(0)
-advance()
+generate_tree(persistent.level)
 return progression
