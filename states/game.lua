@@ -30,15 +30,17 @@ local enemies = {
 
 local hostile_constraint, hostile_group
 local function layout_enemies(self)
+    -- TODO: figure this shit out (is constraint the issue?)
     local total = 0
-    for _,v in ipairs(enemies) do
+    for i,v in ipairs(enemies) do
         v:recalc()
-        v.position = dim2(0, total, 0, 0)
         total = total + v.children[1].abs_size.x
+        v.position = dim2((i-1)/#self.children, 0, 0, 0)
     end
 
     self.abs_size.x = total
     hostile_constraint:constrain(true)
+    self.abs_pos.x = hostile_constraint.abs_pos.x
 end
 
 local player_hand = hand {

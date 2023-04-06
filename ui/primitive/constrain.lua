@@ -31,8 +31,12 @@ return element.make_new {
                 local cw, ch = cs.x, cs.y
 
                 if cw/ch > ew/eh then
-                    self.abs_pos.y =  self.__abs_pos.y + (eh - ch * (ew/cw)) / 2
+                    print("ypad")
+                    local padding = eh - ch * (ew/cw)
+                    self.abs_pos.y = self.__abs_pos.x + padding / 2
+                    self.abs_size.y = self.__abs_size.x - padding
                 else
+                    print("xpad")
                     local padding = ew - cw * (eh/ch)
                     self.abs_pos.x = self.__abs_pos.x + padding / 2
                     self.abs_size.x = self.__abs_size.x - padding
