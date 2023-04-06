@@ -3,6 +3,8 @@ local sprite = require("sprite")
 
 local text = require("text")
 local button = require("button")
+local group = require("group")
+local constrain = require("constrain")
 
 local SCALING = require("ui.scaling")
 local ALIGN = require("ui.align")
@@ -36,31 +38,53 @@ return element.make_new {
         }
 
         self:add_children {
-            sprite {
-                image = self.image,
-                scaling = SCALING.CENTER
-            },
-            sprite {
-                image = assets.sprites.random,
-                position = dim2(0, 0, 1, 0), -- bottom left
-                size = dim2(0, 32, 0, 32), -- 32px 32px
-                anchor = vec2.new(0, 1), -- bottom left
+            constrain {
+                ratio = 1,
+                scaling = SCALING.OVERFLOW_RIGHT,
+
                 children = {
-                    self.health_text
-                },
-            },
-            sprite {
-                image = assets.sprites.x_button,
-                position = dim2(0.5, 0, 0, -32), -- bottom left
-                size = dim2(0, 32, 0, 32), -- 32px 32px
-                anchor = vec2.new(0.5, 0.5), -- bottom left
-            },
-            button {
-                on_click = {
-                    [1] = function()
-                        -- select hostile
-                    end,
-                },
+                    group { children = {
+                        sprite {
+                            size = dim2(1, -32, 1, -32),
+                            position = dim2(0, 16, 0, 32),
+                            image = self.image,
+                            scaling = SCALING.CENTER,
+
+                            on_recalc = function(self)
+                                local t = {}
+                                local a = self
+                                while a.parent do
+                                    a = a.parent
+                                    t[#t+1] = tostring(a.abs_pos)
+                                    t[#t+1] = tostring(a.position)
+                                end
+                                print("H", unpack(t))
+                            end
+                        },
+                        sprite {
+                            image = assets.sprites.random,
+                            position = dim2(0, 0, 1, 0), -- bottom left
+                            size = dim2(0, 32, 0, 32), -- 32px 32px
+                            anchor = vec2.new(0, 1), -- bottom left
+                            children = {
+                                self.health_text
+                            },
+                        },
+                        sprite {
+                            image = assets.sprites.x_button,
+                            position = dim2(0.5, 0, 0, 0), -- top center
+                            size = dim2(0, 32, 0, 32), -- 32px 32px
+                            anchor = vec2.new(0.5, 0), -- bottom left
+                        },
+                        button {
+                            on_click = {
+                                [1] = function()
+                                    -- select hostile
+                                end,
+                            },
+                        }
+                    } }
+                }
             }
         }
     end,

@@ -28,15 +28,17 @@ local assets = require("assets")
 local enemies = {
 }
 
+local hostile_constraint, hostile_group
 local function layout_enemies(self)
     local total = 0
     for _,v in ipairs(enemies) do
         v:recalc()
-        v.position.xo = total
-        total = total + v.abs_size.x
+        v.position = dim2(0, total, 0, 0)
+        total = total + v.children[1].abs_size.x
     end
 
     self.abs_size.x = total
+    hostile_constraint:constrain(true)
 end
 
 local player_hand = hand {
@@ -47,7 +49,7 @@ local player_hand = hand {
 
 local player_profile = profile {}
 
-local function on_card_flip()
+local function on_card_flip(card)
     -- check if all leaves are effect side
 end
 
@@ -62,17 +64,12 @@ local function create_hostile(type, add)
     local h = hostile {
         profile = player_profile,
         image = assets.sprites.harry_potter,
-        on_recalc = function()
-            --
-        end
+        size = dim2(0, 0, 1, 0)
     }
 
     if add then
-        enemies[#enemies+1] = constrain {
-            ratio = 1,
-            scaling = SCALING.OVERFLOW_RIGHT,
-            children = { h }
-        }
+        hostile_group:add_child(h)
+        hostile_constraint:recalc()
     end
 
     return h
@@ -89,24 +86,28 @@ end
 
 player_hand:add_cards { create_card(1), create_card(1), create_card(1), create_card(1) }
 
-local hostile_constraint = constrain {
+hostile_group = group {
+    on_recalc = layout_enemies,
+    children = enemies
+}
+
+hostile_constraint = constrain {
     scaling = SCALING.CENTER,
     position = dim2(0, 0, 0, 0),
     size = dim2(1, 0, 0.3, 0),
-    anchor = vec2.new(0, 0),
-
-    children = {
-        group {
-            on_recalc = layout_enemies,
-            children = enemies
-        }
-    }
+    anchor = vec2.new(0, 0)
 }
+
+create_hostile(1, true)
+create_hostile(1, true)
+
+hostile_constraint:add_child(hostile_group)
+
+create_hostile(1, true)
+create_hostile(1, true)
 
 root:add_children {
     frame {}, -- temp: background
-
-    t,
 
     profile {
         position = dim2(0, 0, 1, 0),
