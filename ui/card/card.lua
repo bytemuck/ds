@@ -59,6 +59,8 @@ return element.make_new {
     end,
 
     postcctr = function(self)
+        if self.is_pivot_side then self:turn() end
+
         local wrapper = button {
             children = self._contents,
 

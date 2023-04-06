@@ -25,10 +25,7 @@ return element.make_new {
         self.cord = {}  -- card ordering: k=ord, v=idx
     end,
 
-    postcctr = function(self)
-        self.placeholder = group{}
-        self:add_child(self.placeholder)
-    end,
+    postcctr = function(self) end,
 
     on_recalc = function(self)
         self:do_recalc()
@@ -52,8 +49,8 @@ return element.make_new {
             self.centers = {}
             for ord, idx in pairs(self.cord) do
                 local center = start + (ord - 1) * cw + hw
-                self.children[self.cord[ord]+1].size = dim2(0, cw, 0, cw * CARD_ASPECT_RATIO)
-                self.children[self.cord[ord]+1].position = dim2(0, center, 1, 0)
+                self.children[self.cord[ord]].size = dim2(0, cw, 0, cw * CARD_ASPECT_RATIO)
+                self.children[self.cord[ord]].position = dim2(0, center, 1, 0)
                 self.centers[ord] = center
             end
         end,
@@ -71,26 +68,22 @@ return element.make_new {
                     children = { v },
 
                     on_enter = function()
-                        print(v.id, v.is_pivot_side)
-                        local desc = card_expanded {
-                            position = dim2(0, 0, 0, 0),
-                            size = dim2(1, 0, 1, 0),
-                            anchor = vec2.new(0, 1),
+                        local ce = card_expanded {
+                            position = dim2(0.5, 0, 0, 0),
+                            size = dim2(2, 0, 2, 0),
+                            anchor = vec2.new(0.5, 0.75),
                             
                             id = v.id,
                             is_pivot_side = v.is_pivot_side,
-                            orig = v
                         }
 
-                        self.children[1] = desc
-                        desc.parent = self
-                        desc:recalc()
+                        v.children[#v.children + 1] = ce
+                        ce.parent = v
+                        ce:recalc()
                     end,
 
                     on_leave = function()
-                        if self.children[1].orig == v then
-                            self.children[1] = self.placeholder
-                        end
+                        v.children[#v.children] = nil
                     end,
 
                     on_click = {
@@ -100,7 +93,9 @@ return element.make_new {
                             self.start_y = y
                             self.start_xs = v.position.xs
                             self.start_ys = v.position.ys
-                        end
+                        end,
+
+                        [2] = function(x, y) end -- JUST DONTFUCKING REMOVE IT
                     },
                     while_hold = {
                         [1] = function(x, y)
