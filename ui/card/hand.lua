@@ -75,7 +75,24 @@ return element.make_new {
 
                             id = v.id,
                             is_pivot_side = v.is_pivot_side,
+
+                            title = {
+                                pivot = v.pivot.name,
+                                effect = v.effect.name,
+                            },
+                            description = {
+                                pivot = v.pivot.description,
+                                effect = v.effect.description,
+                            }
                         }
+
+                        v.on_flip = function()
+                            local what = v.is_pivot_side and "pivot" or "effect"
+                            ce.title.description[what] = self.title[what]
+                            ce.description.description[what] = self.description[what]
+                -- DO SOMTEHING
+                            print("FLIPPED")
+                        end
 
                         v.children[#v.children + 1] = ce
                         ce.parent = v
