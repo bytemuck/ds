@@ -112,7 +112,7 @@ local function generate_tree(from)
 
     root:add_children {
         sprite {
-            image = assets.sprites.progression,
+            image = assets.sprites.background.progression,
             position = dim2(0, 0, 0, 0),
             size = dim2(1, 0, 1, 0),
             scaling = SCALING.STRETCH,

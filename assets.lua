@@ -6,13 +6,6 @@ local sprites = {
     squirrel = "squirrel.jpg",
     x_button = "ui/x-button.png",
     sword_button = "ui/sword-button.png",
-<<<<<<< Updated upstream
-=======
-    fond_menu = "background/menu.png",
-    game = "background/game.png",
-    fond_mauve = "background/fond-mauve.jpg",
-    progression = "background/progression.png",
->>>>>>> Stashed changes
     spirit = "spirit.png",
     profile_spirit = "profiles/profile-spirit.png",
     numbers = "numbers.png",
