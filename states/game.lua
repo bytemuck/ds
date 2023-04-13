@@ -28,7 +28,7 @@ local assets = require("assets")
 local enemies = {
 }
 
-local hostile_constraint, hostile_group
+local hostile_group
 local function layout_enemies(self)
     local total = 0
     for i,v in ipairs(enemies) do
@@ -37,11 +37,13 @@ local function layout_enemies(self)
         v.position = dim2((i-1)/#self.children, 0, 0, 0)
     end
 
+    self.abs_pos.x = (self.abs_size.x - total) / 2
+    self.abs_size.x = total
 end
 
 local player_hand = hand {
-    position = dim2(0.25, 0, 1, 0),
-    size = dim2(0.75, 0, 0.15, 0),
+    position = dim2(0.2, 0, 1, 0),
+    size = dim2(0.8, 0, 0.1, 0),
     anchor = vec2.new(0, 1)
 }
 
@@ -67,7 +69,7 @@ local function create_hostile(type, add)
 
     if add then
         hostile_group:add_child(h)
-        hostile_constraint:recalc()
+        hostile_group:recalc()
     end
 
     return h
@@ -85,6 +87,7 @@ end
 player_hand:add_cards { create_card(1), create_card(1), create_card(1), create_card(1) }
 
 hostile_group = group {
+    size = dim2(1, 0, 0.2, 0),
     on_recalc = layout_enemies,
     children = enemies
 }
@@ -95,17 +98,19 @@ create_hostile(1, true)
 create_hostile(1, true)
 
 root:add_children {
-    frame {}, -- temp: background
+    sprite {
+        image = assets.sprites.background.game
+    },
+    --frame { color = color.new(0, 0, 0, 0.3) },
 
     profile {
-        position = dim2(0, 0, 1, 0),
+        position = dim2(0, 4, 1, -4),
         size = dim2(0.25, 0, 0.25, 0),
         anchor = vec2.new(0, 1),
     },
 
     player_hand,
-    hostile_group,
-
+    hostile_group
 }
 
 player_hand:do_recalc()

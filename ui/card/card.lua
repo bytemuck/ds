@@ -24,6 +24,7 @@ local body_scale = 1020/1500
 
 return element.make_new {
     cctr = function(self)
+        self.can_turn = true
         self.is_pivot_side = not not self.is_pivot_side
 
         assert(self.id)
@@ -75,7 +76,9 @@ return element.make_new {
 
             on_click = {
                 [2] = function()
-                    self:turn()
+                    if self.can_turn then
+                        self:turn()
+                    end
                 end
             }
         }

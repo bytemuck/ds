@@ -6,12 +6,16 @@ local sprites = {
     squirrel = "squirrel.jpg",
     x_button = "ui/x-button.png",
     sword_button = "ui/sword-button.png",
-    fond_menu = "background/menu.png",
-    fond_mauve = "background/fond-mauve.jpg",
-    progression = "background/progression.png",
     spirit = "spirit.png",
     profile_spirit = "profiles/profile-spirit.png",
     numbers = "numbers.png",
+
+    background = {
+        game = "game.png",
+        menu = "menu.png",
+        fond_mauve = "fond-mauve.jpg",
+        progression = "progression.png",
+    },
 
     card_background = {
         pivot_1 = "pivot_1.png",
