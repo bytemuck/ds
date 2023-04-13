@@ -16,6 +16,7 @@ local constrain = require("constrain")
 
 local card = require("ui.card.card")
 local hand = require("ui.card.hand")
+local tree = require("ui.card.tree")
 
 local hostile = require("ui.hostile.hostile")
 local profile = require("ui.profile.profile")
@@ -41,6 +42,7 @@ local function layout_enemies(self)
     self.abs_size.x = total
 end
 
+local play_tree
 local player_hand = hand {
     position = dim2(0.2, 0, 1, 0),
     size = dim2(0.8, 0, 0.1, 0),
@@ -50,7 +52,10 @@ local player_hand = hand {
 local player_profile = profile {}
 
 local function on_card_flip(card)
-    -- check if all leaves are effect side
+    play_tree:recalc()
+    local h = play_tree.abs_size.y
+    play_tree.abs_size.y = h*play_tree.depth
+    play_tree.parent:constrain(true)
 end
 
 local function create_card(id)
@@ -59,6 +64,10 @@ local function create_card(id)
         on_flip = on_card_flip
     }
 end
+
+play_tree = tree {
+    card = create_card(1)
+}
 
 local function create_hostile(type, add)
     local h = hostile {
@@ -110,7 +119,13 @@ root:add_children {
     },
 
     player_hand,
-    hostile_group
+    hostile_group,
+    constrain {
+        size = dim2(1, 0, 0.7, 0),
+        position = dim2(0, 0, 0.15, 0),
+        scaling = SCALING.CENTER,
+        children = { play_tree }
+    }
 }
 
 player_hand:do_recalc()

@@ -16,6 +16,7 @@ local sprites = {
     spirit = "spirit.png",
     profile_spirit = "profiles/profile-spirit.png",
     numbers = "numbers.png",
+    circle = "circle.png",
 
     background = {
         game = "game.png",

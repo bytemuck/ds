@@ -14,7 +14,7 @@ local CARD_ASPECT_RATIO = 1.4
 
 local flux = require("flux")
 
-return element.make_new {
+local tree; tree = element.make_new {
     cctr = function(self)
         local c = constrain {
             children = { self.card or error("no tree card") },
@@ -23,6 +23,7 @@ return element.make_new {
         }
 
         self.slots = 1
+        self.depth = 1
 
         self.main = c
         self.children = { c }
@@ -45,26 +46,41 @@ return element.make_new {
 
         do_recalc = function(self)
             if self.card.is_pivot_side then
+                local s = dim2(1/self.slots, 0, 1, 0)
+
                 for i=1,self.slots do
                     local idx = i+1
-                    local e = self.cards[idx] or button {
-                        children = {
-                            sprite {
-                                image = assets.sprites.circle
+                    local e = self.cards[idx]
+                    local maxdepth = 1
+
+                    if e then
+                        maxdepth = math.max(maxdepth, e.depth)
+                    else
+                        e = button {
+                            children = {
+                                sprite {
+                                    image = assets.sprites.circle,
+                                    scaling = SCALING.CENTER
+                                }
                             }
                         }
-                    }
+                    end
 
-                    -- e.size/e.pos
+                    self.depth = 1 + maxdepth
+
+                    e.size = s
+                    e.position = dim2((i-1)/self.slots, 0, 1, 0)
 
                     self.children[idx] = e
+                    e.parent = self
                 end
             else
-                for i,v in ipairs(self.children) do
+                for i,_ in ipairs(self.children) do
                     if i ~= 1 then
-                        --v:destroy()
+                        self.children[i] = nil
                     end
                 end
+                self.depth = 1
             end
         end,
 
@@ -82,3 +98,5 @@ return element.make_new {
         end
     }
 }
+
+return tree
