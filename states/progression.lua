@@ -25,8 +25,13 @@ local flux = require("flux")
 
 local target_point
 
+assets.audios.progression_map:play()
+
 local function advance()
-    flux.to(root.children[4].position, 1, target_point.position.vals):oncomplete(function() state.push(require("states.game")) end)
+    flux.to(root.children[4].position, 1, target_point.position.vals):oncomplete(function()
+        assets.audios.progression_map:stop()
+        state.push(require("states.game"))
+    end)
 end
 
 
@@ -34,7 +39,7 @@ local function generate_tree(from)
     local LEVEL_COUNT = 5
 
     local last
-    for i=1,from or 0 do
+    for i = 1, from or 0 do
         last = random:nextRange(0.2, 0.8)
     end
 
@@ -45,7 +50,7 @@ local function generate_tree(from)
         children = {
             button {
                 on_click = {
-                    [1] = function ()
+                    [1] = function()
                         -- ATTTAAACCCKKKK!!!!!
                         advance()
                     end
@@ -64,7 +69,7 @@ local function generate_tree(from)
     local points = group {}
     local lines = group {}
 
-    for i=last and 0 or 1, LEVEL_COUNT do
+    for i = last and 0 or 1, LEVEL_COUNT do
         local y = i == 0 and last or random:nextRange(0.2, 0.8)
         local x = (i / LEVEL_COUNT)
 
@@ -82,7 +87,7 @@ local function generate_tree(from)
         end
     end
 
-    for i=1,#points.children-1 do
+    for i = 1, #points.children - 1 do
         local a = points.children[i].position
         local b = points.children[i + 1].position
 

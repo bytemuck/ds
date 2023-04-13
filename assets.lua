@@ -41,9 +41,10 @@ local animations = {
 }
 
 local sounds = {
-    mymusic = {
-        path = "assets/audios/mymusic.mp3",
-        filetype = "stream" -- stream for music, static for sound effects
+    progression_map = {
+        filepath = "progression-map.mp3",
+        filetype = "stream", -- stream for music, static for sound effects
+        looping = true,
     }
 }
 
@@ -73,9 +74,10 @@ return {
         load_sprites("assets/images/", sprites, self.sprites)
 
         self.audios = self.audios or {}
-        for k, v in pairs(shaders) do
-            local new = love.audio.newSource(v.filepath, v.filetype)
-            self.audois[k] = new
+        for k, v in pairs(sounds) do
+            local new = love.audio.newSource("assets/sounds/" .. v.filepath, v.filetype)
+            new:setLooping(v.looping)
+            self.audios[k] = new
         end
 
         self.fonts = self.fonts or {}
