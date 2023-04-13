@@ -30,7 +30,6 @@ local enemies = {
 
 local hostile_constraint, hostile_group
 local function layout_enemies(self)
-    -- TODO: figure this shit out (is constraint the issue?)
     local total = 0
     for i,v in ipairs(enemies) do
         v:recalc()
@@ -38,9 +37,6 @@ local function layout_enemies(self)
         v.position = dim2((i-1)/#self.children, 0, 0, 0)
     end
 
-    self.abs_size.x = total
-    hostile_constraint:constrain(true)
-    self.abs_pos.x = hostile_constraint.abs_pos.x
 end
 
 local player_hand = hand {
@@ -93,18 +89,8 @@ hostile_group = group {
     children = enemies
 }
 
-hostile_constraint = constrain {
-    scaling = SCALING.CENTER,
-    position = dim2(0, 0, 0, 0),
-    size = dim2(1, 0, 0.3, 0),
-    anchor = vec2.new(0, 0)
-}
-
 create_hostile(1, true)
 create_hostile(1, true)
-
-hostile_constraint:add_child(hostile_group)
-
 create_hostile(1, true)
 create_hostile(1, true)
 
@@ -118,19 +104,8 @@ root:add_children {
     },
 
     player_hand,
-    hostile_constraint,
+    hostile_group,
 
-    --[[constrain {
-        ratio = 1,
-        scaling = SCALING.CENTER,
-        position = dim2(0.5, 0, 0.5, 0),
-        size = dim2(0.5, 0, 0.5, 0),
-        anchor = vec2.new(0.5, 0.5),
-
-        children = {
-            -- TREE
-        }
-    }]]
 }
 
 player_hand:do_recalc()

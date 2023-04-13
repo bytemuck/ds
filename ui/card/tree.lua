@@ -15,7 +15,11 @@ local flux = require("flux")
 
 return element.make_new {
     cctr = function(self)
+        self.children = { self.card or error("no tree card") }
+    end,
 
+    postcctr = function(self)
+        self:reset()
     end,
 
     on_recalc = function(self)
@@ -24,7 +28,7 @@ return element.make_new {
 
     base = {
         reset = function(self)
-            self.cards = {}
+            self.slots = self.card
             self:recalc()
         end,
 

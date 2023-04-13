@@ -70,9 +70,9 @@ return element.make_new {
                     on_enter = function()
                         local ce = card_expanded {
                             position = dim2(0.5, 0, 0, 0),
-                            size = dim2(2, 0, 2, 0),
+                            size = dim2(4, 0, 4, 0),
                             anchor = vec2.new(0.5, 0.75),
-                            
+
                             id = v.id,
                             is_pivot_side = v.is_pivot_side,
                         }
