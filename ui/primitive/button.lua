@@ -45,7 +45,7 @@ return element.make_new {
                 end
             else
                 if self.while_hold and self.while_hold[i] then
-                    self.while_hold[i](x, y)
+                    self.while_hold[i](x, y, self)
                 end
             end
         end

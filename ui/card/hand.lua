@@ -98,11 +98,11 @@ return element.make_new {
                         [2] = function(x, y) end -- JUST DONTFUCKING REMOVE IT
                     },
                     while_hold = {
-                        [1] = function(x, y)
+                        [1] = function(x, y, buttonself)
                             v.position = dim2(self.start_xs, x - self.start_x, self.start_ys, y - self.start_y)
 
                             x = x + v.parent.position.xo
-                            if v.ord > 1 and x < self.centers[v.ord - 1] then
+                            if v.ord > 1 and x < self.centers[v.ord - 1] + (buttonself.abs_size.x/2) then
                                 local other = self.cards[self.cord[v.ord - 1]]
                                 self.cord[v.ord - 1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord - 1]
                                 v.ord = v.ord - 1
@@ -110,7 +110,7 @@ return element.make_new {
 
                                 flux.to(other.parent.position, 0.25, dim2(0, self.centers[v.ord + 1], 1, 0).vals):ease(
                                 HAND_EASING)
-                            elseif v.ord < #self.cord and x > self.centers[v.ord + 1] then
+                            elseif v.ord < #self.cord and x > self.centers[v.ord + 1] + (buttonself.abs_size.x/2) then
                                 local other = self.cards[self.cord[v.ord + 1]]
                                 self.cord[v.ord + 1], self.cord[v.ord] = self.cord[v.ord], self.cord[v.ord + 1]
                                 v.ord = v.ord + 1
