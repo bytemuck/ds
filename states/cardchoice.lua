@@ -19,7 +19,7 @@ local sprite = require("sprite")
 
 root:add_children{
     sprite {
-        image = assets.sprites.fond_mauve,
+        image = assets.sprites.game,
         position = dim2(0, 0, 0, 0),
         size = dim2(1, 0, 1, 0),
         scaling = SCALING.STRETCH,

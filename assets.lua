@@ -6,6 +6,13 @@ local sprites = {
     squirrel = "squirrel.jpg",
     x_button = "ui/x-button.png",
     sword_button = "ui/sword-button.png",
+<<<<<<< Updated upstream
+=======
+    fond_menu = "background/menu.png",
+    game = "background/game.png",
+    fond_mauve = "background/fond-mauve.jpg",
+    progression = "background/progression.png",
+>>>>>>> Stashed changes
     spirit = "spirit.png",
     profile_spirit = "profiles/profile-spirit.png",
     numbers = "numbers.png",
@@ -19,15 +26,24 @@ local sprites = {
 
     card_background = {
         pivot_1 = "pivot_1.png",
+        pivot_2 = "pivot_2.png",
 
         effect_1 = "effect_1.png",
         effect_2 = "effect_2.png",
+        effect_3 = "effect_3.png",
     },
     card_accountrement = {
         common = "none.png",
         rare = "rare.png",
         epic = "epic.png",
         legendary = "legendary.png",
+    },
+
+    effects = {
+        x2 = "2x.png",
+        x3 = "3x.png",
+        x4 = "4x.png",
+        add = "add.png",
     }
 }
 

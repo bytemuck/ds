@@ -28,7 +28,7 @@ local target_point
 assets.audios.progression_map:play()
 
 local function advance()
-    flux.to(root.children[4].position, 1, target_point.position.vals):oncomplete(function()
+    flux.to(root.children[5].position, 1, target_point.position.vals):oncomplete(function()
         assets.audios.progression_map:stop()
         state.push(require("states.game"))
     end)
@@ -40,7 +40,7 @@ local function generate_tree(from)
 
     local last
     for i = 1, from or 0 do
-        last = random:nextRange(0.2, 0.8)
+        last = random:nextRange(0.6, 0.9)
     end
 
     local battle = frame {
@@ -70,7 +70,7 @@ local function generate_tree(from)
     local lines = group {}
 
     for i = last and 0 or 1, LEVEL_COUNT do
-        local y = i == 0 and last or random:nextRange(0.2, 0.8)
+        local y = i == 0 and last or random:nextRange(0.6, 0.9)
         local x = (i / LEVEL_COUNT)
 
         local point = frame {
@@ -111,6 +111,12 @@ local function generate_tree(from)
     }
 
     root:add_children {
+        sprite {
+            image = assets.sprites.progression,
+            position = dim2(0, 0, 0, 0),
+            size = dim2(1, 0, 1, 0),
+            scaling = SCALING.STRETCH,
+        },
         lines,
         points,
         battle,
