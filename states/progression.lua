@@ -107,7 +107,7 @@ local function generate_tree(from)
         position = dim2(points.children[last and 2 or 1].position.xs, 0, points.children[last and 2 or 1].position.ys, 0),
         size = dim2(0, 100, 0, 100),
         anchor = vec2.new(0.5, 0.5),
-        scaling = SCALING.CENTER,
+        scaling = SCALING.CENTER_OVERFLOW,
     }
 
     root:add_children {
@@ -115,7 +115,7 @@ local function generate_tree(from)
             image = assets.sprites.background.progression,
             position = dim2(0, 0, 0, 0),
             size = dim2(1, 0, 1, 0),
-            scaling = SCALING.STRETCH,
+            scaling = SCALING.CENTER_OVERFLOW,
         },
         lines,
         points,
