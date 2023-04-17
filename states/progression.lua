@@ -105,7 +105,7 @@ local function generate_tree(from)
     local spirit = sprite {
         image = assets.sprites.spirit,
         position = dim2(points.children[last and 2 or 1].position.xs, 0, points.children[last and 2 or 1].position.ys, 0),
-        size = dim2(0, 32, 0, 32),
+        size = dim2(0, 100, 0, 100),
         anchor = vec2.new(0.5, 0.5),
         scaling = SCALING.CENTER,
     }

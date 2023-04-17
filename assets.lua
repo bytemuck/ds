@@ -63,6 +63,11 @@ local sounds = {
         filepath = "progression-map.mp3",
         filetype = "stream", -- stream for music, static for sound effects
         looping = true,
+    },
+    startmenu = {
+        filepath = "lobby.wav",
+        filetype = "stream", -- stream for music, static for sound effects
+        looping = true,
     }
 }
 
