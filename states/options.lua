@@ -5,6 +5,8 @@ local root = options.root
 local transition = require("transition")
 
 local SCALING = require("ui.scaling")
+local ALIGN = require("ui.align")
+local text = require("text")
 
 local dim2 = require("dim2")
 local vec2 = require("vec2")
@@ -39,7 +41,8 @@ root:add_children {
                     -- left button
                     [1] = function()
                         
-                        assets.audios.progression_map:setVolume(volume + 1)
+                        assets.audios.progression_map:setVolume(1.0)
+                        assets.audios.startmenu:setVolume(1.0)
                     end,
                         
                     
@@ -48,7 +51,15 @@ root:add_children {
                 children = {
                     frame {
                         color = color.new(1, 0, 0, 1),
-                    }
+                    },
+                    text {
+                        position = dim2(0.5, 0, 0.5, 0),
+                        text = "ON",
+                        font = assets.fonts.roboto[42],
+                        x_align = ALIGN.CENTER_X,
+                        y_align = ALIGN.CENTER_Y,
+                        color = color.new(0, 0, 0, 1),
+                    },
                 }
             },
             button {
@@ -60,7 +71,8 @@ root:add_children {
                     -- left button
                     [1] = function()
                         
-                        assets.audios.progression_map:setVolume(volume - 1)
+                        assets.audios.progression_map:setVolume(0.0)
+                        assets.audios.startmenu:setVolume(0.0)
                     end,
                         
                     
@@ -69,7 +81,15 @@ root:add_children {
                 children = {
                     frame {
                         color = color.new(1, 0, 0, 1),
-                    }
+                    },
+                    text {
+                        position = dim2(0.5, 0, 0.5, 0),
+                        text = "OFF",
+                        font = assets.fonts.roboto[42],
+                        x_align = ALIGN.CENTER_X,
+                        y_align = ALIGN.CENTER_Y,
+                        color = color.new(0, 0, 0, 1),
+                    },
                 }
             },
             button {
@@ -95,6 +115,15 @@ root:add_children {
                     },
                 }
             },
+            text {
+                position = dim2(0.5, 0, 0.2, 0),
+                text = "Volume",
+                font = assets.fonts.roboto[100],
+                x_align = ALIGN.CENTER_X,
+                y_align = ALIGN.CENTER_Y,
+                color = color.new(0, 0, 0, 1),
+            },
+             
         }
     }
 }
