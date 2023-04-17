@@ -38,7 +38,21 @@ return element.make_new {
                 px = px + (ew - iw) / 2
             end
         elseif self.scaling == SCALING.CENTER_OVERFLOW then
-            
+            local img_ratio = iw/ih
+            local elem_ratio = ew/eh
+            if img_ratio < elem_ratio then
+                -- so add padding on the y axis
+                sx = ew/iw
+                sy = sx
+                ih = ih * sy
+                py = py + (eh - ih) / 2
+            else
+                -- add padding on the x axis
+                sy = eh/ih
+                sx = sy
+                iw = iw * sx
+                px = px + (ew - iw) / 2
+            end
         elseif self.scaling == SCALING.OVERFLOW_X then
             sy = eh/ih
             sx = sy
