@@ -68,6 +68,8 @@ return element.make_new {
                     children = { v },
 
                     on_enter = function()
+                        local what = v.is_pivot_side and "pivot" or "effect"
+
                         local ce = card_expanded {
                             position = dim2(0.5, 0, 0, 0),
                             size = dim2(4, 0, 4, 0),
@@ -76,22 +78,14 @@ return element.make_new {
                             id = v.id,
                             is_pivot_side = v.is_pivot_side,
 
-                            title = {
-                                pivot = v.pivot.name,
-                                effect = v.effect.name,
-                            },
-                            description = {
-                                pivot = v.pivot.description,
-                                effect = v.effect.description,
-                            }
+                            title = v[what].name,
+                            description = v[what].description
                         }
 
                         v.on_flip = function()
                             local what = v.is_pivot_side and "pivot" or "effect"
-                            ce.title.description[what] = self.title[what]
-                            ce.description.description[what] = self.description[what]
-                -- DO SOMTEHING
-                            print("FLIPPED")
+                            ce.title_obj.text_objs = ce.title_obj.update_text(v[what].name or "Untitled")
+                            ce.description_obj.text_objs = ce.description_obj.update_text(v[what].description or "No description")
                         end
 
                         v.children[#v.children + 1] = ce

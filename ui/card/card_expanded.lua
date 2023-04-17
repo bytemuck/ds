@@ -18,8 +18,8 @@ return element.make_new {
         self.id = self.id
         self.is_pivot_side = not not self.is_pivot_side
 
-        self.title = self.title or { effect = "Untitled", pivot = "Untitled" }
-        self.description = self.description or { effect = "", pivot = "" }
+        self.title = self.title or "Untitled"
+        self.description = self.description or "No description"
     end,
 
     postcctr = function(self)
@@ -28,10 +28,8 @@ return element.make_new {
             is_pivot_side = self.is_pivot_side,
         }
 
-        local what = c.is_pivot_side and "pivot" or "effect"
-
         local title = text {
-            text = tostring(self.title[what]),
+            text = tostring(self.title),
             position = dim2(0.5, 0, 0.2, 0), -- center
             font = assets.fonts.roboto[36],
             color = color.new(0.3, 0.7, 0.2, 1.0),
@@ -40,7 +38,7 @@ return element.make_new {
         }
 
         local description = text {
-            text = tostring(self.description[what]),
+            text = tostring(self.description),
             position = dim2(0, 8, 0.5, 0), -- center
             font = assets.fonts.roboto[36],
             color = color.new(0.2, 0.3, 0.7, 1.0),
@@ -49,7 +47,10 @@ return element.make_new {
         }
 
 
-        c._contents[1]:add_children({
+        self.title_obj = title
+        self.description_obj = description
+
+        c._contents[3]:add_children({
             title, description
         })
 
