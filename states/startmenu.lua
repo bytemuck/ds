@@ -18,13 +18,15 @@ local text = require("text")
 
 local assets = require("assets")
 
+assets.audios.startmenu:play()
+
 root:add_children{
 
     sprite {
         image = assets.sprites.fond_menu,
         position = dim2(0, 0, 0, 0),
         size = dim2(1, 0, 1, 0),
-        scaling = SCALING.STRETCH,
+        scaling = SCALING.CENTER_OVERFLOW,
 
 
         children = {
@@ -44,6 +46,7 @@ root:add_children{
                         on_click = {
                             -- left button
                             [1] = function()
+                                assets.audios.startmenu:stop()
                                 transition(root, require("states.progression"), 1)
                             end,
                             
