@@ -16,6 +16,8 @@ local color = require("color")
 
 local assets = require("assets")
 
+local volume = 1
+
 root.before_draw = function ()
     local under = state.stack[#state.stack - 1];
     if under then under.root:draw() end
@@ -29,19 +31,39 @@ root:add_children {
 
         children = {
             button {
-                position = dim2(0.5, 0, 0.5, 0),
-                size = dim2(0.5, 0, 0.5, 0),
+                position = dim2(0.25, 0, 0.5, 0),
+                size = dim2(0.25, 0, 0.25, 0),
                 anchor = vec2.new(0.5, 0.5),
 
                 on_click = {
                     -- left button
                     [1] = function()
-                        -- transition(root, require("states.progression"), 1)
+                        
+                        assets.audios.progression_map:setVolume(volume + 1)
                     end,
-                    -- right button
-                    [2] = function()
-                        -- do nothing
-                    end
+                        
+                    
+                },
+
+                children = {
+                    frame {
+                        color = color.new(1, 0, 0, 1),
+                    }
+                }
+            },
+            button {
+                position = dim2(0.75, 0, 0.5, 0),
+                size = dim2(0.25, 0, 0.25, 0),
+                anchor = vec2.new(0.5, 0.5),
+
+                on_click = {
+                    -- left button
+                    [1] = function()
+                        
+                        assets.audios.progression_map:setVolume(volume - 1)
+                    end,
+                        
+                    
                 },
 
                 children = {
