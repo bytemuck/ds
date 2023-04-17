@@ -48,18 +48,7 @@ return element.make_new {
                             size = dim2(1, -32, 1, -32),
                             position = dim2(0, 16, 0, 32),
                             image = self.image,
-                            scaling = SCALING.CENTER,
-
-                            on_recalc = function(self)
-                                local t = {}
-                                local a = self
-                                while a.parent do
-                                    a = a.parent
-                                    t[#t+1] = tostring(a.abs_pos)
-                                    t[#t+1] = tostring(a.position)
-                                end
-                                print("H", unpack(t))
-                            end
+                            scaling = SCALING.CENTER
                         },
                         sprite {
                             image = assets.sprites.random,

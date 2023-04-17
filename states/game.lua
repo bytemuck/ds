@@ -51,11 +51,23 @@ local player_hand = hand {
 
 local player_profile = profile {}
 
+local function get_slots(tbl, tree)
+    if tree.card.is_pivot_side then
+        for i=1,tree.slots do
+            local idx = i+1
+            if tree.cards[idx] then
+                get_slots(tbl, tree.children[idx])
+            else
+                tbl[#tbl+1] = tree.children[idx]
+            end
+        end
+    end
+    return tbl
+end
+
 local function on_card_flip(card)
-    play_tree:recalc()
-    local h = play_tree.abs_size.y
-    play_tree.abs_size.y = h*play_tree.depth
-    play_tree.parent:constrain(true)
+    play_tree.parent:recalc()
+    player_hand.slots = get_slots({}, play_tree)
 end
 
 local function create_card(id)
@@ -66,7 +78,8 @@ local function create_card(id)
 end
 
 play_tree = tree {
-    card = create_card(1)
+    card = create_card(1),
+    on_flip = on_card_flip
 }
 
 local function create_hostile(type, add)
@@ -118,14 +131,14 @@ root:add_children {
         anchor = vec2.new(0, 1),
     },
 
-    player_hand,
     hostile_group,
     constrain {
         size = dim2(1, 0, 0.7, 0),
         position = dim2(0, 0, 0.15, 0),
         scaling = SCALING.CENTER,
         children = { play_tree }
-    }
+    },
+    player_hand
 }
 
 player_hand:do_recalc()

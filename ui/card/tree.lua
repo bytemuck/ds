@@ -54,11 +54,19 @@ local tree; tree = element.make_new {
                     local maxdepth = 1
 
                     if e then
+                        print(maxdepth, e.depth)
                         maxdepth = math.max(maxdepth, e.depth)
+                        print(maxdepth)
                     else
-                        e = button {
+                        e = group {
+                            idx = idx,
                             children = {
                                 sprite {
+                                    size = dim2(0.5, 0, 0.5, 0),
+                                    position = dim2(0.5, 0, 0.5, 0),
+                                    anchor = vec2.new(0.5, 0.5),
+                                    color = color.new(0, 0, 0, 0.8),
+
                                     image = assets.sprites.circle,
                                     scaling = SCALING.CENTER
                                 }
@@ -67,9 +75,10 @@ local tree; tree = element.make_new {
                     end
 
                     self.depth = 1 + maxdepth
+                    self.constrain_mult = vec2.new(1, self.depth)
 
                     e.size = s
-                    e.position = dim2((i-1)/self.slots, 0, 1, 0)
+                    e.position = dim2((i-1)/self.slots, 0, 0.9, 0)
 
                     self.children[idx] = e
                     e.parent = self
@@ -81,20 +90,25 @@ local tree; tree = element.make_new {
                     end
                 end
                 self.depth = 1
+                self.constrain_mult = vec2.new(1, 1)
             end
         end,
 
-        fill_slot = function(self, idx)
-            return function(card)
-                -- you cannot turn a pivot card which has a filled slot back to the effect side
-                self.card.can_turn = false
+        fill_slot = function(self, idx, card)
+            -- you cannot turn a pivot card which has a filled slot back to the effect side
+            self.card.can_turn = false
 
-                -- todo: remove card from hand
-                self.filled = self.filled + 1
-                self.cards[idx] = card
 
+            card.on_flip = function()
                 self:recalc()
+                self.on_flip(card)
             end
+            self.cards[idx] = tree {
+                card = card,
+                on_flip = self.on_flip
+            }
+
+            self:recalc()
         end
     }
 }
