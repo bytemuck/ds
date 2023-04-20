@@ -42,11 +42,18 @@ local function layout_enemies(self)
     self.abs_size.x = total
 end
 
+local function create_card(id)
+    return card { id = id }
+end
+
 local play_tree
 local player_hand = hand {
     position = dim2(0.2, 0, 1, 0),
     size = dim2(0.8, 0, 0.1, 0),
-    anchor = vec2.new(0, 1)
+    anchor = vec2.new(0, 1),
+    slots = {},
+    deck = {1, 1, 1},
+    create_card = create_card
 }
 
 local player_profile = profile {}
@@ -70,15 +77,12 @@ local function on_card_flip(card)
     player_hand.slots = get_slots({}, play_tree)
 end
 
-local function create_card(id)
-    return card {
-        id = id,
-        on_flip = on_card_flip
-    }
-end
-
 play_tree = tree {
-    card = create_card(1),
+    card = card {
+        id = 0,
+        can_turn = false,
+        is_pivot_side = true
+    },
     on_flip = on_card_flip
 }
 
@@ -124,7 +128,6 @@ root:add_children {
         image = assets.sprites.background.game,
         scaling = SCALING.CENTER_OVERFLOW,
     },
-    --frame { color = color.new(0, 0, 0, 0.3) },
 
     profile {
         position = dim2(0, 4, 1, -4),
@@ -143,5 +146,6 @@ root:add_children {
 }
 
 player_hand:do_recalc()
+on_card_flip()
 
 return debug
