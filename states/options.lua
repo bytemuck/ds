@@ -5,6 +5,8 @@ local root = options.root
 local transition = require("transition")
 
 local SCALING = require("ui.scaling")
+local ALIGN = require("ui.align")
+local text = require("text")
 
 local dim2 = require("dim2")
 local vec2 = require("vec2")
@@ -15,6 +17,8 @@ local frame = require("frame")
 local color = require("color")
 
 local assets = require("assets")
+
+local volume = 1
 
 root.before_draw = function ()
     local under = state.stack[#state.stack - 1];
@@ -29,25 +33,63 @@ root:add_children {
 
         children = {
             button {
-                position = dim2(0.5, 0, 0.5, 0),
-                size = dim2(0.5, 0, 0.5, 0),
+                position = dim2(0.25, 0, 0.5, 0),
+                size = dim2(0.25, 0, 0.25, 0),
                 anchor = vec2.new(0.5, 0.5),
 
                 on_click = {
                     -- left button
                     [1] = function()
-                        -- transition(root, require("states.progression"), 1)
+                        
+                        assets.audios.progression_map:setVolume(1.0)
+                        assets.audios.startmenu:setVolume(1.0)
                     end,
-                    -- right button
-                    [2] = function()
-                        -- do nothing
-                    end
+                        
+                    
                 },
 
                 children = {
                     frame {
                         color = color.new(1, 0, 0, 1),
-                    }
+                    },
+                    text {
+                        position = dim2(0.5, 0, 0.5, 0),
+                        text = "ON",
+                        font = assets.fonts.roboto[42],
+                        x_align = ALIGN.CENTER_X,
+                        y_align = ALIGN.CENTER_Y,
+                        color = color.new(0, 0, 0, 1),
+                    },
+                }
+            },
+            button {
+                position = dim2(0.75, 0, 0.5, 0),
+                size = dim2(0.25, 0, 0.25, 0),
+                anchor = vec2.new(0.5, 0.5),
+
+                on_click = {
+                    -- left button
+                    [1] = function()
+                        
+                        assets.audios.progression_map:setVolume(0.0)
+                        assets.audios.startmenu:setVolume(0.0)
+                    end,
+                        
+                    
+                },
+
+                children = {
+                    frame {
+                        color = color.new(1, 0, 0, 1),
+                    },
+                    text {
+                        position = dim2(0.5, 0, 0.5, 0),
+                        text = "OFF",
+                        font = assets.fonts.roboto[42],
+                        x_align = ALIGN.CENTER_X,
+                        y_align = ALIGN.CENTER_Y,
+                        color = color.new(0, 0, 0, 1),
+                    },
                 }
             },
             button {
@@ -73,6 +115,15 @@ root:add_children {
                     },
                 }
             },
+            text {
+                position = dim2(0.5, 0, 0.2, 0),
+                text = "Volume",
+                font = assets.fonts.roboto[100],
+                x_align = ALIGN.CENTER_X,
+                y_align = ALIGN.CENTER_Y,
+                color = color.new(0, 0, 0, 1),
+            },
+             
         }
     }
 }

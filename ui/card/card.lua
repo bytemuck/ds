@@ -55,6 +55,11 @@ return element.make_new {
                 position = dim2(0, 0, 0, 0),
                 size = dim2(1, 0, 1, 0),
                 scaling = SCALING.CENTER,
+            },
+            group {
+                position = dim2(0.5, 0, 0.5, 0),
+                size = dim2(body_scale, 0, body_scale, 0),
+                anchor = vec2.new(0.5, 0.5),
             }
         }
     end,

@@ -9,16 +9,22 @@ return element.make_new {
         self.color = self.color or color.new(1, 1, 1, 1)
         self.text = self.text or ""
         self.font = self.font or assets.fonts.roboto[24]
-        self.text_objs = (function()
-            local o = {}
+
+        self.update_text = function(new_text)
+            print(new_text)
+            self.text = new_text
             
+            local o = {}
+
             local str = string.gsub(self.text, '^%s*(.-)%s*$', '%1') -- strips newlines at start and end of string
             for line in string.gmatch(str, "([^\n]*)\n?") do
                 table.insert(o, { text = line, obj = love.graphics.newText(self.font, line) })
             end
-
+        
             return o
-        end)()
+        end
+
+        self.text_objs = self.update_text(self.text)
         self.x_align = self.x_align or ALIGN.TOP
         self.y_align = self.y_align or ALIGN.LEFT
     end,
@@ -53,5 +59,5 @@ return element.make_new {
         end
 
         go()
-    end
+    end,
 }

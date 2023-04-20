@@ -31,6 +31,14 @@ root:add_children{
 
         children = {
             sprite {
+                image = assets.sprites.logo,
+                position = dim2(0.5, 0, 0.16, 4),
+                size = dim2(0.39, 0, 0.39, 0),
+                anchor = vec2.new(0.5, 0.27),
+                scaling = SCALING.CENTER,
+            },  
+
+            sprite {
                 image = assets.sprites.sword_button,
                 position = dim2(0.5, 0, 0.6, 0),
                 size = dim2(0.5, 0, 0.1, 0),

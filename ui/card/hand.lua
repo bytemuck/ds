@@ -20,9 +20,8 @@ local flux = require("flux")
 
 return element.make_new {
     cctr = function(self)
-        self.cards = {} -- cards
-        self.cpos = {}  -- card positions
-        self.cord = {}  -- card ordering: k=ord, v=idx
+        self.cards = {}
+        self.cord = {}
     end,
 
     postcctr = function(self) end,
@@ -33,13 +32,12 @@ return element.make_new {
 
     base = {
         reset = function(self)
+            self.slots = {}
             self.cards = {}
-            self.cpos = {}
             self.cord = {}
             self:recalc()
         end,
         do_recalc = function(self)
-            print("recalc")
             local count = #self.cards
             local width = self.abs_size.x
             local cw = width / math.max(count, CARD_COUNT)
@@ -49,13 +47,13 @@ return element.make_new {
             self.centers = {}
             for ord, idx in pairs(self.cord) do
                 local center = start + (ord - 1) * cw + hw
-                self.children[self.cord[ord]].size = dim2(0, cw, 0, cw * CARD_ASPECT_RATIO)
-                self.children[self.cord[ord]].position = dim2(0, center, 1, 0)
+                self.children[idx].size = dim2(0, cw, 0, cw * CARD_ASPECT_RATIO)
+                self.children[idx].position = dim2(0, center, 1, 0)
                 self.centers[ord] = center
             end
         end,
         add_cards = function(self, cards)
-            for i, v in ipairs(cards) do
+            for _, v in ipairs(cards) do
                 local ord = #self.cord + 1
                 v.ord = ord
                 self.cord[ord] = #self.cards + 1
@@ -68,6 +66,8 @@ return element.make_new {
                     children = { v },
 
                     on_enter = function()
+                        local what = v.is_pivot_side and "pivot" or "effect"
+
                         local ce = card_expanded {
                             position = dim2(0.5, 0, 0, 0),
                             size = dim2(4, 0, 4, 0),
@@ -76,22 +76,14 @@ return element.make_new {
                             id = v.id,
                             is_pivot_side = v.is_pivot_side,
 
-                            title = {
-                                pivot = v.pivot.name,
-                                effect = v.effect.name,
-                            },
-                            description = {
-                                pivot = v.pivot.description,
-                                effect = v.effect.description,
-                            }
+                            title = v[what].name,
+                            description = v[what].description
                         }
 
                         v.on_flip = function()
                             local what = v.is_pivot_side and "pivot" or "effect"
-                            ce.title.description[what] = self.title[what]
-                            ce.description.description[what] = self.description[what]
-                -- DO SOMTEHING
-                            print("FLIPPED")
+                            ce.title_obj.text_objs = ce.title_obj.update_text(v[what].name or "Untitled")
+                            ce.description_obj.text_objs = ce.description_obj.update_text(v[what].description or "No description")
                         end
 
                         v.children[#v.children + 1] = ce
@@ -140,6 +132,35 @@ return element.make_new {
                     },
                     on_release = {
                         [1] = function()
+                            -- check tree slots
+                            for _,slot in pairs(self.slots) do
+                                local p = v.abs_pos - slot.abs_pos
+                                if p.x > 0 and p.y > 0 and p.x < slot.abs_size.x and p.y < slot.abs_size.y then
+                                    -- fill slot
+                                    v.position = dim2(0, 0, 0, 0)
+                                    slot.parent:fill_slot(slot.idx, v)
+
+                                    -- remove from hand (move all other cards down)
+                                    local cidx = self.cord[ord]
+                                    for i=1,#self.cards do
+                                        if i > cidx then
+                                            self.cards[i-1] = self.cards[i]
+                                            self.children[i-1] = self.children[i]
+                                        end
+                                    end
+                                    for o,i in pairs(self.cord) do
+                                        if i > cidx then
+                                            self.cord[o] = i-1
+                                        end
+                                    end
+                                    self.cards[#self.cards] = nil
+
+                                    self:recalc()
+                                    return
+                                end
+                            end
+
+                            -- bring back the card to the hand
                             local old_abs_pos = v.parent.abs_pos
                             self:recalc()
                             v.position.xo = v.position.xo + (old_abs_pos.x - v.parent.abs_pos.x)
