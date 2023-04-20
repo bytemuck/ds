@@ -47,16 +47,14 @@ local tree; tree = element.make_new {
         do_recalc = function(self)
             if self.card.is_pivot_side then
                 local s = dim2(1/self.slots, 0, 1, 0)
+                local maxdepth = 1
 
                 for i=1,self.slots do
                     local idx = i+1
                     local e = self.cards[idx]
-                    local maxdepth = 1
 
                     if e then
-                        print(maxdepth, e.depth)
                         maxdepth = math.max(maxdepth, e.depth)
-                        print(maxdepth)
                     else
                         e = group {
                             idx = idx,
@@ -74,15 +72,15 @@ local tree; tree = element.make_new {
                         }
                     end
 
-                    self.depth = 1 + maxdepth
-                    self.constrain_mult = vec2.new(1, self.depth)
-
                     e.size = s
                     e.position = dim2((i-1)/self.slots, 0, 0.9, 0)
 
                     self.children[idx] = e
                     e.parent = self
                 end
+
+                self.depth = 1 + maxdepth
+                self.constrain_mult = vec2.new(1, self.depth)
             else
                 for i,_ in ipairs(self.children) do
                     if i ~= 1 then
