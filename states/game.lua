@@ -108,7 +108,8 @@ create_hostile(1, true)
 
 root:add_children {
     sprite {
-        image = assets.sprites.background.game
+        image = assets.sprites.background.game,
+        scaling = SCALING.CENTER_OVERFLOW,
     },
     --frame { color = color.new(0, 0, 0, 0.3) },
 
