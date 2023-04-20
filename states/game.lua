@@ -32,10 +32,20 @@ local enemies = {
 local hostile_group
 local function layout_enemies(self)
     local total = 0
-    for i,v in ipairs(enemies) do
+    local count = 0
+    for _,v in ipairs(enemies) do
+        if v.children[1] then
+            count = count + 1
+        end
+    end
+    local i = 0
+    for _,v in ipairs(enemies) do
         v:recalc()
-        total = total + v.children[1].abs_size.x
-        v.position = dim2((i-1)/#self.children, 0, 0, 0)
+        if v.children[1] then
+            i = i + 1
+            total = total + v.children[1].abs_size.x
+        end
+        v.position = dim2((i-1)/count, 0, 0, 0)
     end
 
     self.abs_pos.x = (self.abs_size.x - total) / 2
@@ -90,7 +100,8 @@ local function create_hostile(type, add)
     local h = hostile {
         profile = player_profile,
         image = assets.sprites.harry_potter,
-        size = dim2(0, 0, 1, 0)
+        size = dim2(0, 0, 1, 0),
+        relayout = layout_enemies
     }
 
     if add then

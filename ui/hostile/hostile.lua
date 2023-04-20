@@ -68,7 +68,7 @@ return element.make_new {
                         button {
                             on_click = {
                                 [1] = function()
-                                    -- select hostile
+                                    self:take_damage(1)
                                 end,
                             },
                         }
@@ -81,16 +81,17 @@ return element.make_new {
     base = {
         take_damage = function(self, damage)
             self.health = self.health - damage
-            if self.health < 0 then
+            if self.health <= 0 then
                 self:die()
             end
 
-            self.health_text = tostring(self.health)
+            self.health_text.text_objs = self.health_text.update_text(tostring(self.health))
         end,
         die = function(self)
-            local s = self.size.vals
-            s.xs = 0
-            flux.to(self.size, 0.5, s):ease("circout")
+            flux.to(self.children[1].children[1].size, 0.5, dim2(0,0,0,0).vals):ease("circout"):oncomplete(function()
+                self.children = {}
+                self.parent:recalc()
+            end)
         end,
         generate_turn = function(self)
             self.intention = INTENTION.ATTACK -- we should generate and intention
@@ -98,7 +99,7 @@ return element.make_new {
         end,
         play_turn = function(self, player)
             if self.intention == INTENTION.ATTACK then
-                player.take_damage(self.intention_value)
+                player:take_damage(self.intention_value)
             end
         end,
     }

@@ -72,7 +72,7 @@ return element.make_new {
 
                         local ce = card_expanded {
                             position = dim2(0.5, 0, 0, 0),
-                            size = dim2(4, 0, 4, 0),
+                            size = dim2(0, 512, 0, 512),
                             anchor = vec2.new(0.5, 0.75),
 
                             id = v.id,

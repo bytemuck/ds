@@ -11,7 +11,6 @@ return element.make_new {
         self.font = self.font or assets.fonts.roboto[24]
 
         self.update_text = function(new_text)
-            print(new_text)
             self.text = new_text
             
             local o = {}
