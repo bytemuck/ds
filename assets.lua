@@ -26,6 +26,7 @@ local sprites = {
     card_background = {
         pivot_1 = "pivot_1.png",
         pivot_2 = "pivot_2.png",
+        pivot_3 = "pivot_3.png",
 
         effect_1 = "effect_1.png",
         effect_2 = "effect_2.png",

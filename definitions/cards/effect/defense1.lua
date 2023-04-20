@@ -1,11 +1,16 @@
-return {
-    id = 2,
+local c = {
+    id = 5,
     name = "Defend I",
     description = "Absorb up to 3 damage.",
     rarity = "COMMON",
-    image = "effect_2",
+    image = "effect_1",
 
-    play = function()
-        return { 0, 3 }
-    end
+    attack = 0,
+    defense = 3,
 }
+
+c.play = function(self) 
+    return { self.attack, self.defense}
+end
+
+return c
