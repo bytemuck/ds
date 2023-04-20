@@ -37,6 +37,7 @@ return element.make_new {
             self.cord = {}
             self:recalc()
         end,
+
         do_recalc = function(self)
             local count = #self.cards
             local width = self.abs_size.x
@@ -52,6 +53,7 @@ return element.make_new {
                 self.centers[ord] = center
             end
         end,
+
         add_cards = function(self, cards)
             for _, v in ipairs(cards) do
                 local ord = #self.cord + 1
@@ -135,25 +137,22 @@ return element.make_new {
                             -- check tree slots
                             for _,slot in pairs(self.slots) do
                                 local p = v.abs_pos - slot.abs_pos
+                                print(p)
                                 if p.x > 0 and p.y > 0 and p.x < slot.abs_size.x and p.y < slot.abs_size.y then
+                                    -- draw new card
+                                    local new = self.create_card(self.deck[math.random(1,#self.deck)])
+                                    local o = v.ord
+                                    new.ord = o
+                                    new.parent = v.parent
+                                    v.parent.children[1] = new
+
                                     -- fill slot
                                     v.position = dim2(0, 0, 0, 0)
                                     slot.parent:fill_slot(slot.idx, v)
 
-                                    -- remove from hand (move all other cards down)
-                                    local cidx = self.cord[ord]
-                                    for i=1,#self.cards do
-                                        if i > cidx then
-                                            self.cards[i-1] = self.cards[i]
-                                            self.children[i-1] = self.children[i]
-                                        end
-                                    end
-                                    for o,i in pairs(self.cord) do
-                                        if i > cidx then
-                                            self.cord[o] = i-1
-                                        end
-                                    end
-                                    self.cards[#self.cards] = nil
+                                    -- replace card
+                                    self.cards[self.cord[o]] = new
+                                    v = new
 
                                     self:recalc()
                                     return

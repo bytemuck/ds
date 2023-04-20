@@ -24,7 +24,9 @@ local body_scale = 1020/1500
 
 return element.make_new {
     cctr = function(self)
-        self.can_turn = true
+        if self.can_turn == nil then
+            self.can_turn = true
+        end
         self.is_pivot_side = not not self.is_pivot_side
 
         assert(self.id)
@@ -65,7 +67,10 @@ return element.make_new {
     end,
 
     postcctr = function(self)
-        if self.is_pivot_side then self:turn() end
+        if self.is_pivot_side then
+            self.is_pivot_side = false
+            self:turn()
+        end
 
         local wrapper = button {
             children = self._contents,
