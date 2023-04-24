@@ -58,7 +58,7 @@ local function generate_tree(from)
             },
             text {
                 position = dim2(0.5, 0, 0.5, 0),
-                text = "BATTLE",
+                text = "COMBATTRE",
                 font = assets.fonts.roboto[42],
                 x_align = ALIGN.CENTER_X,
                 y_align = ALIGN.CENTER_Y,

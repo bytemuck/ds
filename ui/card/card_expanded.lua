@@ -2,6 +2,7 @@ local element = require("element")
 local card = require("ui.card.card")
 local text = require("text")
 local button = require("button")
+local group = require("group")
 
 local color = require("color")
 
@@ -20,12 +21,15 @@ return element.make_new {
 
         self.title = self.title or "Untitled"
         self.description = self.description or "No description"
+
+        self.isTrue = self.isTrue or false
     end,
 
     postcctr = function(self)
         local c = card {
             id = self.id,
             is_pivot_side = self.is_pivot_side,
+            isTrue = self.isTrue 
         }
 
         local title = text {
@@ -46,14 +50,37 @@ return element.make_new {
             --y_align = ALIGN.CENTER_Y
         }
 
-
         self.title_obj = title
         self.description_obj = description
 
         c._contents[3]:add_children({
-            title, description
+            title, description,
+            
+            text {
+                position = dim2(0.16, 0, 0.86, 0),
+                text = assets.cards.effect[self.id].attack,
+                font = assets.fonts.roboto[60],
+                x_align = ALIGN.CENTER_X,
+                y_align = ALIGN.CENTER_Y,
+                color = color.new(0, 0, 0, self.isTrue and 1 or 0),
+            },
+            text {
+                position = dim2(0.83, 0, 0.86, 0),
+                text = assets.cards.effect[self.id].defense,
+                font = assets.fonts.roboto[60],
+                x_align = ALIGN.CENTER_X,
+                y_align = ALIGN.CENTER_Y,
+                color = color.new(0, 0, 0, self.isTrue and 1 or 0),
+            }
         })
 
         self:add_child(c)
     end,
+
+    base = {
+        fuck_text = function(self, yes)
+            self.children[1]._contents[3].children[3].color = color.new(0, 0, 0, yes and 1 or 0)
+            self.children[1]._contents[3].children[4].color = color.new(0, 0, 0, yes and 1 or 0)
+        end
+    }
 }

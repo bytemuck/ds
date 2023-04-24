@@ -1,12 +1,12 @@
 local c = {
     id = 4,
-    name = "Bomba",
-    description = "Deal 10 damage.",
+    name = "Knight",
+    description = "Deal 5 damage and absorb up to 5 damage.",
     rarity = "LEGENDARY",
     image = "effect_3",
 
-    attack = 10,
-    defense = 0,
+    attack = 5,
+    defense = 5,
 }
 
 

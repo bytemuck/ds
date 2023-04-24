@@ -54,7 +54,7 @@ root:add_children {
                     },
                     text {
                         position = dim2(0.5, 0, 0.5, 0),
-                        text = "ON",
+                        text = "Activer",
                         font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
@@ -84,7 +84,7 @@ root:add_children {
                     },
                     text {
                         position = dim2(0.5, 0, 0.5, 0),
-                        text = "OFF",
+                        text = "Éteindre",
                         font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
@@ -121,7 +121,7 @@ root:add_children {
                 font = assets.fonts.roboto[100],
                 x_align = ALIGN.CENTER_X,
                 y_align = ALIGN.CENTER_Y,
-                color = color.new(0, 0, 0, 1),
+                color = color.new(1, 1, 1, 1),
             },
              
         }

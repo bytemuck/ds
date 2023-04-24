@@ -59,6 +59,28 @@ return element.make_new {
             s.position = dim2(0.5, 0, 0.5, 0)
         end
 
+        local a = {}
+        if not self.isTrue then
+            a = {
+                text {
+                    position = dim2(0.17, 0, 0.755, 0),
+                    text = assets.cards.effect[self.id].attack,
+                    font = assets.fonts.roboto[20],
+                    x_align = ALIGN.CENTER_X,
+                    y_align = ALIGN.CENTER_Y,
+                    color = color.new(0, 0, 0, 1),
+                },
+                text {
+                    position = dim2(0.83, 0, 0.755, 0),
+                    text = assets.cards.effect[self.id].defense,
+                    font = assets.fonts.roboto[20],
+                    x_align = ALIGN.CENTER_X,
+                    y_align = ALIGN.CENTER_Y,
+                    color = color.new(0, 0, 0, 1),
+                }
+            }
+        end
+
         self._contents = {
             sprite { -- card body
                 image = assets.sprites.card_background[self.effect.image],
@@ -68,32 +90,8 @@ return element.make_new {
                 color = color.new(1, 1, 1, 1),
                 scaling = SCALING.CENTER,
 
-                children = {
-                    text {
-                        position = dim2(0.17, 0, 0.755, 0),
-                        text = "1",
-                        font = assets.fonts.roboto[42],
-                        x_align = ALIGN.CENTER_X,
-                        y_align = ALIGN.CENTER_Y,
-                        color = color.new(0, 0, 0, 1),
-                    },
-                    text {
-                        position = dim2(0.83, 0, 0.755, 0),
-                        text = "13",
-                        font = assets.fonts.roboto[42],
-                        x_align = ALIGN.CENTER_X,
-                        y_align = ALIGN.CENTER_Y,
-                        color = color.new(0, 0, 0, 1),
-                    },
-                    text {
-                        position = dim2(0.5, 0, 0.755, 0),
-                        text = "13",
-                        font = assets.fonts.roboto[25],
-                        x_align = ALIGN.CENTER_X,
-                        y_align = ALIGN.CENTER_Y,
-                        c1olor = color.new(0, 0, 0, 1),
-                    }
-                }
+                children = a
+                 
             },
             s,
             group {

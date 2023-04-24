@@ -63,7 +63,7 @@ root:add_children{
                     },
                     text {
                         position = dim2(0.5, 0, 0.5, -8),
-                        text = "Play",
+                        text = "Jouer",
                         font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
@@ -97,7 +97,7 @@ root:add_children{
                     },
                     text {
                         position = dim2(0.5, 0, 0.5, -8),
-                        text = "Settings",
+                        text = "Options",
                         font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
@@ -131,7 +131,7 @@ root:add_children{
                     },
                     text {
                         position = dim2(0.5, 0, 0.5, -8),
-                        text = "Quit",
+                        text = "Quitter",
                         font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,

@@ -53,7 +53,7 @@ local function layout_enemies(self)
 end
 
 local function create_card(id)
-    return card { id = id }
+    return card { id = id, isTrue = false }
 end
 
 local play_tree
@@ -91,7 +91,8 @@ play_tree = tree {
     card = card {
         id = 0,
         can_turn = false,
-        is_pivot_side = true
+        is_pivot_side = true,
+        show_text = true,
     },
     on_flip = on_card_flip
 }

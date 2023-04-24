@@ -7,6 +7,6 @@ return {
     effect = "x3",
 
     play = function(children)
-            return { 3*(children[0] + children[1]), 3*(children[0] + children[1]) }
+            return { 3*(children[0] + children[0]), 3*(children[0] + children[0]) }
     end
 }

@@ -7,8 +7,11 @@ local assets = require("assets")
 local sprite = require("sprite")
 local group = require("group")
 local button = require("button")
+local text = require("text")
+local ALIGN = require("ui.align")
 
 local card_expanded = require("ui.card.card_expanded")
+local isTrue = false
 
 local CARD_COUNT = 6
 local CARD_ASPECT_RATIO = 1.4
@@ -79,13 +82,18 @@ return element.make_new {
                             is_pivot_side = v.is_pivot_side,
 
                             title = v[what].name,
-                            description = v[what].description
+                            description = v[what].description,
+
+                            isTrue = true
                         }
 
+                        ce:fuck_text(not v.is_pivot_side)
+                        
                         v.on_flip = function()
                             local what = v.is_pivot_side and "pivot" or "effect"
                             ce.title_obj.text_objs = ce.title_obj.update_text(v[what].name or "Untitled")
                             ce.description_obj.text_objs = ce.description_obj.update_text(v[what].description or "No description")
+                            ce:fuck_text(not v.is_pivot_side)
                         end
 
                         v.children[#v.children + 1] = ce
