@@ -22,6 +22,8 @@ local HAND_EASING = "circout"
 local flux = require("flux")
 
 return element.make_new {
+    name = "hand",
+
     cctr = function(self)
         self.cards = {}
         self.cord = {}
@@ -88,7 +90,7 @@ return element.make_new {
                         }
 
                         ce:fuck_text(not v.is_pivot_side)
-                        
+
                         v.on_flip = function()
                             local what = v.is_pivot_side and "pivot" or "effect"
                             ce.title_obj.text_objs = ce.title_obj.update_text(v[what].name or "Untitled")
@@ -112,10 +114,17 @@ return element.make_new {
                             self.start_y = y
                             self.start_xs = v.position.xs
                             self.start_ys = v.position.ys
+
+                            -- remove expanded card
+                            if v.children[#v.children].is_pivot_side then
+                                v.children[#v.children] = nil
+                            end
+                            v.can_turn = false
                         end,
 
                         [2] = function(x, y) end -- JUST DONTFUCKING REMOVE IT
                     },
+
                     while_hold = {
                         [1] = function(x, y, buttonself)
                             v.position = dim2(self.start_xs, x - self.start_x, self.start_ys, y - self.start_y)
@@ -140,34 +149,43 @@ return element.make_new {
                             end
                         end
                     },
+
                     on_release = {
                         [1] = function()
+                            v.can_turn = true
+
                             -- check tree slots
+                            local m = vec2.new(love.mouse.getPosition())
                             for _,slot in pairs(self.slots) do
-                                local p = v.abs_pos - slot.abs_pos
-                                print(p)
+                                local p = m - slot.abs_pos
                                 if p.x > 0 and p.y > 0 and p.x < slot.abs_size.x and p.y < slot.abs_size.y then
+                                    -- remove expanded card
+                                    if v.children[#v.children].is_pivot_side then
+                                        v.children[#v.children] = nil
+                                    end
+
                                     -- draw new card
                                     local new = self.create_card(self.deck[math.random(1,#self.deck)])
-                                    local o = v.ord
-                                    new.ord = o
+                                    local idx = self.cord[v.ord]
+                                    new.ord = v.ord
+                                    self.cards[idx] = new
+                                    v = new
                                     new.parent = v.parent
-                                    v.parent.children[1] = new
+                                    v.parent.children = { new }
 
                                     -- fill slot
                                     v.position = dim2(0, 0, 0, 0)
                                     slot.parent:fill_slot(slot.idx, v)
 
                                     -- replace card
-                                    self.cards[self.cord[o]] = new
-                                    v = new
 
                                     self:recalc()
+                                    slot.parent:recalc()
                                     return
                                 end
                             end
 
-                            -- bring back the card to the hand
+                            -- if no slots are being filled, bring back the card to the hand
                             local old_abs_pos = v.parent.abs_pos
                             self:recalc()
                             v.position.xo = v.position.xo + (old_abs_pos.x - v.parent.abs_pos.x)

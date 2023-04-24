@@ -2,6 +2,8 @@ local element = require("element")
 local color = require("color")
 
 return element.make_new {
+    name = "frame",
+
     cctr = function(self)
         self.color = self.color or color.new(1, 1, 1, 1)
 

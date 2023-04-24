@@ -20,6 +20,8 @@ local assets = require("assets")
 local flux = require("flux")
 
 return element.make_new {
+    name = "hostile",
+
     cctr = function(self)
         self.health = self.health or 3
         self.intention = self.intention or INTENTION.ATTACK -- do damage to player

@@ -14,6 +14,8 @@ local ALIGN = require("ui.align")
 local assets = require("assets")
 
 return element.make_new {
+    name = "card (expanded)",
+
     cctr = function(self)
         assert(self.id)
         self.id = self.id

@@ -3,6 +3,8 @@ local element = require("element")
 local SCALING = require("ui.scaling")
 
 return element.make_new {
+    name = "constrain",
+
     cctr = function(self)
         self.ratio = self.ratio or 1 -- only required for some scaling mechanisms
     end,

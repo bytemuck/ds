@@ -4,11 +4,14 @@ local SCALING = require("ui.scaling")
 local FLIPMODE = require("ui.flipmode")
 
 return element.make_new {
+    name = "sprite",
+
     cctr = function(self)
         assert(self.image)
         self.color = self.color or color.new(1, 1, 1, 1)
         self.scaling = self.scaling or SCALING.STRETCH
     end,
+
     draw = function(self, go)
         local pos = self.abs_pos
         local size = self.abs_size

@@ -5,6 +5,8 @@ local assets = require("assets")
 local ALIGN = require("ui.align")
 
 return element.make_new {
+    name = "text",
+
     cctr = function(self)
         self.color = self.color or color.new(1, 1, 1, 1)
         self.text = self.text or ""

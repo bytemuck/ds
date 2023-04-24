@@ -4,6 +4,7 @@ local save = require("save")
 
 local assets = require("assets")
 local state = require("state")
+local pprint = require("pprint")
 
 local mouse = require("mouse")
 local pressed = mouse.pressed
@@ -38,6 +39,12 @@ end
 
 function love.resize(w, h)
     state.resize(w, h)
+end
+
+function love.keypressed(key)
+    if key == "insert" then
+        pprint(state.current.root)
+    end
 end
 
 function love.mousepressed(x, y, button)

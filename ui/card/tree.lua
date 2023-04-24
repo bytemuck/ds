@@ -15,6 +15,8 @@ local CARD_ASPECT_RATIO = 1.4
 local flux = require("flux")
 
 local tree; tree = element.make_new {
+    name = "tree",
+
     cctr = function(self)
         local c = constrain {
             children = { self.card or error("no tree card") },
@@ -97,7 +99,7 @@ local tree; tree = element.make_new {
                         self.children[i] = nil
                     end
                 end
-                self.width = 1
+                self.breadth = 1
                 self.depth = 1
                 self.constrain_mult = vec2.new(1, 1)
             end
@@ -111,8 +113,6 @@ local tree; tree = element.make_new {
                 card = card,
                 on_flip = self.on_flip
             }
-
-            self:recalc()
         end
     }
 }

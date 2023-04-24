@@ -6,6 +6,8 @@ local clicked = mouse.clicked
 local pressed = mouse.pressed
 
 return element.make_new {
+    name = "button",
+
     cctr = function(self)
         self.hold = {}
         self.mouse_button = self.mouse_button or 1

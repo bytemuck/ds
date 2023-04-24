@@ -25,6 +25,8 @@ local rarity_accountrement = {
 local body_scale = 1020/1500
 
 return element.make_new {
+    name = "card",
+
     cctr = function(self)
         if self.can_turn == nil then
             self.can_turn = true
@@ -99,7 +101,6 @@ return element.make_new {
                 size = dim2(body_scale, 0, body_scale, 0),
                 anchor = vec2.new(0.5, 0.5),
             },
-            
         }
     end,
 

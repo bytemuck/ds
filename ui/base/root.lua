@@ -2,6 +2,8 @@ local element = require("element")
 local dim2 = require("dim2")
 
 return element.make_new {
+    name = "root",
+
     cctr = function(self)
         self.old_state = nil
         self.size = dim2(0, 1024, 0, 768)

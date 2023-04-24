@@ -14,6 +14,8 @@ local color = require("color")
 local assets = require("assets")
 
 return element.make_new {
+    name = "profile",
+
     cctr = function(self)
         self.health = self.health or 0
         self.defense = self.defense or 0
