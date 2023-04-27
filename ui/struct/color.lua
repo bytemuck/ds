@@ -20,7 +20,11 @@ function color.new(r, g, b, a)
             error("attempt to assign to an immmutable object (color)")
         end,
 
-        __mul = color.scl,        
+        __tostring = function(self)
+            return string.format("rgba(%.2f, %.2f, %.2f, %.2f)", unpack(self))
+        end,
+
+        __mul = color.scl,
     })
 end
 

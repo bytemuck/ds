@@ -50,6 +50,10 @@ local tree; tree = element.make_new {
             self:recalc()
         end,
 
+        collapse = function()
+            --
+        end,
+
         do_recalc = function(self)
             if self.card.is_pivot_side then
                 local maxdepth = 1

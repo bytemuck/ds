@@ -161,25 +161,22 @@ return element.make_new {
                             for _,slot in pairs(self.slots) do
                                 local p = m - slot.abs_pos
                                 if p.x > 0 and p.y > 0 and p.x < slot.abs_size.x and p.y < slot.abs_size.y then
-                                    -- remove expanded card
                                     if v.children[#v.children].is_pivot_side then
                                         v.children[#v.children] = nil
                                     end
 
-                                    -- draw new card
                                     local new = self.create_card(save.draw_deck())
                                     local idx = self.cord[v.ord]
                                     new.ord = v.ord
                                     self.cards[idx] = new
                                     new.parent = v.parent
                                     v.parent.children = { new }
-                                    v = new
 
-                                    -- fill slot
                                     v.position = dim2(0, 0, 0, 0)
+                                    v.parent = slot.parent
                                     slot.parent:fill_slot(slot.idx, v)
 
-                                    -- replace card
+                                    v = new
 
                                     self:recalc()
                                     slot.parent:recalc()

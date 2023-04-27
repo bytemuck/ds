@@ -7,7 +7,7 @@ local dim2 = require("dim2")
 
 local base = {}
 
-local recalc_props = { parent = true, size = true, position = true, anchor = true }
+local recalc_props = { parent = true, size = true, position = true, anchor = true, children = true }
 
 -- Calculation of the absolute (screen-space) pixel position/size of objects,
 -- based on their relative (parent-space) properties.
@@ -169,6 +169,8 @@ return {
             if meta.cctr then
                 meta.cctr(self, ...)
             end
+
+            self.__internal = self
 
             local mtself, recalcf; mtself = setmetatable({}, {
                 __index = setmetatable(self, { __index = base }),
