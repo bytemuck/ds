@@ -59,10 +59,10 @@ local tree; tree = element.make_new {
                 local i = level+1
                 local l, tl = {}, {}
 
-                for _,tree in ipairs(treelevels[i]) do
-                    for ti,v in pairs(tree.cards) do
+                for _,t in ipairs(treelevels[level]) do
+                    for ti,v in pairs(t.cards) do
                         l[#l+1] = v
-                        tl[#tl+1] = tree.children[ti]
+                        tl[#tl+1] = t.children[ti]
                     end
                 end
 
@@ -70,6 +70,10 @@ local tree; tree = element.make_new {
                 levels[i] = l
                 treelevels[i] = tl
             until #levels[level] == 0
+
+            for i,v in pairs(levels[i]) do
+                --
+            end
         end,
 
         do_recalc = function(self)
