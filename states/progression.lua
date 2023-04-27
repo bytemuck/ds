@@ -8,6 +8,7 @@ local vec2 = require("vec2")
 local SCALING = require("ui.scaling")
 local ALIGN = require("ui.align")
 
+local transition = require("transition")
 local group = require("group")
 local button = require("button")
 local frame = require("frame")
@@ -34,6 +35,11 @@ local function advance()
     end)
 end
 
+local function back()
+    assets.audios.progression_map:stop()
+    transition(root, state.pop(), 1)
+end
+
 
 local function generate_tree(from)
     local LEVEL_COUNT = 5
@@ -42,6 +48,30 @@ local function generate_tree(from)
     for i = 1, from or 0 do
         last = random:nextRange(0.6, 0.9)
     end
+
+    local back = frame {
+        position = dim2(0, 32, 1, -32),
+        size = dim2(0, 256, 0, 96),
+        anchor = vec2.new(0, 1),
+        children = {
+            button {
+                on_click = {
+                    [1] = function()
+                        -- BAAAAAAACCCKKKKKKKKKKK!!!!!
+                        back()
+                    end
+                }
+            },
+            text {
+                position = dim2(0.5, 0, 0.5, 0),
+                text = "RETOUR",
+                font = assets.fonts.roboto[42],
+                x_align = ALIGN.CENTER_X,
+                y_align = ALIGN.CENTER_Y,
+                color = color.new(0, 0, 0, 1),
+            }
+        }
+    }
 
     local battle = frame {
         position = dim2(1, -32, 1, -32),
@@ -121,6 +151,7 @@ local function generate_tree(from)
         points,
         battle,
         spirit,
+        back,
     }
 end
 

@@ -16,9 +16,18 @@ local button = require("button")
 local frame = require("frame")
 local color = require("color")
 
+
 local assets = require("assets")
 
 local volume = 1
+local text_volume = text {
+    position = dim2(0.5, 0, 0.3, 0),
+    text = volume,
+    font = assets.fonts.roboto[32],
+    x_align = ALIGN.CENTER_X,
+    y_align = ALIGN.CENTER_Y,
+    color = color.new(1, 1, 1, 1),
+}
 
 root.before_draw = function ()
     local under = state.stack[#state.stack - 1];
@@ -40,9 +49,13 @@ root:add_children {
                 on_click = {
                     -- left button
                     [1] = function()
-                        
-                        assets.audios.progression_map:setVolume(1.0)
-                        assets.audios.startmenu:setVolume(1.0)
+                        volume = volume + 0.1
+                        if volume > 1 then
+                            volume = 1
+                        end
+                        text_volume.text_objs = text_volume.update_text(tostring(volume))
+                        assets.audios.progression_map:setVolume(volume)
+                        assets.audios.startmenu:setVolume(volume)
                     end,
                         
                     
@@ -54,13 +67,14 @@ root:add_children {
                     },
                     text {
                         position = dim2(0.5, 0, 0.5, 0),
-                        text = "Activer",
+                        text = "Augmenter",
                         font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
                         color = color.new(0, 0, 0, 1),
                     },
-                }
+                
+                },
             },
             button {
                 position = dim2(0.75, 0, 0.5, 0),
@@ -70,9 +84,13 @@ root:add_children {
                 on_click = {
                     -- left button
                     [1] = function()
-                        
-                        assets.audios.progression_map:setVolume(0.0)
-                        assets.audios.startmenu:setVolume(0.0)
+                        volume = volume - 0.1
+                        if volume < 0.1 then
+                            volume = 0
+                        end
+                        text_volume.text_objs = text_volume.update_text(tostring(volume))
+                        assets.audios.progression_map:setVolume(volume)
+                        assets.audios.startmenu:setVolume(volume)
                     end,
                         
                     
@@ -84,7 +102,7 @@ root:add_children {
                     },
                     text {
                         position = dim2(0.5, 0, 0.5, 0),
-                        text = "Éteindre",
+                        text = "Diminuer",
                         font = assets.fonts.roboto[42],
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
@@ -123,7 +141,7 @@ root:add_children {
                 y_align = ALIGN.CENTER_Y,
                 color = color.new(1, 1, 1, 1),
             },
-             
+            text_volume,
         }
     }
 }
