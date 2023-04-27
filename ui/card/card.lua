@@ -22,7 +22,8 @@ local rarity_accountrement = {
     [RARITY.LEGENDARY] = assets.sprites.card_accountrement.legendary,
 }
 
-local body_scale = 1020/1500
+--local body_scale = 1020/1500
+local body_scale = 0.9 -- temporary -- once rarity is added, use the above line to accomodate for the rarity accountrements
 
 return element.make_new {
     name = "card",

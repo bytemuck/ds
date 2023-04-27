@@ -47,6 +47,12 @@ return element.make_new {
 
         do_recalc = function(self)
             local count = #self.cards
+            if count == 0 then
+                if not self.children or #self.children ~= 0 then
+                    self.children = {}
+                end
+                return
+            end
             local width = self.abs_size.x
             local cw = width / math.max(count, CARD_COUNT)
             local hw = cw / 2
@@ -161,7 +167,7 @@ return element.make_new {
                             for _,slot in pairs(self.slots) do
                                 local p = m - slot.abs_pos
                                 if p.x > 0 and p.y > 0 and p.x < slot.abs_size.x and p.y < slot.abs_size.y then
-                                    if v.children[#v.children].is_pivot_side then
+                                    if v.children[#v.children].is_pivot_side ~= nil then
                                         v.children[#v.children] = nil
                                     end
 
@@ -178,8 +184,11 @@ return element.make_new {
 
                                     v = new
 
-                                    self:recalc()
                                     slot.parent:recalc()
+                                    self:recalc()
+
+                                    v.position = dim2(0, 0, 1.1, 0)
+                                    flux.to(v.position, 0.5, dim2(0, 0, 0, 0).vals):ease(HAND_EASING)
                                     return
                                 end
                             end

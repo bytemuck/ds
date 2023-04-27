@@ -1,4 +1,5 @@
 local state = require("state")
+local save  = require("save")
 local debug = state.new("debug")
 local root = debug.root
 
@@ -62,7 +63,7 @@ end
 local play_tree
 local player_hand = hand {
     position = dim2(0.2, 0, 1, 0),
-    size = dim2(0.8, 0, 0.1, 0),
+    size = dim2(0.8, 0, 0.05, 0),
     anchor = vec2.new(0, 1),
     slots = {},
     deck = {1, 1, 1},
@@ -117,26 +118,38 @@ local function create_hostile(type, add)
 end
 
 local function reset()
-    player_hand:reset()
     player_profile:reset()
+
+    player_hand:reset()
+    save.shuffle_deck()
+    player_hand:add_cards { create_card(save.draw_deck()), create_card(save.draw_deck()), create_card(save.draw_deck()), create_card(save.draw_deck()) }
+    player_hand:do_recalc()
+
+    play_tree.card = card {
+        id = 0,
+        can_turn = false,
+        is_pivot_side = true,
+        show_text = true,
+    }
+
+    on_card_flip()
 
     for i,_ in pairs(enemies) do
         enemies[i] = nil
     end
-end
 
-player_hand:add_cards { create_card(save.draw_deck()), create_card(save.draw_deck()), create_card(save.draw_deck()), create_card(save.draw_deck()) }
+    -- TODO: generate enemies with NUPRNG
+    create_hostile(1, true)
+    create_hostile(1, true)
+    create_hostile(1, true)
+    create_hostile(1, true)
+end
 
 hostile_group = group {
     size = dim2(1, 0, 0.2, 0),
     on_recalc = layout_enemies,
     children = enemies
 }
-
-create_hostile(1, true)
-create_hostile(1, true)
-create_hostile(1, true)
-create_hostile(1, true)
 
 root:add_children {
     sprite {
@@ -187,7 +200,7 @@ root:add_children {
     }
 }
 
-player_hand:do_recalc()
+reset()
 on_card_flip()
 
 return debug

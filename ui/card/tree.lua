@@ -50,8 +50,26 @@ local tree; tree = element.make_new {
             self:recalc()
         end,
 
-        collapse = function()
-            --
+        collapse = function(self)
+            local level = 0
+            local treelevels = { [0] = self }
+            local levels = { [0] = { self.card } }
+
+            repeat
+                local i = level+1
+                local l, tl = {}, {}
+
+                for _,tree in ipairs(treelevels[i]) do
+                    for ti,v in pairs(tree.cards) do
+                        l[#l+1] = v
+                        tl[#tl+1] = tree.children[ti]
+                    end
+                end
+
+                level = i
+                levels[i] = l
+                treelevels[i] = tl
+            until #levels[level] == 0
         end,
 
         do_recalc = function(self)
