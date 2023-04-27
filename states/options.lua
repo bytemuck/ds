@@ -19,7 +19,9 @@ local color = require("color")
 
 local assets = require("assets")
 
+local first_click = false
 local volume = 1
+local copy_volume = volume
 local text_volume = text {
     position = dim2(0.5, 0, 0.3, 0),
     text = volume,
@@ -50,6 +52,7 @@ root:add_children {
                     -- left button
                     [1] = function()
                         volume = volume + 0.1
+                        copy_volume = volume
                         if volume > 1 then
                             volume = 1
                         end
@@ -85,6 +88,7 @@ root:add_children {
                     -- left button
                     [1] = function()
                         volume = volume - 0.1
+                        copy_volume = volume
                         if volume < 0.1 then
                             volume = 0
                         end
@@ -142,6 +146,45 @@ root:add_children {
                 color = color.new(1, 1, 1, 1),
             },
             text_volume,
+            button {
+                position = dim2(0.5, 0, 0.85, 0),
+                size = dim2(0.13, 0, 0.13, 0),
+                anchor = vec2.new(0.5, 0.5),
+
+                on_click = {
+                    -- left button
+                    [1] = function()
+                        print(first_click)
+                        if first_click == false then
+                            volume = 0
+                            first_click = true
+                        elseif first_click == true then 
+                            volume = copy_volume
+                            first_click = false
+                        end
+                        text_volume.text_objs = text_volume.update_text(tostring(volume))
+                        assets.audios.progression_map:setVolume(volume)
+                        assets.audios.startmenu:setVolume(volume)
+                    end,
+                        
+                    
+                },
+
+                children = {
+                    frame {
+                        color = color.new(1, 0, 0, 1),
+                    },
+                    text {
+                        position = dim2(0.5, 0, 0.5, 0),
+                        text = "Activer/Éteindre",
+                        font = assets.fonts.roboto[33],
+                        x_align = ALIGN.CENTER_X,
+                        y_align = ALIGN.CENTER_Y,
+                        color = color.new(0, 0, 0, 1),
+                    },
+                
+                },
+            },
         }
     }
 }
