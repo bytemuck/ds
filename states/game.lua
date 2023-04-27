@@ -15,6 +15,7 @@ local color = require("color")
 local constrain = require("constrain")
 local text = require("text")
 local ALIGN = require("ui.align")
+local save = require("save")
 
 local card = require("ui.card.card")
 local hand = require("ui.card.hand")
@@ -124,7 +125,7 @@ local function reset()
     end
 end
 
-player_hand:add_cards { create_card(1), create_card(1), create_card(1), create_card(1) }
+player_hand:add_cards { create_card(save.draw_deck()), create_card(save.draw_deck()), create_card(save.draw_deck()), create_card(save.draw_deck()) }
 
 hostile_group = group {
     size = dim2(1, 0, 0.2, 0),

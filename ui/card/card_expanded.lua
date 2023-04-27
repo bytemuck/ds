@@ -31,7 +31,7 @@ return element.make_new {
         local c = card {
             id = self.id,
             is_pivot_side = self.is_pivot_side,
-            isTrue = self.isTrue 
+            isTrue = self.isTrue
         }
 
         local title = text {

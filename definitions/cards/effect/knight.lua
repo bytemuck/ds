@@ -1,7 +1,7 @@
 local c = {
     id = 4,
     name = "Knight",
-    description = "Deal 5 damage and absorb up to 5 damage.",
+    description = "Deal 5 damage and\nabsorb 5 damage.",
     rarity = "LEGENDARY",
     image = "effect_3",
 

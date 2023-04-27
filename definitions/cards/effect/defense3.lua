@@ -1,7 +1,7 @@
 local c = {
     id = 7,
     name = "Defend III",
-    description = "Absorb up to 7 damage.",
+    description = "Absorb 7 damage.",
     rarity = "EPIC",
     image = "effect_3",
 
