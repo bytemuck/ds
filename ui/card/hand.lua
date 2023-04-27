@@ -21,6 +21,8 @@ local HAND_EASING = "circout"
 
 local flux = require("flux")
 
+local save = require("save")
+
 return element.make_new {
     name = "hand",
 
@@ -165,13 +167,13 @@ return element.make_new {
                                     end
 
                                     -- draw new card
-                                    local new = self.create_card(self.deck[math.random(1,#self.deck)])
+                                    local new = self.create_card(save.draw_deck())
                                     local idx = self.cord[v.ord]
                                     new.ord = v.ord
                                     self.cards[idx] = new
-                                    v = new
                                     new.parent = v.parent
                                     v.parent.children = { new }
+                                    v = new
 
                                     -- fill slot
                                     v.position = dim2(0, 0, 0, 0)

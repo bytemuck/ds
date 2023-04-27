@@ -21,17 +21,17 @@ return {
         end
     end,
 
-    shuffle_deck = function ()
+    shuffle_deck = function()
         for i = #persistent.deck, 2, -1 do
             local j = math.random(i)
             persistent.deck[i], persistent.deck[j] = persistent.deck[j], persistent.deck[i]
         end
     end,
 
-    draw_deck = function ()
+    draw_deck = function()
         local pop = persistent.deck[#persistent.deck] -- Take last item.
         persistent.deck[#persistent.deck] = nil -- Set it to null
-        persistent.deck = { pop, table.unpack(persistent.deck) } -- drawed card is now on the bottom
+        persistent.deck = { pop, unpack(persistent.deck) } -- drawed card is now on the bottom
         return pop -- return drawed card
     end,
 
