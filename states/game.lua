@@ -13,6 +13,8 @@ local button = require("button")
 local frame = require("frame")
 local color = require("color")
 local constrain = require("constrain")
+local text = require("text")
+local ALIGN = require("ui.align")
 
 local card = require("ui.card.card")
 local hand = require("ui.card.hand")
@@ -154,7 +156,34 @@ root:add_children {
         scaling = SCALING.CENTER,
         children = { play_tree }
     },
-    player_hand
+    player_hand,
+    button {
+        position = dim2(0, 16, 0.8, -16),
+        size = dim2(0, 196, 0, 96),
+        anchor = vec2.new(0, 1),
+        hover_color = color.new(0, 0, 0, 0),
+        click_color = color.new(0, 0, 0, 0),
+        on_click = {
+            [1] = function()
+                play_tree:collapse()
+            end
+        },
+
+        children = {
+            sprite {
+                position = dim2(0, 0, 0, 0),
+                size = dim2(1, 0, 1, 0),
+                anchor = vec2.new(0, 0),
+                image = assets.sprites.fight_button,
+            },
+            text {
+                position = dim2(0, 72, 0.5, 0),
+                font = assets.fonts.roboto[36],
+                text = "FIGHT!",
+                y_align = ALIGN.CENTER_Y,
+            },
+        }
+    }
 }
 
 player_hand:do_recalc()
