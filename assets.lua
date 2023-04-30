@@ -36,7 +36,7 @@ local sprites = {
     card_accountrement = {
         common = "none.png",
         rare = "rare.png",
-        epic = "epic.png",
+        epic = "none.png",
         legendary = "legendary.png",
     },
 

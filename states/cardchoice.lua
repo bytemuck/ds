@@ -19,42 +19,48 @@ local sprite = require("sprite")
 
 local card = require("ui.card.card")
 
+local save = require("save")
+local cards = require("persistent.cards")
+
 -- card.children[1].on_click = function() end
 
 local c1 = card {
-    id = 1,
+    id = cards.next(),
     position = dim2(0.2, 0, 0.5, 0),
     size = dim2(0.25, 0, 0.3, 0),
     anchor = vec2.new(0.5, 0.5),
 }
 
-c1.children[1].on_click[1] = function() 
-    transition(root, require("states.progression"), 1)
+c1.children[1].on_click[1] = function()
+    state.pop()
+    save.push(c1.id)
 end
 
 local c2 = card {
-    id = 1,
+    id = cards.next(),
     position = dim2(0.5, 0, 0.5, 0),
     size = dim2(0.25, 0, 0.3, 0),
     anchor = vec2.new(0.5, 0.5),
 }
 
-c2.children[1].on_click[1] = function() 
-    transition(root, require("states.progression"), 1)
+c2.children[1].on_click[1] = function()
+    state.pop()
+    save.push(c2.id)
 end
 
 local c3 = card {
-    id = 1,
+    id = cards.next(),
     position = dim2(0.8, 0, 0.5, 0),
     size = dim2(0.25, 0, 0.3, 0),
     anchor = vec2.new(0.5, 0.5),
 }
 
-c3.children[1].on_click[1] = function() 
-    transition(root, require("states.progression"), 1)
+c3.children[1].on_click[1] = function()
+    state.pop()
+    save.push(c3.id)
 end
 
-root:add_children{
+root:add_children {
     sprite {
         image = assets.sprites.game,
         position = dim2(0, 0, 0, 0),
@@ -100,15 +106,14 @@ root:add_children{
                         position = dim2(0.5, 0, 0.5, 0),
                         size = dim2(0.7, 0, 1, 0),
                         anchor = vec2.new(0.5, 0.5),
-                        
+
                         on_click = {
                             -- left button
                             [1] = function()
-                                
                                 transition(root, require("states.progression"), 1)
                             end,
-                            
-                            
+
+
                         },
                     },
                     text {
@@ -118,13 +123,13 @@ root:add_children{
                         x_align = ALIGN.CENTER_X,
                         y_align = ALIGN.CENTER_Y,
                         color = color.new(0, 0, 0, 1),
-                    }  
+                    }
                 }
             },
         }
     }
-    
- }
+
+}
 
 
 

@@ -3,8 +3,8 @@ local bit = require("bit")
 local random = {}
 
 -- note: do not edit modulus, bit mask only works if it is a power of 2
-local modulus = 2^31
-local mask = modulus-1
+local modulus = 2 ^ 31
+local mask = modulus - 1
 
 local mult = 1103515245
 local incr = 12345
@@ -23,7 +23,7 @@ end
 
 -- generate a new integer value
 function random:nextRaw()
-    self.state = bit.band(mask, mult*self.state + incr) -- x = (a*x + c) mod m
+    self.state = bit.band(mask, mult * self.state + incr) -- x = (a*x + c) mod m
     return self.state
 end
 
@@ -37,7 +37,7 @@ function random:next()
     local value = self:nextUniform()
 
     if self.skew then
-        value = 4/math.pi * math.atan(value ^ self.skew)
+        value = 4 / math.pi * math.atan(value ^ self.skew)
     end
 
     if self.invert then
@@ -49,7 +49,7 @@ end
 
 -- generate a double value in an arbitrary range
 function random:nextRange(min, max)
-    return min + (max-min) * self:nextUniform()
+    return min + (max - min) * self:nextUniform()
 end
 
 -- generate an integer value in an arbitrary range
