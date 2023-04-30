@@ -49,8 +49,8 @@ function random:next(a)
 end
 
 -- generate a double value in an arbitrary range
-function random:nextRange(min, max)
-    return min + (max - min) * self:nextUniform()
+function random:nextRange(min, max, a)
+    return min + (max - min) * self:next(a)
 end
 
 -- generate an integer value in an arbitrary range
