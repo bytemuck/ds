@@ -22,7 +22,7 @@ local rarity_accountrement = {
     [RARITY.LEGENDARY] = assets.sprites.card_accountrement.legendary,
 }
 
-local body_scale = 1020/1500
+local body_scale = 1020 / 1500
 
 return element.make_new {
     name = "card",
@@ -38,16 +38,26 @@ return element.make_new {
         self.rarity = self.rarity or RARITY[self.effect.rarity] or RARITY.COMMON
         self.pivot = assets.cards.pivot[self.id]
 
+
         self.other_side = sprite {
             image = assets.sprites.card_background[self.pivot.image],
             position = dim2(0.5, 0, 0.5, 0),
             size = dim2(body_scale, 0, body_scale, 0),
             anchor = vec2.new(0.5, 0.5),
             color = color.new(1, 1, 1, 1),
-            scaling = SCALING.CENTER
+            scaling = SCALING.CENTER,
+
+            children = sprite {
+                image = assets.sprites.effects[self.pivot.effect],
+                position = dim2(0.5, 0, 0.5, 0),
+                size = dim2(1, 0, 1, 0),
+                anchor = vec2.new(0.5, 0.5),
+                color = color.new(1, 1, 1, 1),
+                scaling = SCALING.CENTER
+            },
         }
 
-        local s = sprite { 
+        local s = sprite {
             -- rarity accountrement
             image = rarity_accountrement[self.rarity],
             position = dim2(0, 0, 0, 0),
@@ -55,7 +65,7 @@ return element.make_new {
             scaling = SCALING.CENTER,
         }
 
-        if self.rarity == RARITY.LEGENDARY then 
+        if self.rarity == RARITY.LEGENDARY then
             s.size = dim2(1.25, 0, 1.25, 0)
             s.anchor = vec2.new(0.5, 0.5)
             s.position = dim2(0.5, 0, 0.5, 0)
@@ -93,7 +103,7 @@ return element.make_new {
                 scaling = SCALING.CENTER,
 
                 children = a
-                 
+
             },
             s,
             group {

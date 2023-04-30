@@ -41,6 +41,7 @@ local sprites = {
     },
 
     effects = {
+        none = "none.png",
         x2 = "2x.png",
         x3 = "3x.png",
         x4 = "4x.png",
@@ -89,7 +90,7 @@ local function load_sprites(folder, src, tgt)
             tgt[k] = new
             load_sprites(folder .. k .. "/", v, new)
         else
-            tgt[k] = love.graphics.newImage(folder..v)
+            tgt[k] = love.graphics.newImage(folder .. v)
         end
     end
 end
@@ -139,7 +140,7 @@ return {
 
         self.shaders = self.shaders or {}
         for k, v in pairs(shaders) do
-            local content =  love.filesystem.read(v)
+            local content = love.filesystem.read(v)
             local new = love.graphics.newShader(content)
             self.shaders[k] = new
         end
@@ -147,14 +148,14 @@ return {
         local card_base = "definitions/cards/"
         self.cards = { effect = {}, pivot = {} }
 
-        for k,v in ipairs(love.filesystem.getDirectoryItems(card_base.."effect/")) do
-            local data = love.filesystem.load(card_base.."effect/"..v)()
+        for k, v in ipairs(love.filesystem.getDirectoryItems(card_base .. "effect/")) do
+            local data = love.filesystem.load(card_base .. "effect/" .. v)()
             self.cards.effect[k] = data
             self.cards.effect[data.id] = data
         end
 
-        for k,v in ipairs(love.filesystem.getDirectoryItems(card_base.."pivot/")) do
-            local data = love.filesystem.load(card_base.."pivot/"..v)()
+        for k, v in ipairs(love.filesystem.getDirectoryItems(card_base .. "pivot/")) do
+            local data = love.filesystem.load(card_base .. "pivot/" .. v)()
             self.cards.pivot[k] = data
             self.cards.pivot[data.id] = data
         end

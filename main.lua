@@ -16,7 +16,7 @@ function love.load()
     save.load()
     state.resize(love.graphics.getDimensions())
     assets:load()
-    state.push(require("states.cardchoice"))
+    state.push(require("states.game"))
 end
 
 function love.draw()
@@ -32,7 +32,7 @@ function love.update(dt)
         state.current.root:update(dt)
     end
 
-    for k,_ in pairs(clicked) do
+    for k, _ in pairs(clicked) do
         clicked[k] = false
     end
 end
