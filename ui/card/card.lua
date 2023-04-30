@@ -47,13 +47,15 @@ return element.make_new {
             color = color.new(1, 1, 1, 1),
             scaling = SCALING.CENTER,
 
-            children = sprite {
-                image = assets.sprites.effects[self.pivot.effect],
-                position = dim2(0.5, 0, 0.5, 0),
-                size = dim2(1, 0, 1, 0),
-                anchor = vec2.new(0.5, 0.5),
-                color = color.new(1, 1, 1, 1),
-                scaling = SCALING.CENTER
+            children = {
+                sprite {
+                    image = assets.sprites.effects[self.pivot.effect],
+                    position = dim2(0.5, 0, 0.5, 0),
+                    size = dim2(1, 0, 1, 0),
+                    anchor = vec2.new(0.5, 0.5),
+                    color = color.new(1, 1, 1, 1),
+                    scaling = SCALING.CENTER
+                },
             },
         }
 
