@@ -9,14 +9,11 @@ local mask = modulus-1
 local mult = 1103515245
 local incr = 12345
 
-random.halfskew = 0.7864397013 -- skew for (0.5, 0.5)
-
-function random.new(seed, skew, invert)
+function random.new(seed, a, invert)
     return setmetatable({
         state = seed,
         modulus = modulus,
-        min = 0,
-        skew = skew,
+        a = a,
         invert = not not invert,
     }, { __index = random })
 end
@@ -32,12 +29,16 @@ function random:nextUniform()
     return self:nextRaw() / mask
 end
 
--- if skewed: use inverse transform sampling to get value in a sampling distribution
-function random:next()
+-- use inverse transform sampling to get skewed value (non-uniform); still in [0, 1]
+function random:next(a)
     local value = self:nextUniform()
 
-    if self.skew then
-        value = 4/math.pi * math.atan(value ^ self.skew)
+    if not a then
+        a = self.a
+    end
+
+    if a then
+        value = value ^ a
     end
 
     if self.invert then
@@ -48,13 +49,13 @@ function random:next()
 end
 
 -- generate a double value in an arbitrary range
-function random:nextRange(min, max)
-    return min + (max-min) * self:nextUniform()
+function random:nextRange(min, max, a)
+    return min + (max-min) * self:next(a)
 end
 
 -- generate an integer value in an arbitrary range
-function random:nextRangeInt(min, max)
-    return math.floor(self:nextRange(min, max))
+function random:nextRangeInt(min, max, a)
+    return math.floor(self:nextRange(min, max, a))
 end
 
 return random
