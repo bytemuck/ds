@@ -30,6 +30,7 @@ local tree; tree = element.make_new {
         self.main = c
         self.children = { c }
         self.cards = {}
+        self.values = {}
     end,
 
     postcctr = function(self)
@@ -52,28 +53,50 @@ local tree; tree = element.make_new {
 
         collapse = function(self)
             local level = 0
-            local treelevels = { [0] = self }
             local levels = { [0] = { self.card } }
+            local treelevels = { [0] = { self } }
 
             repeat
-                local i = level+1
                 local l, tl = {}, {}
 
                 for _,t in ipairs(treelevels[level]) do
-                    for ti,v in pairs(t.cards) do
+                    for ti, v in pairs(t.cards) do
                         l[#l+1] = v
                         tl[#tl+1] = t.children[ti]
                     end
                 end
 
-                level = i
-                levels[i] = l
-                treelevels[i] = tl
+                level = level+1
+                levels[level] = l
+                treelevels[level] = tl
             until #levels[level] == 0
 
-            for i,v in pairs(levels[i]) do
-                --
+            local function nextcollapse()
+                level = level - 1
+
+                if level == 0 then
+                    print("end")
+                    return
+                end
+
+                print("collapse", level)
+                for i,v in ipairs(levels[level]) do
+                    if self.is_pivot_side then
+                        v.parent.values[v.i] = v.card.pivot.play(v.parent.values)
+                    else
+                        v.parent.values[v.i] = v.card.effect.play(v.card.effect)
+                    end
+
+                    local diff = v.parent.card.abs_pos - v.abs_pos
+                    local anim = flux.to(v.position, 0.5, { xo = diff.x, yo = diff.y }):ease("circout")
+
+                    if i == 1 then
+                        anim:oncomplete(nextcollapse)
+                    end
+                end
             end
+
+            nextcollapse()
         end,
 
         do_recalc = function(self)
@@ -112,6 +135,7 @@ local tree; tree = element.make_new {
                     e.size = dim2((e.breadth or 1)/breadth, 0, 1, 0)
                     e.position = dim2((i-1)/self.slots, 0, 0.9, 0)
 
+                    e.i = i
                     self.children[idx] = e
                     e.parent = self
                 end
