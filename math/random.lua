@@ -11,7 +11,7 @@ local incr = 12345
 
 function random.new(seed, a, invert)
     return setmetatable({
-        state = seed,
+        state = seed or os.time(),
         modulus = modulus,
         a = a,
         invert = not not invert,
