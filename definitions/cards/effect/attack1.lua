@@ -1,7 +1,7 @@
 local c = {
     id = 1,
-    name = "Attack I",
-    description = "Deal 3 damage.",
+    name = "Attaque I",
+    description = "Fait 3 de dégâts.",
     rarity = "COMMON",
     image = "effect_1",
 

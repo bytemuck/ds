@@ -45,9 +45,9 @@ return element.make_new {
 
         local description = text {
             text = tostring(self.description),
-            position = dim2(0, 8, 0.5, 0), -- center
+            position = dim2(0, 8, 0.5, -20), -- center
             font = assets.fonts.roboto[36],
-            color = color.new(0.2, 0.3, 0.7, 1.0),
+            color = color.new(0, 1, 0.5, 1.0),
             --x_align = ALIGN.CENTER_X,
             --y_align = ALIGN.CENTER_Y
         }
