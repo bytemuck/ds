@@ -1,6 +1,10 @@
 local sprites = {
     load = "load.jpg",
     harry_potter = "hostiles/harry-potter.png",
+    slime = "hostiles/slime.png",
+    goblin = "hostiles/goblin.png",
+    dragon_egg = "hostiles/dragon-egg.png",
+    dragon_boss = "hostiles/DragonBoss.png",
     monkey = "monkey.jpeg",
     random = "random.jpg",
     squirrel = "squirrel.jpg",

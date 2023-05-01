@@ -24,6 +24,7 @@ local tree = require("ui.card.tree")
 
 local hostile = require("ui.hostile.hostile")
 local profile = require("ui.profile.profile")
+local random = require("random").new()
 
 local SCALING = require("ui.scaling")
 
@@ -105,9 +106,11 @@ play_tree = tree {
 }
 
 local function create_hostile(type, add)
+    local names = { "harry_potter", "goblin", "dragon_egg", "slime" } 
+
     local h = hostile {
         profile = player_profile,
-        image = assets.sprites.harry_potter,
+        image = assets.sprites[names[random:nextRangeInt(1, #names + 1)]],
         size = dim2(0, 0, 1, 0),
         relayout = layout_enemies
     }
