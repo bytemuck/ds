@@ -20,7 +20,7 @@ local text = require("text")
 local persistent = require("persistent")
 
 local assets = require("assets")
-local random = require("random").new(69)
+local random = require("random").new()
 
 local flux = require("flux")
 

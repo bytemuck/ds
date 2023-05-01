@@ -16,6 +16,8 @@ local sprites = {
     numbers = "numbers.png",
     circle = "circle.png",
     logo = "logo.png",
+    heart = "heart.png",
+    attack = "attack.png",
 
     background = {
         game = "game.png",
