@@ -14,6 +14,8 @@ local CARD_ASPECT_RATIO = 1.4
 
 local flux = require("flux")
 
+local valuesmt = {__tostring = function(self) local new = {} for i,v in pairs(self) do new[i] = "("..tostring(v[1])..", "..tostring(v[2])..")" end return table.concat(new, ", ") end}
+
 local tree; tree = element.make_new {
     name = "tree",
 
@@ -30,7 +32,7 @@ local tree; tree = element.make_new {
         self.main = c
         self.children = { c }
         self.cards = {}
-        self.values = {}
+        self.values = setmetatable({}, valuesmt)
     end,
 
     postcctr = function(self)
@@ -51,7 +53,9 @@ local tree; tree = element.make_new {
             self:recalc()
         end,
 
-        collapse = function(self)
+        collapse = function(self, callback)
+            self:recalc()
+
             local level = 0
             local levels = { [0] = { self.card } }
             local treelevels = { [0] = { self } }
@@ -75,19 +79,25 @@ local tree; tree = element.make_new {
                 level = level - 1
 
                 if level == 0 then
-                    print("end")
+                    print(self.values, #self.values)
+                    callback(self.values[1])
                     return
                 end
 
-                print("collapse", level)
+                local function center(e)
+                    return e.abs_pos + 0.5 * e.abs_size
+                end
+
                 for i,v in ipairs(levels[level]) do
-                    if self.is_pivot_side then
-                        v.parent.values[v.i] = v.card.pivot.play(v.parent.values)
+                    v.collapsing = true
+                    print("pivot", self.card.is_pivot_side)
+                    if self.card.is_pivot_side then
+                        v.parent.values[v.i] = v.card.pivot.play(v.values)
                     else
                         v.parent.values[v.i] = v.card.effect.play(v.card.effect)
                     end
 
-                    local diff = v.parent.card.abs_pos - v.abs_pos
+                    local diff = center(v.parent) - center(v)
                     local anim = flux.to(v.position, 0.5, { xo = diff.x, yo = diff.y }):ease("circout")
 
                     if i == 1 then
@@ -96,10 +106,13 @@ local tree; tree = element.make_new {
                 end
             end
 
+            self.collapsing = true
             nextcollapse()
         end,
 
         do_recalc = function(self)
+            if self.collapsing then return end
+
             if self.card.is_pivot_side then
                 local maxdepth = 1
                 local breadth = 0

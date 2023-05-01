@@ -48,11 +48,13 @@ function vec2.new(x, y)
 
         __add = vec2.add,
         __sub = vec2.sub,
-        __mul = function(self, v)
-            if type(v) == "number" then
-                return self:scl(v)
+        __mul = function(a, b)
+            if type(a) == "number" then
+                return b:scl(a)
+            elseif type(b) == "number" then
+                return a:scl(b)
             else
-                return self:dot(v)
+                return a:dot(b)
             end
         end,
         __unm = vec2.neg,

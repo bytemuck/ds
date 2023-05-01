@@ -17,7 +17,7 @@ return element.make_new {
     name = "profile",
 
     cctr = function(self)
-        self.health = self.health or 0
+        self.health = self.health or 10
         self.defense = self.defense or 0
     end,
 
@@ -51,7 +51,7 @@ return element.make_new {
                         scaling = SCALING.CENTER,
                     },
                     sprite {
-                        image = assets.sprites.sword_button,
+                        image = assets.sprites.heart,
                         position = dim2(0.2, 0, 0.8, 0), -- bottom left
                         size = dim2(0, 48, 0, 48), -- 32px 32px
                         anchor = vec2.new(0, 1), -- bottom left
@@ -75,17 +75,23 @@ return element.make_new {
         }
     end,
 
+    on_recalc = function(self)
+        self.defense_text.text = tostring(self.defense)
+        self.health_text.text = tostring(self.health)
+        self.defense_text:recalc()
+        self.health_text:recalc()
+    end,
+
     base = {
         reset = function(self)
-            --self.health = pdata.life
-            --self.defense = 0
         end,
 
         take_damage = function(self, damage)
+            local rest = math.max(0, damage - self.defense)
             self.defense =  math.max(0, self.defense - damage)
+
             self.defense_text = tostring(self.defense)
 
-            local rest = math.max(0, damage - self.defense)
             self.health = self.health - rest
             if self.health < 0 then
                 -- die

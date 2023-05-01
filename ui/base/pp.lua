@@ -23,7 +23,7 @@ local function eprint(element, sub)
     if sub then
         return s
     else
-        love.filesystem.write(element.name .. ".txt", table.concat(s, "\n"))
+        love.filesystem.write((element.name or element[0].name) .. ".txt", table.concat(s, "\n"))
     end
 end
 

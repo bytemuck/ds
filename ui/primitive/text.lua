@@ -14,14 +14,14 @@ return element.make_new {
 
         self.update_text = function(new_text)
             self.text = new_text
-            
+
             local o = {}
 
             local str = string.gsub(self.text, '^%s*(.-)%s*$', '%1') -- strips newlines at start and end of string
             for line in string.gmatch(str, "([^\n]*)\n?") do
                 table.insert(o, { text = line, obj = love.graphics.newText(self.font, line) })
             end
-        
+
             return o
         end
 
@@ -29,6 +29,11 @@ return element.make_new {
         self.x_align = self.x_align or ALIGN.TOP
         self.y_align = self.y_align or ALIGN.LEFT
     end,
+
+    on_recalc = function(self)
+        self.text_objs = self.update_text(self.text)
+    end,
+
     draw = function(self, go)
         local pos = self.abs_pos
 
@@ -60,5 +65,5 @@ return element.make_new {
         end
 
         go()
-    end,
+    end
 }

@@ -7,6 +7,6 @@ return {
     effect = "add",
 
     play = function(children)
-        return { children.attack[0] + children.attack[1], children.defense[0] + children.defense[1] }
+        return { children[1][1] + children[2][1], children[1][2] + children[2][2] }
     end
 }

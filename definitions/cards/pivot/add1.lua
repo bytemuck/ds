@@ -4,9 +4,9 @@ return {
     slots = 1,
 
     image = "pivot_2",
-    effect = "add",
+    effect = "x2",
 
     play = function(children)
-        return { children.attack[0] + children.attack[0], children.defense[0] + children.defense[0] }
+        return { 2*children[1][1], 2*children[1][2] }
     end
 }

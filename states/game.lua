@@ -1,7 +1,7 @@
 local state = require("state")
 local save  = require("save")
-local debug = state.new("debug")
-local root = debug.root
+local game = state.new("game")
+local root = game.root
 
 local options = require("states.options")
 local transition = require("transition")
@@ -90,20 +90,23 @@ local function get_slots(tbl, tree)
     return tbl
 end
 
-local function on_card_flip(card)
-    play_tree.parent:recalc()
+local function on_card_flip()
+    root:recalc()
     player_hand.slots = get_slots({}, play_tree)
 end
 
-play_tree = tree {
-    card = card {
-        id = 0,
-        can_turn = false,
-        is_pivot_side = true,
-        show_text = true,
-    },
-    on_flip = on_card_flip
-}
+local function create_play_tree(root)
+    play_tree = tree {
+        card = card {
+            id = 0,
+            can_turn = false,
+            is_pivot_side = true,
+            show_text = true,
+        },
+        on_flip = on_card_flip
+    }
+end
+create_play_tree()
 
 local function create_hostile(type, add)
     local names = { "harry_potter", "goblin", "dragon_egg", "slime" } 
@@ -157,17 +160,20 @@ hostile_group = group {
     children = enemies
 }
 
+local player = profile {
+    position = dim2(0, 4, 1, -4),
+    size = dim2(0.25, 0, 0.25, 0),
+    anchor = vec2.new(0, 1),
+}
+
+local collapsing = false
 root:add_children {
     sprite {
         image = assets.sprites.background.game,
         scaling = SCALING.CENTER_OVERFLOW,
     },
 
-    profile {
-        position = dim2(0, 4, 1, -4),
-        size = dim2(0.25, 0, 0.25, 0),
-        anchor = vec2.new(0, 1),
-    },
+    player,
 
     hostile_group,
     constrain {
@@ -185,7 +191,42 @@ root:add_children {
         click_color = color.new(0, 0, 0, 0),
         on_click = {
             [1] = function()
-                play_tree:collapse()
+                if collapsing then return end
+
+                local tbl = get_slots({}, play_tree)
+                if #tbl == 0 then
+                    collapsing = true
+                    play_tree:collapse(function(values)
+                        collapsing = false
+
+                        --require("pprint")(play_tree)
+                        print(values[1], values[2])
+                        player.defense = values[2]
+                        player:recalc()
+                        -- attack leftmost enemies?
+
+                        create_play_tree()
+                        play_tree.parent = root
+                        for i,v in ipairs(root.children) do
+                            if v.children and #v.children == 1 and v.children[1][0].name == "tree" then
+                                local c = constrain {
+                                    size = dim2(1, 0, 0.7, 0),
+                                    position = dim2(0, 0, 0.15, 0),
+                                    scaling = SCALING.CENTER,
+                                    children = { play_tree }
+                                }
+                                c.parent = root
+                                root.children[i] = c
+                            end
+                        end
+
+                        root:recalc()
+                        play_tree:reset()
+                        root:recalc()
+                        on_card_flip()
+                        root:recalc()
+                    end)
+                end
             end
         },
 
@@ -209,4 +250,4 @@ root:add_children {
 reset()
 on_card_flip()
 
-return debug
+return game
