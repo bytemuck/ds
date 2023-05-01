@@ -72,6 +72,11 @@ local sounds = {
         filepath = "lobby.wav",
         filetype = "stream", -- stream for music, static for sound effects
         looping = true,
+    },
+    game = {
+        filepath = "game_song.mp3",
+        filetype = "stream", -- stream for music, static for sound effects
+        looping = true,
     }
 }
 

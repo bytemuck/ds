@@ -33,6 +33,8 @@ local assets = require("assets")
 local enemies = {
 }
 
+--assets.audios.game:play()
+
 local hostile_group
 local function layout_enemies(self)
     local total = 0
