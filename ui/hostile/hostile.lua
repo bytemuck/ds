@@ -95,14 +95,17 @@ return element.make_new {
 
     base = {
         take_damage = function(self, damage)
-            self.health = self.health - damage
+            self.health = math.max(self.health - damage, 0)
             if self.health <= 0 then
                 self:die()
             end
 
             self.health_text.text_objs = self.health_text.update_text(tostring(self.health))
+
+            return damage - self.health
         end,
         die = function(self)
+            self.dead = true
             flux.to(self.children[1].children[1].size, 0.5, dim2(0, 0, 0, 0).vals):ease("circout"):oncomplete(function()
                 self.children = {}
                 self.parent:recalc()

@@ -57,29 +57,25 @@ local tree; tree = element.make_new {
             self:recalc()
 
             local level = 0
-            local levels = { [0] = { self.card } }
-            local treelevels = { [0] = { self } }
+            local levels = { [0] = { self } }
 
             repeat
-                local l, tl = {}, {}
+                local l = {}
 
-                for _,t in ipairs(treelevels[level]) do
+                for _,t in ipairs(levels[level]) do
                     for ti, v in pairs(t.cards) do
                         l[#l+1] = v
-                        tl[#tl+1] = t.children[ti]
                     end
                 end
 
                 level = level+1
                 levels[level] = l
-                treelevels[level] = tl
             until #levels[level] == 0
 
             local function nextcollapse()
                 level = level - 1
 
                 if level == 0 then
-                    print(self.values, #self.values)
                     callback(self.values[1])
                     return
                 end
@@ -90,8 +86,7 @@ local tree; tree = element.make_new {
 
                 for i,v in ipairs(levels[level]) do
                     v.collapsing = true
-                    print("pivot", self.card.is_pivot_side)
-                    if self.card.is_pivot_side then
+                    if v.card.is_pivot_side then
                         v.parent.values[v.i] = v.card.pivot.play(v.values)
                     else
                         v.parent.values[v.i] = v.card.effect.play(v.card.effect)

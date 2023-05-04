@@ -166,6 +166,14 @@ local player = profile {
     anchor = vec2.new(0, 1),
 }
 
+local function target_enemy()
+    for i,v in ipairs(enemies) do
+        if not v.dead then
+            return v
+        end
+    end
+end
+
 local collapsing = false
 root:add_children {
     sprite {
@@ -199,11 +207,19 @@ root:add_children {
                     play_tree:collapse(function(values)
                         collapsing = false
 
-                        --require("pprint")(play_tree)
-                        print(values[1], values[2])
                         player.defense = values[2]
                         player:recalc()
-                        -- attack leftmost enemies?
+
+                        local dmg = values[1]
+                        while dmg > 0 do
+                            local e = target_enemy()
+                            if not e then
+                                -- all enemies dead, transition to win screen
+                                break
+                            end
+
+                            dmg = e:take_damage(dmg)
+                        end
 
                         create_play_tree()
                         play_tree.parent = root
