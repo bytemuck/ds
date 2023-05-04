@@ -162,7 +162,6 @@ return element.make_new {
                         [1] = function()
                             v.can_turn = true
 
-                            -- check tree slots
                             local m = vec2.new(love.mouse.getPosition())
                             for _,slot in pairs(self.slots) do
                                 local p = m - slot.abs_pos
@@ -189,6 +188,8 @@ return element.make_new {
 
                                     v.position = dim2(0, 0, 1.1, 0)
                                     flux.to(v.position, 0.5, dim2(0, 0, 0, 0).vals):ease(HAND_EASING)
+
+                                    self.reset_slots()
                                     return
                                 end
                             end

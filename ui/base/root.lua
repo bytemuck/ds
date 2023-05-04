@@ -9,8 +9,6 @@ return element.make_new {
         self.size = dim2(0, 1024, 0, 768)
     end,
 
-    on_recalc = function() print("root recalc") end,
-
     draw = function(self, go)
         if self.before_draw then self.before_draw() end
         go()

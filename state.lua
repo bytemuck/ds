@@ -21,6 +21,9 @@ function state.new(name)
         root = root,
         resize = function(w, h)
             root.size = dim2(0, w, 0, h)
+            if root.on_resize then
+                root.on_resize()
+            end
         end
     }
 end

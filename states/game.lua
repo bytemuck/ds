@@ -5,6 +5,7 @@ local root = game.root
 
 local options = require("states.options")
 local transition = require("transition")
+local flux = require("flux")
 
 local dim2 = require("dim2")
 local vec2 = require("vec2")
@@ -35,7 +36,6 @@ local enemies = {
 }
 
 assets.audios.game:play()
--- assets.audios.game:pause()
 
 local hostile_group
 local function layout_enemies(self)
@@ -64,18 +64,6 @@ local function create_card(id)
     return card { id = id, isTrue = false }
 end
 
-local play_tree
-local player_hand = hand {
-    position = dim2(0.2, 0, 1, 0),
-    size = dim2(0.8, 0, 0.05, 0),
-    anchor = vec2.new(0, 1),
-    slots = {},
-    deck = {1, 1, 1},
-    create_card = create_card
-}
-
-local player_profile = profile {}
-
 local function get_slots(tbl, tree)
     if tree.card.is_pivot_side then
         for i=1,tree.slots do
@@ -90,10 +78,27 @@ local function get_slots(tbl, tree)
     return tbl
 end
 
+local player_hand, play_tree
+root.on_resize = function()
+    player_hand.slots = get_slots({}, play_tree)
+end
+
 local function on_card_flip()
     root:recalc()
     player_hand.slots = get_slots({}, play_tree)
 end
+
+player_hand = hand {
+    position = dim2(0.2, 0, 1, 0),
+    size = dim2(0.8, 0, 0.05, 0),
+    anchor = vec2.new(0, 1),
+    slots = {},
+    deck = {1, 1, 1},
+    create_card = create_card,
+    reset_slots = on_card_flip
+}
+
+local player_profile = profile {}
 
 local function create_play_tree(root)
     play_tree = tree {
@@ -215,6 +220,7 @@ root:add_children {
                             local e = target_enemy()
                             if not e then
                                 -- all enemies dead, transition to win screen
+                                assets.audios.game:pause()
                                 break
                             end
 
@@ -242,6 +248,14 @@ root:add_children {
                         on_card_flip()
                         root:recalc()
                     end)
+                else
+                    for _,v in pairs(tbl) do
+                        local c = v.children[1].color
+                        local c1 = color.new(0, 0, 0, 0.8)
+                        local c2 = color.new(1, 0.1, 0.1, 0.9)
+                        flux.to(c, 0.2, c2):ease("circout")
+                            :after(c, 0.4, c1):ease("circin")
+                    end
                 end
             end
         },

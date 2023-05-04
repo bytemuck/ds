@@ -16,7 +16,7 @@ function love.load()
     save.load()
     state.resize(love.graphics.getDimensions())
     assets:load()
-    state.push(require("states.game"))
+    state.push(require("states.startmenu"))
 end
 
 function love.draw()
