@@ -18,7 +18,7 @@ local cards = {
 
 cards.next = function()
     local rarity = random:nextRangeInt(RARITY.COMMON, RARITY.LEGENDARY + 1, 0.2)
-    local id = random:nextRangeInt(1, #cards[rarity] + 1, 0.5)
+    local id = random:nextRangeInt(1, #cards[rarity] + 1)
 
     return id
 end

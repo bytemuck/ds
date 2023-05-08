@@ -40,7 +40,6 @@ local function back()
     transition(root, state.pop(), 1)
 end
 
-
 local function generate_tree(from)
     local LEVEL_COUNT = 5
 
@@ -100,7 +99,7 @@ local function generate_tree(from)
     local lines = group {}
 
     for i = last and 0 or 1, LEVEL_COUNT do
-        local y = i == 0 and last or random:nextRange(0.6, 0.9)
+        local y = i == 0 and last or random:nextRange(0.55, 0.8)
         local x = (i / LEVEL_COUNT)
 
         local point = frame {
@@ -140,6 +139,7 @@ local function generate_tree(from)
         scaling = SCALING.CENTER_OVERFLOW,
     }
 
+    root.children = {}
     root:add_children {
         sprite {
             image = assets.sprites.background.progression,
@@ -155,5 +155,8 @@ local function generate_tree(from)
     }
 end
 
-generate_tree(persistent.level)
+progression.start = function()
+    generate_tree(persistent.level)
+end
+
 return progression

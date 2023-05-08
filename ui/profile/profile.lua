@@ -90,14 +90,16 @@ return element.make_new {
             local rest = math.max(0, damage - self.defense)
             self.defense =  math.max(0, self.defense - damage)
 
-            self.defense_text = tostring(self.defense)
+            self.defense_text.text = tostring(self.defense)
+            self.defense_text:recalc()
 
             self.health = self.health - rest
-            if self.health < 0 then
-                -- die
+            if self.health <= 0 then
+                self.on_death()
+            else
+                self.health_text.text = tostring(self.health)
+                self.health_text:recalc()
             end
-
-            self.health_text = tostring(self.health)
         end,
     }
 }

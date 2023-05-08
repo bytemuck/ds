@@ -1,5 +1,4 @@
 local state = require("state")
-local save  = require("save")
 local game = state.new("game")
 local root = game.root
 
@@ -17,7 +16,9 @@ local color = require("color")
 local constrain = require("constrain")
 local text = require("text")
 local ALIGN = require("ui.align")
-local save = require("save")
+
+local persistent = require("persistent")
+local save  = require("save")
 
 local card = require("ui.card.card")
 local hand = require("ui.card.hand")
@@ -113,7 +114,7 @@ local function create_play_tree(root)
 end
 create_play_tree()
 
-local function create_hostile(type, add)
+local function create_hostile(add)
     local names = { "harry_potter", "goblin", "dragon_egg", "slime" } 
 
     local h = hostile {
@@ -152,11 +153,10 @@ local function reset()
         enemies[i] = nil
     end
 
-    -- TODO: generate enemies with NUPRNG
-    create_hostile(1, true)
-    create_hostile(1, true)
-    create_hostile(1, true)
-    create_hostile(1, true)
+    create_hostile(true)
+    create_hostile(true)
+    create_hostile(true)
+    create_hostile(true)
 end
 
 hostile_group = group {
@@ -170,6 +170,11 @@ local player = profile {
     size = dim2(0.25, 0, 0.25, 0),
     anchor = vec2.new(0, 1),
 }
+
+player.on_death = function()
+    assets.audios.game:pause()
+    transition(root, require("states.cardchoice"), 1)
+end
 
 local function target_enemy()
     for i,v in ipairs(enemies) do
@@ -215,38 +220,65 @@ root:add_children {
                         player.defense = values[2]
                         player:recalc()
 
+                        local won = false
                         local dmg = values[1]
                         while dmg > 0 do
                             local e = target_enemy()
                             if not e then
                                 -- all enemies dead, transition to win screen
                                 assets.audios.game:pause()
+                                won = true
                                 break
                             end
 
                             dmg = e:take_damage(dmg)
                         end
 
-                        create_play_tree()
-                        play_tree.parent = root
-                        for i,v in ipairs(root.children) do
-                            if v.children and #v.children == 1 and v.children[1][0].name == "tree" then
-                                local c = constrain {
-                                    size = dim2(1, 0, 0.7, 0),
-                                    position = dim2(0, 0, 0.15, 0),
-                                    scaling = SCALING.CENTER,
-                                    children = { play_tree }
-                                }
-                                c.parent = root
-                                root.children[i] = c
+                        flux.to({t=0}, 0.5, {t=1}):oncomplete(function()
+                            create_play_tree()
+                            play_tree.parent = root
+                            for i,v in ipairs(root.children) do
+                                if v.children and #v.children == 1 and v.children[1][0].name == "tree" then
+                                    local c = constrain {
+                                        size = dim2(1, 0, 0.7, 0),
+                                        position = dim2(0, 0, 0.15, 0),
+                                        scaling = SCALING.CENTER,
+                                        children = { play_tree }
+                                    }
+                                    c.parent = root
+                                    root.children[i] = c
+                                end
                             end
-                        end
 
-                        root:recalc()
-                        play_tree:reset()
-                        root:recalc()
-                        on_card_flip()
-                        root:recalc()
+                            root:recalc()
+                            play_tree:reset()
+                            root:recalc()
+                            on_card_flip()
+                            root:recalc()
+
+                            if won then
+                                persistent.level = persistent.level + 1
+                                transition(root, nil, 1)
+                                collapsing = false
+                            else
+                                local a = flux.to({t=0}, 0.5, {t=1})
+
+                                for _,v in pairs(enemies) do
+                                    if not v.dead then
+                                        local p = v.position
+                                        a = a:after(p, 0.1, {yo=20}):ease("circout"):oncomplete(function()
+                                            v:play_turn(player)
+                                        end):after(p, 0.1, {yo=0}):ease("circin")
+                                    end
+                                end
+
+                                a:after({t=0}, 0.2, {t=1}):oncomplete(function()
+                                    player.defense = 0
+                                    player:recalc()
+                                    collapsing = false
+                                end)
+                            end
+                        end)
                     end)
                 else
                     for _,v in pairs(tbl) do
@@ -269,15 +301,18 @@ root:add_children {
             },
             text {
                 position = dim2(0, 72, 0.5, 0),
-                font = assets.fonts.roboto[36],
-                text = "FIGHT!",
+                font = assets.fonts.roboto[30],
+                text = "Attaquer",
                 y_align = ALIGN.CENTER_Y,
             },
         }
     }
 }
 
-reset()
-on_card_flip()
+game.start = function()
+    player.health = 10
+    reset()
+    on_card_flip()
+end
 
 return game

@@ -2,7 +2,6 @@ local element = require("element")
 local sprite = require("sprite")
 
 local text = require("text")
-local button = require("button")
 local group = require("group")
 local constrain = require("constrain")
 
@@ -14,6 +13,8 @@ local INTENTION = require("intention")
 local dim2 = require("dim2")
 local vec2 = require("vec2")
 local color = require("color")
+
+local persistent = require("persistent")
 
 local assets = require("assets")
 
@@ -95,26 +96,29 @@ return element.make_new {
 
     base = {
         take_damage = function(self, damage)
+            local old = self.health
             self.health = math.max(self.health - damage, 0)
+
             if self.health <= 0 then
                 self:die()
             end
 
             self.health_text.text_objs = self.health_text.update_text(tostring(self.health))
 
-            return damage - self.health
+            return damage + self.health - old
         end,
         die = function(self)
             self.dead = true
-            flux.to(self.children[1].children[1].size, 0.5, dim2(0, 0, 0, 0).vals):ease("circout"):oncomplete(function()
+            flux.to(self.children[1].children[1].size, 0.4, dim2(0, 0, 0, 0).vals):ease("circout"):oncomplete(function()
                 self.children = {}
                 self.parent:recalc()
             end)
         end,
         generate_turn = function(self)
-            self.intention = INTENTION.ATTACK -- we should generate and intention
-            self.intention_value = random:nextRangeInt(1, 5)          -- should be a generated object used by intention
-            self.intention_text.text_objs = self.intention_text.update_text(tostring(self.intention_value))
+            self.intention = INTENTION.ATTACK
+            self.intention_value = random:nextRangeInt(1, 8, 4/(1+persistent.level))
+            self.intention_text.text = tostring(self.intention_value)
+            self.intention_text:recalc()
         end,
         play_turn = function(self, player)
             if self.intention == INTENTION.ATTACK then
