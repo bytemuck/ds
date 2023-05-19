@@ -18,8 +18,6 @@ local text = require("text")
 
 local assets = require("assets")
 
-assets.audios.startmenu:play()
-
 root:add_children{
 
     sprite {
@@ -142,6 +140,10 @@ root:add_children{
 
         }
     }
-}    
+}
+
+startmenu.start = function()
+    assets.audios.startmenu:play()
+end
 
 return startmenu

@@ -116,7 +116,7 @@ return element.make_new {
         end,
         generate_turn = function(self)
             self.intention = INTENTION.ATTACK
-            self.intention_value = random:nextRangeInt(1, 8, 4/(1+persistent.level))
+            self.intention_value = random:nextRangeInt(1, 8, 2/(1+persistent.level))
             self.intention_text.text = tostring(self.intention_value)
             self.intention_text:recalc()
         end,

@@ -17,6 +17,8 @@ local line = require("line")
 local sprite = require("sprite")
 local text = require("text")
 
+local save = require("save")
+
 local persistent = require("persistent")
 
 local assets = require("assets")
@@ -25,8 +27,6 @@ local random = require("random").new()
 local flux = require("flux")
 
 local target_point
-
-assets.audios.progression_map:play()
 
 local function advance()
     flux.to(root.children[5].position, 1, target_point.position.vals):oncomplete(function()
@@ -156,6 +156,8 @@ local function generate_tree(from)
 end
 
 progression.start = function()
+    assets.audios.progression_map:play()
+    save.save()
     generate_tree(persistent.level)
 end
 

@@ -4,17 +4,19 @@ local dkjson = require("dkjson")
 local savepath = "savegame.json"
 
 return {
-    save = function()
+    load = function()
         local content = love.filesystem.read(savepath)
         if content then
             local decoded = dkjson.decode(content)
             if type(decoded) == "table" then
-                persistent = decoded
+                for k,v in pairs(decoded) do
+                    persistent[k] = v
+                end
             end
         end
     end,
 
-    load = function()
+    save = function()
         local encoded = dkjson.encode(persistent, { indent = true })
         if type(encoded) == "string" then
             love.filesystem.write(savepath, encoded)

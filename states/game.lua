@@ -36,8 +36,6 @@ local assets = require("assets")
 local enemies = {
 }
 
-assets.audios.game:play()
-
 local hostile_group
 local function layout_enemies(self)
     local total = 0
@@ -90,7 +88,7 @@ local function on_card_flip()
 end
 
 player_hand = hand {
-    position = dim2(0.2, 0, 1, 0),
+    position = dim2(0.2, 0, 1.035, 0),
     size = dim2(0.8, 0, 0.05, 0),
     anchor = vec2.new(0, 1),
     slots = {},
@@ -310,6 +308,7 @@ root:add_children {
 }
 
 game.start = function()
+    assets.audios.game:play()
     player.health = 10
     reset()
     on_card_flip()

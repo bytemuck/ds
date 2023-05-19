@@ -25,8 +25,6 @@ local cards = require("persistent.cards")
 
 local c1, c2, c3
 cardchoice.start = function()
-    persistent.level = 0
-
     c1 = card {
         id = cards.next(),
         position = dim2(0.2, 0, 0.5, 0),
@@ -72,7 +70,9 @@ cardchoice.start = function()
     c2.parent = r
     r.children[6] = c2
     c3.parent = r
-    r.children[7] = c2
+    r.children[7] = c3
+
+    persistent.level = 0
 end
 
 root:add_children {

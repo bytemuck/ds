@@ -1,5 +1,6 @@
 local RARITY = require("rarity")
 local random = require("random").new()
+local persistent = require("persistent")
 
 local cards = {
     [RARITY.COMMON] = {
@@ -17,7 +18,7 @@ local cards = {
 }
 
 cards.next = function()
-    local rarity = random:nextRangeInt(RARITY.COMMON, RARITY.LEGENDARY + 1, 0.2)
+    local rarity = random:nextRangeInt(RARITY.COMMON, RARITY.LEGENDARY + 1, 1/(1+persistent.level))
     local id = random:nextRangeInt(1, #cards[rarity] + 1)
 
     return id
