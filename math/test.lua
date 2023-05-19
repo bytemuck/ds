@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 local r = require("random")
 local inst = r.new()
 

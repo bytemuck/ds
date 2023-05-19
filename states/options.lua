@@ -1,3 +1,5 @@
+-- Auteurs : Benjamin Breboin, Samy Panneton
+
 local state = require("state")
 local options = state.new("options")
 local root = options.root

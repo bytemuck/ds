@@ -1,3 +1,5 @@
+-- Auteurs : Benjamin Breboin
+
 local c = {
     id = 5,
     name = "Défense I",

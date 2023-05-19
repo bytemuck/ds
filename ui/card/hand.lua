@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine, Nathan Pinard
+
 local element = require("element")
 local color = require("color")
 local dim2 = require("dim2")
@@ -130,7 +132,7 @@ return element.make_new {
                             v.can_turn = false
                         end,
 
-                        [2] = function(x, y) end -- JUST DONTFUCKING REMOVE IT
+                        [2] = function(x, y) end -- do not remove?
                     },
 
                     while_hold = {

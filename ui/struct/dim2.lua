@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 --[[
     Dim2: 2D "Dimension". The Position and Size of UI elements.
 

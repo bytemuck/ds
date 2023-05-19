@@ -1,3 +1,5 @@
+-- Auteurs : Benjamin Breboin
+
 local c = {
     id = 3,
     name = "Attaque III",

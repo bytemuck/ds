@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 return {
     id = 0,
     name = "0",

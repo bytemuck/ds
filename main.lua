@@ -1,3 +1,5 @@
+-- Auteurs : Nathan Pinard, Jonas Lépine
+
 require("registry") -- initialize custom require functionality
 
 local save = require("save")

@@ -1,3 +1,5 @@
+-- Auteurs : Samy Panneton
+
 local state = require("state")
 local startmenu = state.new("startmenu")
 local root = startmenu.root

@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 local element = require("element")
 local dim2 = require("dim2")
 

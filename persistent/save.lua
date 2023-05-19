@@ -1,3 +1,5 @@
+-- Auteurs : Nathan Pinard
+
 local persistent = require("persistent")
 local dkjson = require("dkjson")
 

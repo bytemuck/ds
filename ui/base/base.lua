@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 --[[
     The base code behind UI elements; size/position calculation, recursive rendering, etc.
 ]]

@@ -1,3 +1,5 @@
+-- Auteurs : Nathan Pinard
+
 local sprites = {
     load = "load.jpg",
     harry_potter = "hostiles/harry-potter.png",

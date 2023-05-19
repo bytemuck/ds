@@ -1,3 +1,5 @@
+-- Auteurs : Samy Panneton
+
 local state = require("state")
 local cardchoice = state.new("cardchoice")
 local root = cardchoice.root

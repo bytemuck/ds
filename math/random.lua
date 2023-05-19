@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 local bit = require("bit")
 
 local random = {}

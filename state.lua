@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 local uiroot = require("uiroot")
 local dim2 = require("dim2")
 

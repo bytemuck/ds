@@ -1,3 +1,5 @@
+-- Auteurs : Benjamin Breboin
+
 return {
     id = 6,
     name = "Mux III",

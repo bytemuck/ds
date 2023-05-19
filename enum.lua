@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 return function(tbl)
     local new = {}
 

@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 --[[
     Vec2: 2D Vector. Immutable.
 

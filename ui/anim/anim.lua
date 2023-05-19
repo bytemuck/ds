@@ -1,3 +1,5 @@
+-- Auteurs : Nathan Pinard
+
 local element = require("element")
 local sprite = require("sprite")
 

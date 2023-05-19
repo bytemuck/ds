@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine, Benjamin Breboin
+
 local element = require("element")
 local color = require("color")
 local assets = require("assets")

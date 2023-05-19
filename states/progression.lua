@@ -1,3 +1,5 @@
+-- Auteurs : Nathan Pinard
+
 local state = require("state")
 local progression = state.new("debug")
 local root = progression.root

@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 local nkeys = { [0] = true, recalcf = true, children = true, __internal = true, name = true }
 
 local function eprint(element, sub)

@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine, Nathan Pinard
+
 local element = require("element")
 local color = require("color")
 

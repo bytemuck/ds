@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 --[[
     Color: Color. Immutable.
 ]]

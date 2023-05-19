@@ -1,3 +1,5 @@
+-- Auteurs : Nathan Pinard
+
 local RARITY = require("rarity")
 local random = require("random").new()
 local persistent = require("persistent")

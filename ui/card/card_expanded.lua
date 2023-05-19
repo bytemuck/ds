@@ -1,3 +1,5 @@
+-- Auteurs : Nathan Pinard
+
 local element = require("element")
 local card = require("ui.card.card")
 local text = require("text")

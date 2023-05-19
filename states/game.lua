@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 local state = require("state")
 local game = state.new("game")
 local root = game.root

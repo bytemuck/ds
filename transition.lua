@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 local state = require("state")
 
 return function(old_root, new_state, length)

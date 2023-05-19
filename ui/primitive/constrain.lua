@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 local vec2 = require("vec2")
 local element = require("element")
 local SCALING = require("ui.scaling")

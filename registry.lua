@@ -1,3 +1,5 @@
+-- Auteurs : Jonas Lépine
+
 -- create registry
 local registry = {}
 
@@ -22,7 +24,9 @@ _G.require = function(name, ...)
     return unpack(registry[name])
 end
 
--- REGISTRY --
+-- PRELOAD --
+
+-- libraries
 require("math.random", "random")
 require("flux.flux", "flux")
 require("persistent.persistent", "persistent")
